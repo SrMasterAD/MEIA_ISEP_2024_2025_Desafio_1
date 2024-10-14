@@ -4,42 +4,14 @@
      font-family: 'Roboto', sans-serif;
      margin: 0;
      padding: 0;
-     background-color: #1e1f26; /* Fundo escuro */
+     background-color: #1e1f26;
      color: #fff;
      overflow-x: hidden;
  }
 
- /* Top bar com transparência e logo */
- .top-bar {
-     background-color: rgba(18, 20, 23, 0.8); /* Transparente */
-     color: #f9f9f9;
-     padding: 20px;
-     text-align: center;
-     font-size: 26px;
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     letter-spacing: 1.5px;
-     position: relative;
-     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-     animation: slideDown 1.2s ease;
-     backdrop-filter: blur(8px); /* Efeito de blur */
- }
-
- .top-bar .logo-section {
-     display: flex;
-     align-items: center;
-     gap: 10px;
- }
-
- .top-bar img {
-     width: 60px; /* Ajusta o tamanho das imagens */
-     height: auto;
- }
-
  /* Background com imagem relacionada a mecânica */
  .background {
-     background: url('images/background.png') no-repeat center center;
+     background: url('images/BACK (1).png') no-repeat center center;
      background-size: cover;
      position: fixed;
      top: 0;
@@ -47,32 +19,67 @@
      width: 100%;
      height: 100%;
      z-index: -1;
-     filter: brightness(0.2); /* Escurecer a imagem */
+     filter: brightness(0.7);
+ }
+
+ /* Inicialização da tela de boas-vindas */
+ .welcome-screen {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column; /* Alinha o botão abaixo do texto */
+     height: 100vh;
+     text-align: center;
+     animation: fadeIn 1.5s;
+     opacity: 0;
+     transition: opacity 0.5s ease;
+ }
+
+ /* Top bar com transparência e texto */
+ .top-bar {
+     background-color: rgba(18, 20, 23, 0.9);
+     color: #f9f9f9;
+     padding-top: 20px;
+     padding-bottom: 20px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     letter-spacing: 1.5px;
+     position: fixed;
+     width: 100%;
+     top: 0;
+     z-index: 100;
+     backdrop-filter: blur(10px);
+     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+     font-size: 24px;
+
  }
 
  /* Central Container */
  .container {
-     display: flex;
+     display: none;
      justify-content: center;
      align-items: center;
      height: 70vh;
      text-align: center;
      animation: fadeIn 1.5s;
+     padding: 20px;
+     margin-top: 80px;
  }
 
  /* Diagnostic Box */
  .diagnostic-box {
-     background-color: rgba(50, 50, 50, 0.85); /* Transparência */
+     background-color: rgba(50, 50, 50, 0.9);
      padding: 40px;
      border-radius: 15px;
      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
-     width: 85%;
+     width: 90%;
      max-width: 650px;
      animation: scaleUp 0.8s ease-out;
  }
 
  .diagnostic-box h2 {
-     font-size: 24px;
+     font-size: 26px;
      margin-bottom: 30px;
      font-weight: 700;
  }
@@ -81,14 +88,14 @@
  .options {
      margin: 20px 0;
      display: grid;
-     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
      gap: 20px;
  }
 
  .option {
      position: relative;
      background-color: #2f3238;
-     padding: 15px;
+     padding: 20px;
      border-radius: 10px;
      text-align: left;
      transition: background-color 0.3s ease, transform 0.2s;
@@ -96,12 +103,13 @@
      border: 2px solid transparent;
      display: flex;
      align-items: center;
-     gap: 10px;
+     gap: 15px;
  }
 
  .option img {
-     width: 30px;
-     height: 30px;
+     width: 40px;
+     height: 40px;
+     transition: transform 0.2s;
  }
 
  .option:hover {
@@ -115,8 +123,7 @@
  }
 
  .option label {
-     font-size: 18px;
-     margin-left: 10px;
+     font-size: 20px;
      cursor: pointer;
  }
 
@@ -125,59 +132,101 @@
      background-color: #f39c12;
      color: white;
      border: none;
-     padding: 15px 30px;
-     font-size: 18px;
+     padding: 15px 35px;
+     font-size: 20px;
      cursor: pointer;
      border-radius: 10px;
-     transition: background-color 0.3s ease;
+     transition: background-color 0.3s ease, transform 0.3s ease;
      margin-top: 20px;
      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
  }
 
  .confirm-btn:hover {
      background-color: #e67e22;
+     transform: translateY(-3px);
  }
 
+ /* Bottom bar com transparência e texto */
  .bottom-bar {
-    background-color: rgba(18, 20, 23, 0.8); /* Transparente */
-    color: white;
-    padding: 15px 20px; /* Ajuste o padding conforme necessário */
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    letter-spacing: 1px;
-    z-index: 100;
-    backdrop-filter: blur(8px); /* Efeito de blur */
-    display: flex; /* Usa Flexbox */
-    justify-content: flex-start; /* Alinha os ícones à esquerda */
-    align-items: center; /* Centraliza verticalmente */
-}
-
-/* Ajustes para a seção de logos */
-.bottom-bar .logo-section {
-    display: flex; /* Usa flexbox */
-    align-items: center; /* Centraliza verticalmente */
-    gap: 20px; /* Espaçamento entre as logos */
-}
-
-/* Ajustes para o tamanho das imagens */
-.bottom-bar img {
-    width: 60px; /* Aumenta o tamanho das imagens */
-    height: auto; /* Mantém a proporção */
-}
-
-/* Responsividade: ajuste de tamanho da fonte */
-@media (max-width: 768px) {
-    .bottom-bar img {
-        width: 40px; /* Ajusta o tamanho das imagens em telas menores */
-    }
-}
+     background-color: rgba(18, 20, 23, 0.9); /* Transparente */
+     color: white;
+     padding-top: 10px;
+     padding-bottom: 10px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     font-size: 16px; /* Tamanho aumentado */
+     position: fixed;
+     bottom: 0;
+     width: 100%;
+     letter-spacing: 1px;
+     z-index: 100;
+     backdrop-filter: blur(10px); /* Efeito de blur */
+     box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.5);
+ }
 
  .bottom-bar img {
-     width: 40px; /* Ajusta o tamanho das imagens */
+     width: 50px; /* Aumentar o tamanho das imagens */
      height: auto;
  }
 
+ /* Estilo do botão de iniciar diagnóstico */
+ .start-btn {
+     background-color: #2ecc71;
+     border: none;
+     border-radius: 50%;
+     width: 80px;
+     height: 80px;
+     font-size: 30px;
+     color: white;
+     cursor: pointer;
+     justify-content: center;
+     align-items: center;
+     transition: transform 0.3s ease, background-color 0.3s ease;
+     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+     margin-top: 20px;
+ }
+
+ .start-btn:hover {
+     transform: scale(1.1);
+     background-color: #27ae60;
+ }
+
+ .diagnosis-box {
+     background-color: rgba(255, 255, 255, 0.9); 
+     color: #333; 
+     padding: 30px;
+     border-radius: 15px;
+     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
+     width: 90%;
+     max-width: 650px;
+     margin: 200px auto; 
+     animation: fadeIn 1.5s; 
+ }
+
+ .diagnosis-box h3 {
+     font-size: 24px; 
+     margin-bottom: 15px; 
+ }
+
+ .diagnosis-box p {
+     font-size: 18px; 
+     line-height: 1.5; 
+ }
+ .button-container {
+     display: flex;
+     justify-content: center; 
+     margin-top: 20px; 
+ }
+
+
+ #restart-btn {
+     background-color: #f39c12;
+ }
+
+ #restart-btn:hover {
+     background-color: #f39c12; 
+ }
  /* Animações */
  @keyframes fadeIn {
      from { opacity: 0; }
@@ -187,9 +236,4 @@
  @keyframes scaleUp {
      from { transform: scale(0.8); opacity: 0; }
      to { transform: scale(1); opacity: 1; }
- }
-
- @keyframes slideDown {
-     from { transform: translateY(-50px); opacity: 0; }
-     to { transform: translateY(0); opacity: 1; }
  }
