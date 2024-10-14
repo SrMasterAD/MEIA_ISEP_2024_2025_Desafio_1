@@ -199,6 +199,41 @@
             background-color: #27ae60;
         }
 
+        .diagnosis-box {
+            background-color: rgba(255, 255, 255, 0.9); 
+            color: #333; 
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
+            width: 90%;
+            max-width: 650px;
+            margin: 200px auto; 
+            animation: fadeIn 1.5s; 
+        }
+
+        .diagnosis-box h3 {
+            font-size: 24px; 
+            margin-bottom: 15px; 
+        }
+
+        .diagnosis-box p {
+            font-size: 18px; 
+            line-height: 1.5; 
+        }
+        .button-container {
+            display: flex;
+            justify-content: center; 
+            margin-top: 20px; 
+        }
+
+
+        #restart-btn {
+            background-color: #f39c12;
+        }
+
+        #restart-btn:hover {
+            background-color: #f39c12; 
+        }
         /* Animações */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -257,7 +292,15 @@
             <button class="confirm-btn" onclick="confirmSelection()">Próximo/Confirmar</button>
         </div>
     </div>
-
+    <div class="diagnosis-container" id="diagnosis-container" style="display: none;">
+        <div class="diagnosis-box">
+            <h3>Seu Diagnóstico:</h3>
+            <p id="diagnosis-text">Aguardando confirmação...</p> 
+            <div class="button-container"> 
+                <button class="confirm-btn" id="restart-btn" onclick="restartDiagnosis()">Recomeçar</button>
+            </div>
+        </div>
+    </div>
     <!-- Bottom Bar -->
     <div class="bottom-bar">
         <div class="logo-section">
@@ -283,15 +326,41 @@
 
         function confirmSelection() {
             const selectedOptions = document.querySelectorAll('.option.selected');
+            const diagnosisText = document.getElementById('diagnosis-text');
+            const diagnosisContainer = document.getElementById('diagnosis-container');
+
             if (selectedOptions.length > 0) {
-                let selectedText = 'Você selecionou: \n';
+                let selectedSymptoms = [];
                 selectedOptions.forEach(option => {
-                    selectedText += '- ' + option.querySelector('label').textContent + '\n';
+                    selectedSymptoms.push(option.querySelector('label').textContent);
                 });
-                alert(selectedText);
+
+                let diagnosis = "Com base nos sintomas selecionados: " + selectedSymptoms.join(', ') + ", é recomendável verificar os seguintes itens:\n\n";
+                diagnosis += "- Verifique a qualidade do óleo do motor.\n";
+                diagnosis += "- Inspecione os freios e as pastilhas.\n";
+                diagnosis += "- Calibre os pneus.\n";
+                diagnosis += "- Considere uma revisão geral.";
+
+                diagnosisText.textContent = diagnosis;
+                diagnosisContainer.style.display = 'block';
+                document.getElementById('diagnostic-container').style.display = 'none'; 
             } else {
                 alert('Por favor, selecione pelo menos uma opção.');
             }
+        }
+        function restartDiagnosis() {
+
+            document.getElementById('diagnosis-container').style.display = 'none';
+
+
+            document.getElementById('diagnostic-container').style.display = 'flex';
+
+            const selectedOptions = document.querySelectorAll('.option.selected');
+            selectedOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            document.getElementById('diagnosis-text').textContent = 'Aguardando confirmação...';
         }
 
         window.onload = () => {
