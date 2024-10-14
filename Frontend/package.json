@@ -1,0 +1,16 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "controller.js",
+  "keywords": [],
+  "scripts": {
+    "start": "node serverConfig.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "frontend": "file:"
+  }
+}

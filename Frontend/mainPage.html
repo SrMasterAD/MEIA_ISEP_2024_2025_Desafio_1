@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Pit Stop Pro</title>
+    <style>
+        /* Fontes modernas e animações */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1f26; /* Fundo escuro */
+            color: #fff;
+            overflow-x: hidden; /* Prevenir overflow horizontal */
+        }
+
+        /* Background com imagem relacionada a mecânica */
+        .background {
+            background: url('images/BACK (1).png') no-repeat center center; /* Ajustado para .png */
+            background-size: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            filter: brightness(0.7); /* Ajustado para brilho 0.7 */
+        }
+
+        /* Inicialização da tela de boas-vindas */
+        .welcome-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            animation: fadeIn 1.5s;
+            opacity: 0; /* Inicia invisível */
+            transition: opacity 0.5s ease;
+        }
+
+        /* Top bar com transparência e logo */
+        .top-bar {
+            background-color: rgba(18, 20, 23, 0.9); /* Transparente */
+            color: #f9f9f9;
+            padding: 20px; /* Aumentado para mais espaço */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: 1.5px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px); /* Efeito de blur */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .top-bar img {
+            width: 70px; /* Tamanho aumentado das imagens */
+            height: auto;
+        }
+
+        /* Central Container */
+        .container {
+            display: none; /* Ocultar inicialmente */
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            text-align: center;
+            animation: fadeIn 1.5s;
+            padding: 20px; /* Adicionando um pouco de preenchimento */
+        }
+
+        /* Diagnostic Box */
+        .diagnostic-box {
+            background-color: rgba(50, 50, 50, 0.9); /* Transparência */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
+            width: 90%; /* Ajustar largura para melhor encaixe */
+            max-width: 650px;
+            animation: scaleUp 0.8s ease-out;
+        }
+
+        .diagnostic-box h2 {
+            font-size: 26px; /* Tamanho do título */
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        /* Opções com múltipla seleção */
+        .options {
+            margin: 20px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .option {
+            position: relative;
+            background-color: #2f3238;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            transition: background-color 0.3s ease, transform 0.2s;
+            cursor: pointer;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espaçamento entre ícones e texto */
+        }
+
+        .option img {
+            width: 40px; /* Aumentar ícone */
+            height: 40px;
+            transition: transform 0.2s;
+        }
+
+        .option:hover {
+            background-color: #7289da;
+            transform: translateY(-5px);
+        }
+
+        .option.selected {
+            background-color: #4caf50;
+            border: 2px solid #34a853;
+        }
+
+        .option label {
+            font-size: 20px; /* Tamanho do texto das opções */
+            cursor: pointer;
+        }
+
+        /* Botão de Confirmação */
+        .confirm-btn {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 15px 35px; /* Aumentar espaço no botão */
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .confirm-btn:hover {
+            background-color: #e67e22;
+            transform: translateY(-3px);
+        }
+
+        /* Bottom bar com transparência e logo */
+        .bottom-bar {
+            background-color: rgba(18, 20, 23, 0.9); /* Transparente */
+            color: white;
+            padding: 10px 20px; /* Aumentado para mais espaço */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px; /* Tamanho aumentado */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            letter-spacing: 1px;
+            z-index: 100;
+            backdrop-filter: blur(10px); /* Efeito de blur */
+            box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .bottom-bar img {
+            width: 70px; /* Aumentar o tamanho das imagens */
+            height: auto;
+        }
+
+        /* Estilo do botão de iniciar diagnóstico */
+        .start-btn {
+            background-color: #2ecc71; /* Cor verde */
+            border: none;
+            border-radius: 50%;
+            width: 80px; /* Tamanho do botão */
+            height: 80px; /* Tamanho do botão */
+            font-size: 30px; /* Tamanho da fonte */
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+            position: relative; /* Para animações */
+        }
+
+        .start-btn:hover {
+            transform: scale(1.1);
+            background-color: #27ae60; /* Cor verde escuro ao passar o mouse */
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background image -->
+    <div class="background"></div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcome-screen">
+        <div>
+            <h1>Bem-vindo ao Pit Stop Pro</h1>
+            <p>Você deseja iniciar o diagnóstico?</p>
+            <button class="start-btn" onclick="startDiagnosis()">▶</button>
+        </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="logo-section">
+            <img src="images/logo_pitstop.png" alt="Logo Pit Stop Pro">
+        </div>
+        <div class="logo-section">
+            <img src="images/logo_mechs.png" alt="Logo Mechs">
+        </div>
+    </div>
+
+    <!-- Diagnostic Container -->
+    <div class="container" id="diagnostic-container">
+        <div class="diagnostic-box">
+            <h2>Pergunta 1: Quais os problemas que mais afetam o seu carro?</h2>
+
+            <div class="options">
+                <div class="option" onclick="toggleSelection(this)">
+                    <img src="https://cdn-icons-png.flaticon.com/512/67/67347.png" alt="Motor">
+                    <label>Motor com ruído estranho</label>
+                </div>
+                <div class="option" onclick="toggleSelection(this)">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2965/2965802.png" alt="Freios">
+                    <label>Freios desgastados</label>
+                </div>
+                <div class="option" onclick="toggleSelection(this)">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2883/2883927.png" alt="Combustível">
+                    <label>Consumo elevado de combustível</label>
+                </div>
+                <div class="option" onclick="toggleSelection(this)">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2767/2767572.png" alt="Bateria">
+                    <label>Bateria descarregando rápido</label>
+                </div>
+            </div>
+
+            <button class="confirm-btn" onclick="confirmSelection()">Próximo/Confirmar</button>
+        </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <div class="logo-section">
+            <img src="images/logo_meia.png" alt="Logo MEIA">
+        </div>
+        <div class="logo-section">
+            <img src="images/logo_isep.png" alt="Logo ISEP">
+        </div>
+    </div>
+
+    <script>
+        // Função para iniciar o diagnóstico
+        function startDiagnosis() {
+            document.getElementById('welcome-screen').style.opacity = 0; // Oculta a tela de boas-vindas
+            setTimeout(() => {
+                document.getElementById('welcome-screen').style.display = 'none'; // Remove da exibição
+                document.getElementById('diagnostic-container').style.display = 'flex'; // Exibe a tela de diagnóstico
+            }, 500); // Tempo para a transição
+        }
+
+        // Função para alternar seleção
+        function toggleSelection(element) {
+            element.classList.toggle('selected');
+        }
+
+        // Função para confirmar seleção
+        function confirmSelection() {
+            const selectedOptions = document.querySelectorAll('.option.selected');
+            if (selectedOptions.length > 0) {
+                let selectedText = 'Você selecionou: \n';
+                selectedOptions.forEach(option => {
+                    selectedText += '- ' + option.querySelector('label').textContent + '\n';
+                });
+                alert(selectedText);
+                // Aqui poderás prosseguir para a próxima pergunta ou outra lógica.
+            } else {
+                alert('Por favor, selecione pelo menos uma opção.');
+            }
+        }
+
+        // Ajustar a exibição inicial da tela de diagnóstico
+        window.onload = () => {
+            document.getElementById('diagnostic-container').style.display = 'none'; // Garante que o container de diagnóstico está oculto inicialmente
+            document.getElementById('welcome-screen').style.opacity = 1; // Mostra a tela de boas-vindas
+        };
+    </script>
+
+</body>
+</html>
+
