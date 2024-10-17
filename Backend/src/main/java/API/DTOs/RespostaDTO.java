@@ -12,14 +12,3 @@ public class RespostaDTO {
     }
 }
 
-class DiagnosisDTO {
-    public String diagnostico;
-    public String regra;
-    public List<String> sintomas;
-
-    public DiagnosisDTO(String diagnostico, String regra, List<String> sintoma) {
-        this.diagnostico = diagnostico;
-        this.regra = regra;
-        this.sintomas = sintoma;
-    }
-}
