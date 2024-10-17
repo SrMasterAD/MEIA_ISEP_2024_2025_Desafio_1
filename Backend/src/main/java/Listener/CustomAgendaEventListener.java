@@ -37,6 +37,13 @@ public class CustomAgendaEventListener implements AgendaEventListener {
         }
     }
 
+    public void adicionarFactoEsquerda(Facto facto) {
+        listaFactosDireita.add(facto);
+    }
+
+    public void limparFactosEsquerda() {
+        listaFactosEsquerda.clear();
+    }
     @Override
     public void matchCancelled(MatchCancelledEvent event) {
         // Not needed for this implementation

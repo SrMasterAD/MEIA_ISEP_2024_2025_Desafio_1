@@ -12,7 +12,7 @@ import java.util.Map;
 @SpringBootApplication
 public class DemoApplication {
 
-    public static KieSession KS;
+    public static KieSession ksn;
     public static CustomAgendaEventListener agendaEventListener;
     public static Map<Integer, Justificacao> mapaJustificacoes;
     public static KieServices ks;

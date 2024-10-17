@@ -24,32 +24,32 @@ import java.util.function.Supplier;
 import Listener.CustomAgendaEventListener;
 
 public class MotorDrools {
-    private KieSession ks;
+    private KieSession ksn;
     private List<DiagnosticoDTO> diagnosticos;
 
     public MotorDrools(String stringKs) {
         KieServices ks = KieServices.Factory.get();
         KieContainer kc = ks.getKieClasspathContainer();
-        this.ks = kc.newKieSession(stringKs);
+        this.ksn = kc.newKieSession(stringKs);
         this.diagnosticos = new ArrayList<>();
     }
 
     public List<DiagnosticoDTO> executarDiagnostico(List<Sintoma> sintomas) {
 
         for (Sintoma sintoma : sintomas) {
-            ks.insert(sintoma);
+            ksn.insert(sintoma);
         }
 
-        ks.addEventListener(new CustomAgendaEventListener());
+        ksn.addEventListener(new CustomAgendaEventListener());
 
-        ks.fireAllRules(new AgendaFilter() {
+        ksn.fireAllRules(new AgendaFilter() {
             @Override
             public boolean accept(org.kie.api.runtime.rule.Match match) {
                 return true;
             }
         });
 
-        ks.dispose();
+        ksn.dispose();
 
         return diagnosticos;
     }
