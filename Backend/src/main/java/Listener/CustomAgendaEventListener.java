@@ -1,6 +1,7 @@
 package Listener;
 
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.Match;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.AgendaEventListener;
 import org.kie.api.event.rule.AgendaGroupPoppedEvent;
@@ -13,6 +14,9 @@ import org.kie.api.event.rule.RuleFlowGroupDeactivatedEvent;
 import org.kie.api.definition.rule.Rule;
 import model.*;
 import API.DemoApplication;
+import API.DTOs.DiagnosticoDTO;
+import Engine.How;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -22,9 +26,11 @@ public class CustomAgendaEventListener implements AgendaEventListener {
     private KieSession ks;
     private List<Facto> listaFactosEsquerda = new ArrayList<Facto>();
     private List<Facto> listaFactosDireita = new ArrayList<Facto>();
+    private How how;
 
-    public CustomAgendaEventListener(KieSession ks) {
+    public CustomAgendaEventListener(KieSession ks, How how) {
         this.ks = ks;
+        this.how = how;
     }
 
     @Override
@@ -91,21 +97,19 @@ public class CustomAgendaEventListener implements AgendaEventListener {
 
     @Override
     public void afterMatchFired(AfterMatchFiredEvent evento) {
+        Match match = evento.getMatch();
+        List<Object> factos = match.getObjects();
 
-        Rule rule = evento.getMatch().getRule();
-        String ruleName = rule.getName();
-        List <Object> list = evento.getMatch().getObjects();
-        for (Object e : list) {
-            if (e instanceof Facto) {
-                listaFactosEsquerda.add((Facto)e);
+        for (Object facto : factos) {
+            if (facto instanceof Diagnostico) {
+                Diagnostico diagnostico = (Diagnostico) facto;
+                int conclusaoId = diagnostico.obterId();
+
+                List<Object> listaFactos = new ArrayList<>(factos);
+                listaFactos.remove(diagnostico);
+
+                how.addExplanation(conclusaoId, listaFactos);
             }
         }
-
-        for (Facto facto: listaFactosDireita) {
-            Justificacao j = new Justificacao(ruleName, listaFactosEsquerda, facto);
-            int id = facto.obterId();
-            DemoApplication.mapaJustificacoes.put(id, j);
-        }
-
-        }
+    }
 }

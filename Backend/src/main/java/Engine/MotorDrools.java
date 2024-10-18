@@ -32,12 +32,7 @@ public class MotorDrools extends Thread{
 
         ksn.addEventListener(customAgendaEventListener);
 
-        ksn.fireAllRules(new AgendaFilter() {
-            @Override
-            public boolean accept(org.kie.api.runtime.rule.Match match) {
-                return true;
-            }
-        });
+        ksn.fireAllRules();
 
         ksn.dispose();
     }
