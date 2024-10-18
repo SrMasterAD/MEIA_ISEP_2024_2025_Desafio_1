@@ -23,22 +23,15 @@ public class FabricaQuestoes {
 
     public static boolean answer(String sintomaString, List<String> possiveisValores, String valor) throws InterruptedException {
         Collection<Sintoma> sintomas = (Collection<Sintoma>) DemoApplication.ksn.getObjects(new ClassObjectFilter(Sintoma.class));
-        boolean questaoEncontrada = false;
-        Sintoma sintoma = null;
-        for (Sintoma s: sintomas) {
+        for (Sintoma s : sintomas) {
             if (s.getEvidencia().compareTo(sintomaString) == 0) {
-                questaoEncontrada = true;
-                sintoma = s;
-                break;
-            }
-        }
-        if (questaoEncontrada) {
-            if (sintoma.getValor().equals(valor)) {
-                DemoApplication.agendaEventListener.adicionarFactoEsquerda(sintoma);
-                return true;
-            } else {
-                DemoApplication.agendaEventListener.limparFactosEsquerda();
-                return false;
+                if (s.getValor().equals(valor)) {
+                    DemoApplication.agendaEventListener.adicionarFactoEsquerda(s);
+                    return true;
+                } else {
+                    DemoApplication.agendaEventListener.limparFactosEsquerda();
+                    return false;
+                }
             }
         }
         questao = new PerguntaDTO(sintomaString, possiveisValores);
