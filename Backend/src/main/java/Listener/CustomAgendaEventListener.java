@@ -20,12 +20,16 @@ import java.util.function.Supplier;
 public class CustomAgendaEventListener implements AgendaEventListener {
 
     private KieSession ks;
-    private Supplier<Sintoma> sintomaSupplier;
     private List<Facto> listaFactosEsquerda = new ArrayList<Facto>();
     private List<Facto> listaFactosDireita = new ArrayList<Facto>();
 
+    public CustomAgendaEventListener(KieSession ks) {
+        this.ks = ks;
+    }
+
     @Override
     public void matchCreated(MatchCreatedEvent event) {
+        /* 
         // Check if all required facts are present
         if (event.getMatch().getRule().getName().equals("Sintoma ausente")) {
             // A required fact is missing, try to insert it
@@ -35,6 +39,7 @@ public class CustomAgendaEventListener implements AgendaEventListener {
                 ks.fireAllRules();
             }
         }
+        */
     }
 
     public void adicionarFactoEsquerda(Facto facto) {

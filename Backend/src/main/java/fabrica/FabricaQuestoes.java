@@ -1,6 +1,7 @@
 package fabrica;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,19 +21,19 @@ public class FabricaQuestoes {
     private static final Lock lock = new ReentrantLock();
     public static final Condition condition = lock.newCondition();
 
-    public static boolean answer(String sintomaString, String valor) throws InterruptedException {
+    public static boolean answer(String sintomaString, List<String> possiveisValores, String valor) throws InterruptedException {
         Collection<Sintoma> sintomas = (Collection<Sintoma>) DemoApplication.ksn.getObjects(new ClassObjectFilter(Sintoma.class));
         boolean questaoEncontrada = false;
         Sintoma sintoma = null;
         for (Sintoma s: sintomas) {
-            if (s.getSintoma().compareTo(sintomaString) == 0) {
+            if (s.getEvidencia().compareTo(sintomaString) == 0) {
                 questaoEncontrada = true;
                 sintoma = s;
                 break;
             }
         }
         if (questaoEncontrada) {
-            if (sintoma.getSintoma().compareTo(valor) == 0) {
+            if (sintoma.getValor().equals(valor)) {
                 DemoApplication.agendaEventListener.adicionarFactoEsquerda(sintoma);
                 return true;
             } else {
@@ -40,12 +41,12 @@ public class FabricaQuestoes {
                 return false;
             }
         }
-        questao = new PerguntaDTO(sintomaString, sintoma.getPossiveisValores());
+        questao = new PerguntaDTO(sintomaString, possiveisValores);
         novaQuestao = true; // FIXME: wait controller
         lock.lock();
         condition.await();
 
-        Sintoma s = new Sintoma(sintomaString, sintoma.getPossiveisValores(), resposta);
+        Sintoma s = new Sintoma(sintomaString, possiveisValores, resposta);
         DemoApplication.ksn.insert(s);
 
         if(resposta.compareTo(valor) == 0){

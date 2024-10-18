@@ -16,13 +16,29 @@
 package org.example;
 
 import model.Sintoma;
+import function fabrica.FabricaQuestoes.answer;
+import java.util.List;
 
-global java.util.Set controlSet;
 
 rule "rule1"
-no-loop
 when
-	Sintoma(evidence == "hello?", value == "yes")
+	Sintoma(evidencia == "hello?", valor == "yes")
 then
 	System.out.println("Hello World!");
+end
+
+rule "rule2"
+when
+	eval(answer("how are you?",List.of("yes", "no"), "yes"))
+then
+	System.out.println("Hello World2!");
+
+end
+
+rule "rule3"
+when
+	Sintoma(evidencia == "how are you?", valor == "yes");
+	eval(answer("are you monika?",List.of("yes", "no"), "yes"));
+then
+	System.out.println("Hello World3!");
 end

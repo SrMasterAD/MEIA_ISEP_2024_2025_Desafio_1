@@ -17,7 +17,7 @@ public class Sintoma extends Facto{
         this.valor = valor;
     }
 
-    public String getSintoma() {
+    public String getEvidencia() {
         return evidencia;
     }
 
