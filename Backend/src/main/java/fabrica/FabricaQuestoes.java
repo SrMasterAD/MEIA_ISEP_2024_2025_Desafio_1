@@ -9,11 +9,11 @@ import org.kie.api.runtime.ClassObjectFilter;
 
 import model.Sintoma;
 import API.DemoApplication;
-import API.DTOs.RespostaDTO;
+import API.DTOs.PerguntaDTO;
 
 public class FabricaQuestoes {
 
-    public static RespostaDTO questao;
+    public static PerguntaDTO questao;
     public static boolean novaQuestao=false;
     public static String resposta;
     public static boolean answered=false;
@@ -25,14 +25,14 @@ public class FabricaQuestoes {
         boolean questaoEncontrada = false;
         Sintoma sintoma = null;
         for (Sintoma s: sintomas) {
-            if (s.obterSintoma().compareTo(sintomaString) == 0) {
+            if (s.getSintoma().compareTo(sintomaString) == 0) {
                 questaoEncontrada = true;
                 sintoma = s;
                 break;
             }
         }
         if (questaoEncontrada) {
-            if (sintoma.obterSintoma().compareTo(valor) == 0) {
+            if (sintoma.getSintoma().compareTo(valor) == 0) {
                 DemoApplication.agendaEventListener.adicionarFactoEsquerda(sintoma);
                 return true;
             } else {
@@ -40,12 +40,12 @@ public class FabricaQuestoes {
                 return false;
             }
         }
-        questao = new RespostaDTO(sintomaString, sintoma.obterPossiveisValores());
+        questao = new PerguntaDTO(sintomaString, sintoma.getPossiveisValores());
         novaQuestao = true; // FIXME: wait controller
         lock.lock();
         condition.await();
 
-        Sintoma s = new Sintoma(sintomaString, sintoma.obterPossiveisValores(), resposta);
+        Sintoma s = new Sintoma(sintomaString, sintoma.getPossiveisValores(), resposta);
         DemoApplication.ksn.insert(s);
 
         if(resposta.compareTo(valor) == 0){

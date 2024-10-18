@@ -13,14 +13,16 @@
  * limitations under the License.
 */
 
-package org.kie;
+package org.example;
+
+import model.Sintoma;
 
 global java.util.Set controlSet;
 
-rule "will execute per each Measurement having ID color"
+rule "rule1"
 no-loop
 when
-	Measurement( id == "color", $colorVal : val )
+	Sintoma(evidence == "hello?", value == "yes")
 then
-	controlSet.add($colorVal);
+	System.out.println("Hello World!");
 end

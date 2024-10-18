@@ -5,6 +5,7 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.AgendaFilter;
+import org.springframework.context.annotation.Bean;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.AgendaEventListener;
 import org.kie.api.event.rule.AgendaGroupPoppedEvent;
@@ -19,7 +20,6 @@ import model.*;
 import API.DTOs.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import Listener.CustomAgendaEventListener;
 

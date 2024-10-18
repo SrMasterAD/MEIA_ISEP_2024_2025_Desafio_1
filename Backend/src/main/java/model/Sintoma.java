@@ -8,21 +8,24 @@ public class Sintoma extends Facto{
     private List<String> possiveisValores;
     private String valor;
 
+    public Sintoma() {
+    }
+    
     public Sintoma(String evidencia, List<String> possiveisValores, String valor) {
         this.evidencia = evidencia;
         this.possiveisValores = possiveisValores;
         this.valor = valor;
     }
 
-    public String obterSintoma() {
+    public String getSintoma() {
         return evidencia;
     }
 
-    public List<String> obterPossiveisValores() {
+    public List<String> getPossiveisValores() {
         return this.possiveisValores;
     }
 
-    public String obterValor() {
+    public String getValor() {
         return valor;
     }
 
