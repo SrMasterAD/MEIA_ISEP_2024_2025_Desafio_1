@@ -18,8 +18,6 @@ public class FabricaQuestoes {
     public static boolean novaQuestao=false;
     public static String resposta;
     public static boolean answered=false;
-    private static final Lock lock = new ReentrantLock();
-    public static final Condition condition = lock.newCondition();
 
     public static boolean answer(String sintomaString, List<String> possiveisValores, String valor) throws InterruptedException {
         Collection<Sintoma> sintomas = (Collection<Sintoma>) DemoApplication.ksn.getObjects(new ClassObjectFilter(Sintoma.class));
@@ -36,9 +34,23 @@ public class FabricaQuestoes {
         }
         questao = new PerguntaDTO(sintomaString, possiveisValores);
         novaQuestao = true; // FIXME: wait controller
-        lock.lock();
-        condition.await();
 
+        DemoApplication.lockPergunta.lock();
+        try{
+            DemoApplication.conditionPergunta.signal();
+        } finally {
+            DemoApplication.lockPergunta.unlock();
+        }
+        
+
+        DemoApplication.lockResposta.lock();
+        try{
+            DemoApplication.conditionResposta.await();
+        } finally {
+            DemoApplication.lockResposta.unlock();
+        }
+
+        
         Sintoma s = new Sintoma(sintomaString, possiveisValores, resposta);
         DemoApplication.ksn.insert(s);
 

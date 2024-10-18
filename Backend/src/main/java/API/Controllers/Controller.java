@@ -20,19 +20,35 @@ public class Controller {
     Controller() {
     }
     @PostMapping("/execute")
-    public String executeDrools(@RequestBody List<Sintoma> resposta) {
-        DemoApplication.inicializarMotor();
-        DemoApplication.executarDiagnostico(resposta);
-        
-        return "Rules executed successfully!";
+    public ResponseEntity<Object> executeDrools(@RequestBody List<Sintoma> resposta) throws InterruptedException {
+        DemoApplication.executarMotor(resposta);
+        DemoApplication.lockPergunta.lock();
+        try{
+            DemoApplication.conditionPergunta.await();
+        } finally {
+            DemoApplication.lockPergunta.unlock();
+        }
+        if(FabricaQuestoes.novaQuestao) {
+            FabricaQuestoes.novaQuestao = false;
+            return ResponseEntity.ok(new PerguntaDTO(FabricaQuestoes.questao.questao, FabricaQuestoes.questao.valores));
+        }
+        return ResponseEntity.ok("Rules executed successfully!");
     }
 
     @PostMapping("/nextStep")
     public ResponseEntity<PerguntaDTO> nextStep(@RequestParam String resposta) throws InterruptedException {
         FabricaQuestoes.resposta = resposta;
-        FabricaQuestoes.condition.signal();
-        if(!FabricaQuestoes.answered) {
-            sleep(500);
+        DemoApplication.lockResposta.lock();
+        try {
+            DemoApplication.conditionResposta.signal();
+        } finally {
+            DemoApplication.lockResposta.unlock();
+        }
+        DemoApplication.lockPergunta.lock();
+        try{
+            DemoApplication.conditionPergunta.await();
+        } finally {
+            DemoApplication.lockPergunta.unlock();
         }
         return ResponseEntity.ok(new PerguntaDTO(FabricaQuestoes.questao.questao, FabricaQuestoes.questao.valores));
     }

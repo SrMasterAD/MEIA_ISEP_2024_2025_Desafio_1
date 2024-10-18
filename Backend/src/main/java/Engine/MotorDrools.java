@@ -11,20 +11,22 @@ import java.util.List;
 
 import Listener.CustomAgendaEventListener;
 
-public class MotorDrools {
+public class MotorDrools extends Thread{
     private KieSession ksn;
     private List<DiagnosticoDTO> diagnosticos;
     private CustomAgendaEventListener customAgendaEventListener;
+    private List<Sintoma> sintomas;
 
-    public MotorDrools(KieSession ksn, CustomAgendaEventListener customAgendaEventListener) {
+    public MotorDrools(KieSession ksn, CustomAgendaEventListener customAgendaEventListener, List<Sintoma> sintomas) {
         this.customAgendaEventListener = customAgendaEventListener;
         this.ksn = ksn;
         this.diagnosticos = new ArrayList<>();
+        this.sintomas = sintomas;
     }
+    @Override
+    public void run() {
 
-    public List<DiagnosticoDTO> executarDiagnostico(List<Sintoma> sintomas) {
-
-        for (Sintoma sintoma : sintomas) {
+        for (Sintoma sintoma : this.sintomas) {
             ksn.insert(sintoma);
         }
 
@@ -38,9 +40,5 @@ public class MotorDrools {
         });
 
         ksn.dispose();
-
-        return diagnosticos;
     }
-
-
 }

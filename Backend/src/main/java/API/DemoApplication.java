@@ -12,6 +12,9 @@ import Engine.MotorDrools;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -22,20 +25,21 @@ public class DemoApplication {
     public static KieServices ks;
     public static KieSession kSession;
     public static MotorDrools motor;
+    public static final Lock lockPergunta = new ReentrantLock();
+    public static final Condition conditionPergunta = lockPergunta.newCondition();
+    public static final Lock lockResposta = new ReentrantLock();
+    public static final Condition conditionResposta = lockResposta.newCondition();
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-    public static void inicializarMotor(){
+    public static void executarMotor(List<Sintoma> sintomas) {
         KieServices ks = KieServices.Factory.get();
         KieContainer kc = ks.getKieClasspathContainer();
         ksn = kc.newKieSession("ksession-rules");
         agendaEventListener = new CustomAgendaEventListener(ksn);
-        motor = new MotorDrools(ksn, agendaEventListener);
-    }
-
-    public static void executarDiagnostico(List<Sintoma> sintomas){
-        motor.executarDiagnostico(sintomas);
+        motor = new MotorDrools(ksn, agendaEventListener, sintomas);
+        motor.start();
     }
 }
