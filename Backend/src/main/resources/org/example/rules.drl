@@ -20,17 +20,21 @@ import model.Diagnostico;
 import function fabrica.FabricaQuestoes.answer;
 import java.util.List;
 
+query "obterDiagnosticos"
+	$diagnostico : Diagnostico()
+end
 
 rule "rule1"
 when
-	Sintoma(evidencia == "hello?", valor == "yes")
+	eval(answer("hello?",List.of("yes", "no"), "yes"));
 then
-	System.out.println("Hello World!");
+	Diagnostico diag = new Diagnostico("Hello World!");
+	insert(diag);
 end
 
 rule "rule2"
 when
-	eval(answer("how are you?",List.of("yes", "no"), "yes"))
+	eval(answer("how are you?",List.of("yes", "no"), "yes"));
 then
 	Diagnostico diag = new Diagnostico("You are Monika.");
 	insert(diag);

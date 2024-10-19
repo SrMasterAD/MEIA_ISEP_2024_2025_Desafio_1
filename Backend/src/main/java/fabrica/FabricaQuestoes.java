@@ -2,14 +2,12 @@ package fabrica;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.kie.api.runtime.ClassObjectFilter;
 
 import model.Sintoma;
 import API.DemoApplication;
+import API.DTOs.DiagnosticoDTO;
 import API.DTOs.PerguntaDTO;
 
 public class FabricaQuestoes {
@@ -18,6 +16,7 @@ public class FabricaQuestoes {
     public static boolean novaQuestao=false;
     public static String resposta;
     public static boolean answered=false;
+    public static DiagnosticoDTO diagnostico;
 
     public static boolean answer(String sintomaString, List<String> possiveisValores, String valor) throws InterruptedException {
         Collection<Sintoma> sintomas = (Collection<Sintoma>) DemoApplication.ksn.getObjects(new ClassObjectFilter(Sintoma.class));
@@ -33,7 +32,7 @@ public class FabricaQuestoes {
             }
         }
         questao = new PerguntaDTO(sintomaString, possiveisValores);
-        novaQuestao = true; // FIXME: wait controller
+        novaQuestao = true;
 
         DemoApplication.lockPergunta.lock();
         try{
@@ -50,7 +49,7 @@ public class FabricaQuestoes {
             DemoApplication.lockResposta.unlock();
         }
 
-        
+
         Sintoma s = new Sintoma(sintomaString, possiveisValores, resposta);
         DemoApplication.ksn.insert(s);
 
@@ -60,6 +59,15 @@ public class FabricaQuestoes {
         } else {
             DemoApplication.agendaEventListener.limparFactosEsquerda();
             return false;
+        }
+    }
+
+    public static void darDiagnostico() {
+        DemoApplication.lockPergunta.lock();
+        try{
+            DemoApplication.conditionPergunta.signal();
+        } finally {
+            DemoApplication.lockPergunta.unlock();
         }
     }
 

@@ -11,5 +11,10 @@ public class Diagnostico extends Facto{
     public String obterDescricao() {
         return descricao;
     }
+    
+    @Override
+    public String toString() {
+        return descricao;
+    }
 
 }

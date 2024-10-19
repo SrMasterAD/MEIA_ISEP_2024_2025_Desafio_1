@@ -29,6 +29,11 @@ public class Sintoma extends Facto{
         return valor;
     }
 
+    @Override
+    public String toString() {
+        return evidencia + " " + valor;
+    }
+
 }
 
 

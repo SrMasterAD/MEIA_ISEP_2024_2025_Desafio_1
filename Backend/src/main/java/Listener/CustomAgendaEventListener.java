@@ -1,7 +1,6 @@
 package Listener;
 
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.rule.Match;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.AgendaEventListener;
 import org.kie.api.event.rule.AgendaGroupPoppedEvent;
@@ -11,20 +10,16 @@ import org.kie.api.event.rule.MatchCancelledEvent;
 import org.kie.api.event.rule.MatchCreatedEvent;
 import org.kie.api.event.rule.RuleFlowGroupActivatedEvent;
 import org.kie.api.event.rule.RuleFlowGroupDeactivatedEvent;
-import org.kie.api.definition.rule.Rule;
 import model.*;
-import API.DemoApplication;
-import API.DTOs.DiagnosticoDTO;
 import Engine.How;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class CustomAgendaEventListener implements AgendaEventListener {
 
     private KieSession ks;
-    private List<Facto> listaFactosEsquerda = new ArrayList<Facto>();
+    private List<Sintoma> listaFactosEsquerda = new ArrayList<Sintoma>();
     private List<Facto> listaFactosDireita = new ArrayList<Facto>();
     private How how;
 
@@ -35,26 +30,33 @@ public class CustomAgendaEventListener implements AgendaEventListener {
 
     @Override
     public void matchCreated(MatchCreatedEvent event) {
-        /* 
-        // Check if all required facts are present
-        if (event.getMatch().getRule().getName().equals("Sintoma ausente")) {
-            // A required fact is missing, try to insert it
-            Sintoma novoSintoma = sintomaSupplier.get();
-            if (novoSintoma != null) {
-                ks.insert(novoSintoma);
-                ks.fireAllRules();
-            }
-        }
-        */
+        // Not needed for this implementation
     }
 
-    public void adicionarFactoEsquerda(Facto facto) {
-        listaFactosDireita.add(facto);
+    public void adicionarFactoEsquerda(Sintoma sintoma) {
+        listaFactosEsquerda.add(sintoma);
     }
 
     public void limparFactosEsquerda() {
-        listaFactosEsquerda.clear();
+        listaFactosEsquerda = new ArrayList<Sintoma>();
     }
+
+    public List<Sintoma> obterFactosEsquerda() {
+        return listaFactosEsquerda;
+    }
+
+    public void adicionarFactoDireita(Facto facto) {
+        listaFactosDireita = new ArrayList<Facto>();
+    }
+
+    public void limparFactosDireita() {
+        listaFactosDireita.clear();
+    }
+
+    public List<Facto> obterFactosDireita() {
+        return listaFactosDireita;
+    }
+    
     @Override
     public void matchCancelled(MatchCancelledEvent event) {
         // Not needed for this implementation
@@ -97,19 +99,6 @@ public class CustomAgendaEventListener implements AgendaEventListener {
 
     @Override
     public void afterMatchFired(AfterMatchFiredEvent evento) {
-        Match match = evento.getMatch();
-        List<Object> factos = match.getObjects();
-
-        for (Object facto : factos) {
-            if (facto instanceof Diagnostico) {
-                Diagnostico diagnostico = (Diagnostico) facto;
-                int conclusaoId = diagnostico.obterId();
-
-                List<Object> listaFactos = new ArrayList<>(factos);
-                listaFactos.remove(diagnostico);
-
-                how.addExplanation(conclusaoId, listaFactos);
-            }
-        }
+        // Not needed for this implementation
     }
 }

@@ -31,12 +31,13 @@ public class Controller {
         if(FabricaQuestoes.novaQuestao) {
             FabricaQuestoes.novaQuestao = false;
             return ResponseEntity.ok(new PerguntaDTO(FabricaQuestoes.questao.questao, FabricaQuestoes.questao.valores));
+        } else {
+            return ResponseEntity.ok(FabricaQuestoes.diagnostico);
         }
-        return ResponseEntity.ok("Rules executed successfully!");
     }
 
     @PostMapping("/nextStep")
-    public ResponseEntity<PerguntaDTO> nextStep(@RequestParam String resposta) throws InterruptedException {
+    public ResponseEntity<Object> nextStep(@RequestParam String resposta) throws InterruptedException {
         FabricaQuestoes.resposta = resposta;
         DemoApplication.lockResposta.lock();
         try {
@@ -50,6 +51,11 @@ public class Controller {
         } finally {
             DemoApplication.lockPergunta.unlock();
         }
-        return ResponseEntity.ok(new PerguntaDTO(FabricaQuestoes.questao.questao, FabricaQuestoes.questao.valores));
+        if(FabricaQuestoes.novaQuestao) {
+            FabricaQuestoes.novaQuestao = false;
+            return ResponseEntity.ok(new PerguntaDTO(FabricaQuestoes.questao.questao, FabricaQuestoes.questao.valores));
+        } else {
+            return ResponseEntity.ok(FabricaQuestoes.diagnostico);
+        }
     }
 }

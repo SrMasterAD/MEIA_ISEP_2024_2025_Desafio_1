@@ -12,5 +12,9 @@ public class Facto {
     public int obterId() {
         return this.id;
     }
+
+    public String toString() {
+        return Integer.toString(id);
+    }
 }
 
