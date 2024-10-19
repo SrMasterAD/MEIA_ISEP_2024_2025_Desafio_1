@@ -28,10 +28,10 @@ rule "#80 - Luz de óleo"
 when
 	eval(answer("Qual é a luz que observa?", List.of("Luz de óleo","Luz do motor"), "Luz de óleo"));
 then
-
+	
 end
 
-rule "#81 - O automóvel está com o nível de óleo normal?"
+rule "#80 - O automóvel está com o nível de óleo normal?"
 when
 	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
 	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Sim"));
@@ -56,7 +56,7 @@ when
 	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
 	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Nao"));
 then
-	System.out.println("O nível de óleo não está normal.");
-	Diagnostico diag = new Diagnostico("O nível de óleo não está normal.");
+	System.out.println("O nível de óleo está anormal.");
+	Diagnostico diag = new Diagnostico("O nível de óleo está anormal.");
 	insert(diag);
 end

@@ -2,9 +2,11 @@ package fabrica;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.kie.api.runtime.ClassObjectFilter;
 
+import model.Diagnostico;
 import model.Sintoma;
 import API.DemoApplication;
 import API.DTOs.DiagnosticoDTO;
@@ -21,6 +23,7 @@ public class FabricaQuestoes {
 
     public static boolean answer(String sintomaString, List<String> possiveisValores, String valor) throws InterruptedException {
         boolean evidenciaVerificada = false;
+        List<Sintoma> sin = How.obterHistoricoSintomas();
         Collection<Sintoma> sintomas = (Collection<Sintoma>) DemoApplication.ksn.getObjects(new ClassObjectFilter(Sintoma.class));
         for (Sintoma s : sintomas) {
             if (s.getEvidencia().compareTo(sintomaString) == 0) {
@@ -32,7 +35,6 @@ public class FabricaQuestoes {
             }
         }
         if(evidenciaVerificada){
-            How.eliminarHistoricoSintomas();
             return false;
         }
         questao = new PerguntaDTO(sintomaString, possiveisValores);
@@ -61,7 +63,6 @@ public class FabricaQuestoes {
             How.adicionarSintomaHistorico(s);
             return true;
         } else {
-            How.eliminarHistoricoSintomas();
             return false;
         }
     }
