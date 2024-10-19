@@ -13,6 +13,7 @@ import fabrica.FabricaQuestoes;
 import model.Sintoma;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000") 
 @RequestMapping("/api/drools")
 public class Controller {
 
@@ -35,7 +36,8 @@ public class Controller {
             return ResponseEntity.ok(FabricaQuestoes.diagnostico);
         }
     }
-
+    
+    @CrossOrigin(origins = "http://localhost:3000") 
     @PostMapping("/nextStep")
     public ResponseEntity<Object> nextStep(@RequestParam String resposta) throws InterruptedException {
         FabricaQuestoes.resposta = resposta;
