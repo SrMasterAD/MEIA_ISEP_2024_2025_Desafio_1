@@ -20,17 +20,20 @@ public class FabricaQuestoes {
     public static DiagnosticoDTO diagnostico;
 
     public static boolean answer(String sintomaString, List<String> possiveisValores, String valor) throws InterruptedException {
+        boolean evidenciaVerificada = false;
         Collection<Sintoma> sintomas = (Collection<Sintoma>) DemoApplication.ksn.getObjects(new ClassObjectFilter(Sintoma.class));
         for (Sintoma s : sintomas) {
             if (s.getEvidencia().compareTo(sintomaString) == 0) {
-                if (s.getValor().equals(valor)) {
+                if(s.getValor().compareTo(valor) == 0){
                     How.adicionarSintomaHistorico(s);
                     return true;
-                } else {
-                    How.eliminarHistoricoSintomas();
-                    return false;
                 }
+                evidenciaVerificada = true;
             }
+        }
+        if(evidenciaVerificada){
+            How.eliminarHistoricoSintomas();
+            return false;
         }
         questao = new PerguntaDTO(sintomaString, possiveisValores);
         novaQuestao = true;
