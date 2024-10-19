@@ -9,6 +9,7 @@ import model.Sintoma;
 import API.DemoApplication;
 import API.DTOs.DiagnosticoDTO;
 import API.DTOs.PerguntaDTO;
+import Engine.How;
 
 public class FabricaQuestoes {
 
@@ -23,10 +24,10 @@ public class FabricaQuestoes {
         for (Sintoma s : sintomas) {
             if (s.getEvidencia().compareTo(sintomaString) == 0) {
                 if (s.getValor().equals(valor)) {
-                    DemoApplication.agendaEventListener.adicionarFactoEsquerda(s);
+                    How.adicionarSintomaHistorico(s);
                     return true;
                 } else {
-                    DemoApplication.agendaEventListener.limparFactosEsquerda();
+                    How.eliminarHistoricoSintomas();
                     return false;
                 }
             }
@@ -54,10 +55,10 @@ public class FabricaQuestoes {
         DemoApplication.ksn.insert(s);
 
         if(resposta.compareTo(valor) == 0){
-            DemoApplication.agendaEventListener.adicionarFactoEsquerda(s);
+            How.adicionarSintomaHistorico(s);
             return true;
         } else {
-            DemoApplication.agendaEventListener.limparFactosEsquerda();
+            How.eliminarHistoricoSintomas();
             return false;
         }
     }
