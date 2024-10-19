@@ -2,20 +2,20 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Diagnóstico Pit Stop Pro</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <script src="controller.js"></script>
-    <!-- Background image -->
+
     <div class="background"></div>
 
     <!-- Welcome Screen -->
     <div class="welcome-screen" id="welcome-screen">
         <div>
             <h1>Bem-vindo ao Pit Stop Pro</h1>
-            <p>Você deseja iniciar o diagnóstico?</p>
+            <p>Deseja iniciar o diagnóstico?</p>
             <button class="start-btn" onclick="startDiagnosis()">▶</button>
         </div>
     </div>
@@ -29,46 +29,49 @@
     <!-- Diagnostic Container -->
     <div class="container" id="diagnostic-container">
         <div class="diagnostic-box">
-            <h2>Pergunta 1: Quais os problemas que mais afetam o seu carro?</h2>
-            <div class="options">
-                <div class="option" onclick="toggleSelection(this)">
-                    <img src="https://cdn-icons-png.flaticon.com/512/67/67347.png" alt="Motor">
-                    <label>Motor com ruído estranho</label>
-                </div>
-                <div class="option" onclick="toggleSelection(this)">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2965/2965802.png" alt="Freios">
-                    <label>Freios desgastados</label>
-                </div>
-                <div class="option" onclick="toggleSelection(this)">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2883/2883927.png" alt="Combustível">
-                    <label>Consumo elevado de combustível</label>
-                </div>
-                <div class="option" onclick="toggleSelection(this)">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2767/2767572.png" alt="Bateria">
-                    <label>Bateria descarregando rápido</label>
-                </div>
+            <h2 id="question-title"></h2>
+            <div id="options-container" class="options"></div>
+            <div class="navigation-buttons">
+                <button class="confirm-btn retry-btn" onclick="retryDiagnosis()">⟳</button>
+                <button class="confirm-btn" id="next-btn" onclick="nextQuestion()">Próximo →</button>
             </div>
-            <button class="confirm-btn" onclick="confirmSelection()">Próximo/Confirmar</button>
-        </div>
-    </div>
-    <div class="diagnosis-container" id="diagnosis-container" style="display: none;">
-        <div class="diagnosis-box">
-            <h3>Seu Diagnóstico:</h3>
-            <p id="diagnosis-text">Aguardando confirmação...</p> 
-            <div class="button-container"> 
-                <button class="confirm-btn" id="restart-btn" onclick="restartDiagnosis()">Recomeçar</button>
-            </div>
-        </div>
-    </div>
-    <!-- Bottom Bar -->
-    <div class="bottom-bar">
-        <div class="logo-section">
-            <img style="padding-left: 20px;" src="images/logo_meia.png" alt="Logo MEIA">
-        </div>
-        <div class="logo-section">
-            <img style="padding-right: 20px;" src="images/logo_isep.png" alt="Logo ISEP">
         </div>
     </div>
 
+	<!-- Diagnosis Container -->
+	<div class="diagnosis-container" id="diagnosis-container" style="display: none;">
+		<div class="diagnosis-box">
+			<div class="diagnosis-header">
+				<button class="navigation-btn" id="previous-result-btn" onclick="previousResult()">←</button>
+				<h3>Diagnóstico: <span id="diagnosis-text">Aguardando confirmação...</span></h3>
+				<button class="navigation-btn" id="next-result-btn" onclick="nextResult()">→</button>
+			</div>
+			<hr class="separator" />
+			<div class="diagnosis-review">
+				<table id="responses-table">
+					<thead>
+						<tr>
+							<th>Pergunta</th>
+							<th>Resposta</th>
+						</tr>
+					</thead>
+					<tbody id="answered-questions"></tbody>
+				</table>
+			</div>
+			<div class="navigation-buttons">
+                <button class="confirm-btn retry-btn" onclick="retryDiagnosis()">⟳</button>
+            </div>
+		</div>
+	</div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <div class="logo-section">
+            <img class="logo" style="padding-left: 20px;" src="images/logo_meia.png" alt="Logo MEIA">
+        </div>
+        <div class="logo-section">
+            <img class="logo" style="padding-right: 20px;" src="images/logo_isep.png" alt="Logo ISEP">
+        </div>
+    </div>
 </body>
 </html>
