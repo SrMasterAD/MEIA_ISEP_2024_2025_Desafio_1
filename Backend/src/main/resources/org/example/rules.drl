@@ -31,32 +31,46 @@ then
 	
 end
 
-rule "#80 - O automóvel está com o nível de óleo normal?"
-when
-	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
-	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Sim"));
-then
-	System.out.println("O nível de óleo está normal.");
-	Diagnostico diag = new Diagnostico("O nível de óleo está normal.");
-	insert(diag);
-end
-
 rule "#81 - O automóvel está com o nível de óleo normal?(Sim)"
 when
 	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
 	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Sim"));
 then
-	System.out.println("O nível de óleo está normal.");
-	Diagnostico diag = new Diagnostico("O nível de óleo está normal.");
-	insert(diag);
+
 end
 
-rule "#82 - O automóvel está com o nível de óleo normal?(Nao)"
+rule "#82 - As escovas do motor de arranque estão danificadas?(Sim)"
+when
+	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Sim");
+	eval(answer("As escovas do motor de arranque estão danificadas?", List.of("Sim","Nao"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Escovas do motor de arranque danificadas.");
+	insert(diag);
+end
+//////CONSULTE UM ESPECIALISTA////// Rule 83
+
+rule "#84 - O automóvel está com o nível de óleo normal?(Nao)"
 when
 	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
 	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Nao"));
 then
-	System.out.println("O nível de óleo está anormal.");
-	Diagnostico diag = new Diagnostico("O nível de óleo está anormal.");
+
+end
+
+rule "#85 - O carro está a pingar óleo?(Sim)"
+when
+	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Nao");
+	eval(answer("O carro está a pingar óleo?", List.of("Sim","Nao"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Fuga de óleo.");
+	insert(diag);
+end
+
+rule "#86 - O carro está a pingar óleo?(Nao)"
+when
+	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Nao");
+	eval(answer("O carro está a pingar óleo?", List.of("Sim","Nao"), "Nao"));
+then
+	Diagnostico diag = new Diagnostico("Falta de óleo.");
 	insert(diag);
 end
