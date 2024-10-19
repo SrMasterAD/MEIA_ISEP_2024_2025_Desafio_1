@@ -24,18 +24,39 @@ query "obterDiagnosticos"
 	$diagnostico : Diagnostico()
 end
 
-rule "rule1"
+rule "#80 - Luz de óleo"
 when
-	eval(answer("hello?",List.of("yes", "no"), "yes"));
+	eval(answer("Qual é a luz que observa?", List.of("Luz de óleo","Luz do motor"), "Luz de óleo"));
 then
-	Diagnostico diag = new Diagnostico("Hello World!");
+
+end
+
+rule "#81 - O automóvel está com o nível de óleo normal?"
+when
+	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
+	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Sim"));
+then
+	System.out.println("O nível de óleo está normal.");
+	Diagnostico diag = new Diagnostico("O nível de óleo está normal.");
 	insert(diag);
 end
 
-rule "rule2"
+rule "#81 - O automóvel está com o nível de óleo normal?(Sim)"
 when
-	eval(answer("how are you?",List.of("yes", "no"), "yes"));
+	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
+	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Sim"));
 then
-	Diagnostico diag = new Diagnostico("You are Monika.");
+	System.out.println("O nível de óleo está normal.");
+	Diagnostico diag = new Diagnostico("O nível de óleo está normal.");
+	insert(diag);
+end
+
+rule "#82 - O automóvel está com o nível de óleo normal?(Nao)"
+when
+	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
+	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Nao"));
+then
+	System.out.println("O nível de óleo não está normal.");
+	Diagnostico diag = new Diagnostico("O nível de óleo não está normal.");
 	insert(diag);
 end
