@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "b8c4b37a-120d-48a0-9bb1-f21c525c5a5e",
+		"name": "RuleTestingDiagnostic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30690787"
+	},
+	"item": [
+		{
+			"name": "TEST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"evidencia\" : \"hello?\",\n        \"possiveisValores\" : [\"yes\",\"no\"],\n        \"valor\" : \"yes\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/drools/execute"
+			},
+			"response": []
+		},
+		{
+			"name": "TEST2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"evidencia\" : \"hello?\",\n        \"possiveisValores\" : [\"yes\",\"no\"],\n        \"valor\" : \"yes\"\n    }\n,\n    {\n        \"evidencia\" : \"how are you?\",\n        \"possiveisValores\" : [\"yes\",\"no\"],\n        \"valor\" : \"yes\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/drools/execute"
+			},
+			"response": []
+		}
+	]
+}

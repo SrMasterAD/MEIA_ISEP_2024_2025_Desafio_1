@@ -13,14 +13,64 @@
  * limitations under the License.
 */
 
-package org.kie;
+package org.example;
 
-global java.util.Set controlSet;
+import model.Sintoma;
+import model.Diagnostico;
+import function fabrica.FabricaQuestoes.answer;
+import java.util.List;
 
-rule "will execute per each Measurement having ID color"
-no-loop
+query "obterDiagnosticos"
+	$diagnostico : Diagnostico()
+end
+
+rule "#80 - Luz de óleo"
 when
-	Measurement( id == "color", $colorVal : val )
+	eval(answer("Qual é a luz que observa?", List.of("Luz de óleo","Luz do motor"), "Luz de óleo"));
 then
-	controlSet.add($colorVal);
+	
+end
+
+rule "#81 - O automóvel está com o nível de óleo normal?(Sim)"
+when
+	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
+	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Sim"));
+then
+
+end
+
+rule "#82 - As escovas do motor de arranque estão danificadas?(Sim)"
+when
+	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Sim");
+	eval(answer("As escovas do motor de arranque estão danificadas?", List.of("Sim","Nao"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Escovas do motor de arranque danificadas.");
+	insert(diag);
+end
+//////CONSULTE UM ESPECIALISTA////// Rule 83
+
+rule "#84 - O automóvel está com o nível de óleo normal?(Nao)"
+when
+	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
+	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Nao"));
+then
+
+end
+
+rule "#85 - O carro está a pingar óleo?(Sim)"
+when
+	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Nao");
+	eval(answer("O carro está a pingar óleo?", List.of("Sim","Nao"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Fuga de óleo.");
+	insert(diag);
+end
+
+rule "#86 - O carro está a pingar óleo?(Nao)"
+when
+	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Nao");
+	eval(answer("O carro está a pingar óleo?", List.of("Sim","Nao"), "Nao"));
+then
+	Diagnostico diag = new Diagnostico("Falta de óleo.");
+	insert(diag);
 end
