@@ -34,7 +34,7 @@ end
 rule "#81 - O automóvel está com o nível de óleo normal?(Sim)"
 when
 	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
-	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Sim"));
+	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Não"), "Sim"));
 then
 
 end
@@ -42,35 +42,231 @@ end
 rule "#82 - As escovas do motor de arranque estão danificadas?(Sim)"
 when
 	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Sim");
-	eval(answer("As escovas do motor de arranque estão danificadas?", List.of("Sim","Nao"), "Sim"));
+	eval(answer("As escovas do motor de arranque estão danificadas?", List.of("Sim","Não"), "Sim"));
 then
 	Diagnostico diag = new Diagnostico("Escovas do motor de arranque danificadas.");
 	insert(diag);
 end
 //////CONSULTE UM ESPECIALISTA////// Rule 83
 
-rule "#84 - O automóvel está com o nível de óleo normal?(Nao)"
+rule "#84 - O automóvel está com o nível de óleo normal?(Não)"
 when
 	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz de óleo");
-	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Nao"), "Nao"));
+	eval(answer("O automóvel está com o nível de óleo normal?", List.of("Sim","Não"), "Não"));
 then
 
 end
 
 rule "#85 - O carro está a pingar óleo?(Sim)"
 when
-	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Nao");
-	eval(answer("O carro está a pingar óleo?", List.of("Sim","Nao"), "Sim"));
+	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Não");
+	eval(answer("O carro está a pingar óleo?", List.of("Sim","Não"), "Sim"));
 then
 	Diagnostico diag = new Diagnostico("Fuga de óleo.");
 	insert(diag);
 end
 
-rule "#86 - O carro está a pingar óleo?(Nao)"
+rule "#86 - O carro está a pingar óleo?(Não)"
 when
-	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Nao");
-	eval(answer("O carro está a pingar óleo?", List.of("Sim","Nao"), "Nao"));
+	Sintoma(evidencia == "O automóvel está com o nível de óleo normal?",valor == "Não");
+	eval(answer("O carro está a pingar óleo?", List.of("Sim","Não"), "Não"));
 then
 	Diagnostico diag = new Diagnostico("Falta de óleo.");
+	insert(diag);
+end
+
+rule "#87 - Luz do motor"
+when
+	eval(answer("Qual é a luz que observa?", List.of("Luz de óleo","Luz do motor"), "Luz do motor"));
+then
+
+end
+
+rule "#88 - Qual destes sintomas o carro apresenta?(Ruído de chocalho)"
+when
+	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz do motor");
+	eval(answer("Qual destes sintomas o carro apresenta?", List.of("Ruído de chocalho","Problemas na ignição", "Nenhuma das anteriores"), "Ruído de chocalho"));
+then
+
+end
+
+rule "#89 - O carro tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == "Qual destes sintomas o carro apresenta?",valor == "Ruído de chocalho");
+	eval(answer("1|O carro tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#90 - O carro tem uma perda de potência acentuada?(Sim)"
+when
+	Sintoma(evidencia == "1|O carro tem consumido mais combustível do que o habitual?",valor == "Sim");
+	eval(answer("1|O carro tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#91 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == "1|O carro tem uma perda de potência acentuada?",valor == "Sim");
+	eval(answer("1|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(100%)");
+	insert(diag);
+end
+
+rule "#92 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == "1|O carro tem uma perda de potência acentuada?",valor == "Sim");
+	eval(answer("1|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(90%)");
+	insert(diag);
+end
+
+rule "#93 - O carro tem uma perda de potência acentuada?(Não)"
+when
+	Sintoma(evidencia == "1|O carro tem consumido mais combustível do que o habitual?",valor == "Sim");
+	eval(answer("1|O carro tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "#94 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == "1|O carro tem uma perda de potência acentuada?",valor == "Não");
+	eval(answer("2|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(90%)");
+	insert(diag);
+end
+
+rule "#95 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == "1|O carro tem uma perda de potência acentuada?",valor == "Não");
+	eval(answer("2|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(80%)");
+	insert(diag);
+end
+
+rule "#96 - O carro tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == "Qual destes sintomas o carro apresenta?",valor == "Ruído de chocalho");
+	eval(answer("1|O carro tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "#97 - O carro tem uma perda de potência acentuada?(Sim)"
+when
+	Sintoma(evidencia == "1|O carro tem consumido mais combustível do que o habitual?",valor == "Não");
+	eval(answer("2|O carro tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#98 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == "2|O carro tem uma perda de potência acentuada?",valor == "Sim");
+	eval(answer("3|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(90%)");
+	insert(diag);
+end
+
+rule "#99 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == "2|O carro tem uma perda de potência acentuada?",valor == "Sim");
+	eval(answer("3|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(80%)");
+	insert(diag);
+end
+
+rule "#100 - O carro tem uma perda de potência acentuada?(Não)"
+when
+	Sintoma(evidencia == "1|O carro tem consumido mais combustível do que o habitual?",valor == "Não");
+	eval(answer("2|O carro tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "#101 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == "2|O carro tem uma perda de potência acentuada?",valor == "Não");
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(80%)");
+	insert(diag);
+end
+
+rule "#102 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == "2|O carro tem uma perda de potência acentuada?",valor == "Não");
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
+	insert(diag);
+end
+
+rule "#103 - Qual destes sintomas o carro apresenta?(Problemas na ignição)"
+when
+	Sintoma(evidencia == "Qual é a luz que observa?",valor == "Luz do motor");
+	eval(answer("Qual destes sintomas o carro apresenta?", List.of("Ruído de chocalho","Problemas na ignição", "Nenhuma das anteriores"), "Problemas na ignição"));
+then
+
+end
+
+rule "#104 - Sente ou ouve irregularidades durante o funcionamento do motor?(Sim)"
+when
+	Sintoma(evidencia == "Qual destes sintomas o carro apresenta?",valor == "Problemas na ignição");
+	eval(answer("Sente ou ouve irregularidades durante o funcionamento do motor?", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#105 - O carro tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == "Sente ou ouve irregularidades durante o funcionamento do motor?",valor == "Sim");
+	eval(answer("2|O carro tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Válvula EGR ou sonda lambda danificada.(100%)");
+	insert(diag);
+end
+
+
+rule "#106 - O carro tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == "Sente ou ouve irregularidades durante o funcionamento do motor?",valor == "Sim");
+	eval(answer("2|O carro tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Válvula EGR ou sonda lambda danificada.(75%)");
+	insert(diag);
+end
+
+rule "#107 - Sente ou ouve irregularidades durante o funcionamento do motor?(Não)"
+when
+	Sintoma(evidencia == "Qual destes sintomas o carro apresenta?",valor == "Problemas na ignição");
+	eval(answer("Sente ou ouve irregularidades durante o funcionamento do motor?", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "#108 - O carro tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == "Sente ou ouve irregularidades durante o funcionamento do motor?",valor == "Não");
+	eval(answer("3|O carro tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Válvula EGR ou sonda lambda danificada.(75%)");
+	insert(diag);
+end
+
+rule "#109 - O carro tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == "Sente ou ouve irregularidades durante o funcionamento do motor?",valor == "Não");
+	eval(answer("3|O carro tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Válvula EGR ou sonda lambda danificada.(50%)");
 	insert(diag);
 end
