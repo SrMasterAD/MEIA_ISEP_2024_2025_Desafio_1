@@ -27,12 +27,9 @@ const questions = [
 ];
 
 function startDiagnosis() {
-    document.getElementById('welcome-screen').style.opacity = 0;
-    setTimeout(() => {
-        document.getElementById('welcome-screen').style.display = 'none';
-        document.getElementById('diagnostic-container').style.display = 'flex';
-        loadQuestion();
-    }, 500);
+    document.getElementById('welcome-screen').style.display = 'none';
+    document.getElementById('diagnostic-container').style.display = 'flex';
+    loadQuestion();
 }
 
 function loadQuestion() {
@@ -45,14 +42,14 @@ function loadQuestion() {
     if (currentQuestion.type === 'multiple') {
         currentQuestion.options.forEach(option => {
             const optionDiv = document.createElement('div');
-            optionDiv.classList.add('option');
+            optionDiv.classList.add('btn', 'btn-outline-light');
             optionDiv.onclick = () => toggleSelection(optionDiv, option.value);
             optionDiv.innerHTML = `<label>${option.label}</label>`;
             optionsContainer.appendChild(optionDiv);
         });
     } else if (currentQuestion.type === 'yesno') {
-        const yesDiv = createYesNoOption('Sim', () => selectYesNo('yes'), 'yes-option');
-        const noDiv = createYesNoOption('Não', () => selectYesNo('no'), 'no-option');
+        const yesDiv = createYesNoOption('Sim', () => selectYesNo('yes'), 'btn-outline-success');
+        const noDiv = createYesNoOption('Não', () => selectYesNo('no'), 'btn-outline-danger');
         optionsContainer.appendChild(yesDiv);
         optionsContainer.appendChild(noDiv);
     }
@@ -61,7 +58,7 @@ function loadQuestion() {
 }
 
 function toggleSelection(optionDiv, value) {
-    const selected = optionDiv.classList.toggle('selected');
+    const selected = optionDiv.classList.toggle('active');
     const currentQuestion = questions[currentQuestionIndex];
     
     if (selected) {
@@ -76,24 +73,24 @@ function toggleSelection(optionDiv, value) {
     toggleNavigationButtons();
 }
 
-function createYesNoOption(label, onClick, className) {
-    const div = document.createElement('div');
-    div.classList.add('option', className);
-    div.onclick = onClick;
-    div.innerHTML = `<label>${label}</label>`;
-    return div;
+function createYesNoOption(label, onClick, btnClass) {
+    const btn = document.createElement('div');
+    btn.classList.add('btn', btnClass);
+    btn.onclick = onClick;
+    btn.innerHTML = `<label>${label}</label>`;
+    return btn;
 }
 
 function selectYesNo(answer) {
-    const yesDiv = document.querySelector('.yes-option');
-    const noDiv = document.querySelector('.no-option');
+    const yesDiv = document.querySelector('.btn-outline-success');
+    const noDiv = document.querySelector('.btn-outline-danger');
 
     if (answer === 'yes') {
-        yesDiv.classList.add('selected');
-        noDiv.classList.remove('selected');
+        yesDiv.classList.add('active');
+        noDiv.classList.remove('active');
     } else {
-        noDiv.classList.add('selected');
-        yesDiv.classList.remove('selected');
+        noDiv.classList.add('active');
+        yesDiv.classList.remove('active');
     }
 
     questions[currentQuestionIndex].answer = answer;
@@ -103,13 +100,6 @@ function selectYesNo(answer) {
 function toggleNavigationButtons() {
     const nextButton = document.getElementById('next-btn');
     nextButton.disabled = !isNextButtonEnabled();
-    nextButton.textContent = currentQuestionIndex < questions.length - 1 ? 'Próximo →' : 'Finalizar →';
-
-    if (nextButton.disabled) {
-        nextButton.style.backgroundColor = '#555';  // Gray out the button when disabled
-    } else {
-        nextButton.style.backgroundColor = '#f39c12';  // Restore button color when enabled
-    }
 }
 
 function isNextButtonEnabled() {
@@ -131,12 +121,11 @@ function nextQuestion() {
             generateDiagnosis();
         }
     } else {
-        alert("Por favor, selecione pelo menos uma opção antes de continuar.");
+        alert("Por favor, selecione uma opção.");
     }
 }
 
 function generateDiagnosis() {
-    // Simulate diagnosis results
     diagnosisResults = [
         "Problema no sistema de ignição.",
         "Falha no alternador e carga da bateria.",
@@ -144,12 +133,8 @@ function generateDiagnosis() {
     ];
 
     document.getElementById('diagnosis-text').textContent = diagnosisResults[currentDiagnosisIndex];
-    showDiagnosis();
-}
-
-function showDiagnosis() {
     document.getElementById('diagnostic-container').style.display = 'none';
-    document.getElementById('diagnosis-container').style.display = 'block';
+    document.getElementById('diagnosis-container').style.display = 'flex';
     displayDiagnosis();
 }
 
@@ -158,30 +143,27 @@ function displayDiagnosis() {
     document.getElementById('diagnosis-text').textContent = diagnosisText;
 
     const responsesTable = document.getElementById('answered-questions');
-    responsesTable.innerHTML = '';  // Clear previous content
+    responsesTable.innerHTML = '';
 
     questions.forEach((question) => {
-        let responseRow = document.createElement('tr');
-        let answerText = question.type === 'multiple'
-            ? question.selectedOptions.join(', ')
-            : question.answer;
-
-        responseRow.innerHTML = `
-            <td>${question.question}</td>
-            <td>${answerText}</td>`;
-        responsesTable.appendChild(responseRow);
+        const answer = question.type === 'multiple' ? question.selectedOptions.join(', ') : question.answer;
+        const row = `<tr><td>${question.question}</td><td>${answer}</td></tr>`;
+        responsesTable.insertAdjacentHTML('beforeend', row);
     });
-
-    toggleResultNavigationButtons();
 }
 
 function retryDiagnosis() {
     currentQuestionIndex = 0;
     diagnosisResults = [];
     currentDiagnosisIndex = 0;
+    questions.forEach(q => {
+        q.selectedOptions = [];
+        q.answer = null;
+    });
+
     document.getElementById('diagnosis-container').style.display = 'none';
+    document.getElementById('diagnostic-container').style.display = 'none';
     document.getElementById('welcome-screen').style.display = 'flex';
-    document.getElementById('welcome-screen').style.opacity = 1;
 }
 
 function nextResult() {
@@ -197,28 +179,3 @@ function previousResult() {
         displayDiagnosis();
     }
 }
-
-function toggleResultNavigationButtons() {
-    const previousButton = document.getElementById('previous-result-btn');
-    const nextButton = document.getElementById('next-result-btn');
-    
-    previousButton.disabled = currentDiagnosisIndex === 0;
-    nextButton.disabled = currentDiagnosisIndex === diagnosisResults.length - 1;
-
-    if (previousButton.disabled) {
-        previousButton.style.color = '#555';  // Gray out when disabled
-    } else {
-        previousButton.style.color = '#f39c12';  // Restore color when enabled
-    }
-
-    if (nextButton.disabled) {
-        nextButton.style.color = '#555';  // Gray out when disabled
-    } else {
-        nextButton.style.color = '#f39c12';  // Restore color when enabled
-    }
-}
-
-window.onload = () => {
-    document.getElementById('diagnostic-container').style.display = 'none';
-    document.getElementById('welcome-screen').style.opacity = 1;
-};
