@@ -1,26 +1,47 @@
+% Import de Bibliotecas HTTP
+:- use_module(library(http/thread_httpd)).
+:- use_module(library(http/http_client)).
+:- use_module(library(http/http_server)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/http_parameters)).
+:- use_module(library(http/http_open)).
+:- use_module(library(http/http_cors)).
+:- use_module(library(date)).
+:- use_module(library(random)).
+:- use_module(library(socket)).
+
+:- use_module(library(http/json_convert)).
+:- use_module(library(http/http_json)).
+:- use_module(library(http/json)).
+
+
 :-op(220,xfx,entao).
 :-op(35,xfy,se).
 :-op(240,fx,regra).
 :-op(500,fy,nao).
 :-op(600,xfy,e).
 
-:-dynamic ultimo_facto/1, facto_perguntavel/1.
+
+:-dynamic facto/2, ultimo_facto/1, facto_perguntavel/1.
 
 :-include('Inicio.txt').
 
-inicio:-
-	apaga_factos,
-	inicia_pergunta(Nome_Facto),
-	facto_pergunta(Nome_Facto, Pergunta, Respostas),
-	repeat,
-	write(Pergunta),nl,
-	escreve_opcoes(Respostas, 1), read(Resposta_Utilizador_Numero),
-	buscar_opcao(Respostas, Resposta_Utilizador_Numero,0,Resposta_Utilizador),
-	member(Resposta_Utilizador, Respostas),!,
-	A1 =..[Nome_Facto,Resposta_Utilizador,_],
-	concat('./', Resposta_Utilizador,PathAux),
-	concat(PathAux,'.txt',PathFinal),
-	consult(PathFinal),
+%server start
+
+iniciar_servidor(PORT) :-
+    http_server(http_dispatch, [port(PORT)]).
+
+:- http_handler('/start', start_engine_handler, []).
+
+ultimo_facto(1).
+
+start_engine_handler(Request) :-
+    http_read_json_dict(Request, Dict, []),
+    EvidenciaString = Dict.evidencia,
+    ValorString = Dict.valor,
+    atom_string(EvidenciaAtom, EvidenciaString),
+    atom_string(ValorAtom, ValorString),
+    A1 =.. [EvidenciaAtom, ValorAtom, _],
 	cria_facto(A1),
 	ultimo_facto(N),
 	facto(N, Facto),
@@ -37,7 +58,6 @@ facto_dispara_regras1(_, []).
 dispara_regras(N, Facto, [ID|LRegras]):-
 	regra ID se LHS entao RHS,
 	facto_esta_numa_condicao(Facto,LHS),
-	% Instancia Facto em LHS
 	verifica_condicoes(LHS, LFactos),
 	member(N,LFactos),
 	concluir(RHS,LFactos),
@@ -104,14 +124,10 @@ apaga_factos:-
 	retractall(ultimo_facto(_)),
 	retractall(facto_perguntavel(_)).
 
-%Pergunta ao utilizador
+%Pergunta ao utilizador,
 pergunta(A):- A=..[NomeFacto,Resposta_Esperada_Utilizador,_],
 	facto_pergunta(NomeFacto, Pergunta, Respostas),
-	repeat,
-	write(Pergunta),nl,
-	escreve_opcoes(Respostas, 1), read(Resposta_Utilizador_Numero),
-	buscar_opcao(Respostas, Resposta_Utilizador_Numero,0,Resposta_Utilizador),
-	member(Resposta_Utilizador, Respostas),!,
+	reply_json(json(_{pergunta: Pergunta, resposta: RespostaEsperadaUtilizador})),
 	A1 =..[NomeFacto,Resposta_Utilizador,_], cria_facto(A1), Resposta_Esperada_Utilizador == Resposta_Utilizador.
 
 escreve_opcoes([], _).
