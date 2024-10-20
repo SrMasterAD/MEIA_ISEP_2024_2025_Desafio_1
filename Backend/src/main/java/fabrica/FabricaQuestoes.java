@@ -23,7 +23,8 @@ public class FabricaQuestoes {
 
     public static boolean answer(String sintomaString, List<String> possiveisValores, String valor) throws InterruptedException {
         boolean evidenciaVerificada = false;
-        List<Sintoma> sin = How.obterHistoricoSintomas();
+        Map<Diagnostico, List<Sintoma>> just = How.getMapaJustificacoes();
+        List<Sintoma> lista = How.obterHistoricoSintomas();
         Collection<Sintoma> sintomas = (Collection<Sintoma>) DemoApplication.ksn.getObjects(new ClassObjectFilter(Sintoma.class));
         for (Sintoma s : sintomas) {
             if (s.getEvidencia().compareTo(sintomaString) == 0) {
@@ -55,16 +56,18 @@ public class FabricaQuestoes {
             DemoApplication.lockResposta.unlock();
         }
 
-
-        Sintoma s = new Sintoma(sintomaString, possiveisValores, resposta);
-        DemoApplication.ksn.insert(s);
-
-        if(resposta.compareTo(valor) == 0){
-            How.adicionarSintomaHistorico(s);
-            return true;
-        } else {
-            return false;
+        String resposta = FabricaQuestoes.resposta;
+        String[] respostas = resposta.split(",");
+        boolean respostaValida = false;
+        for (String r : respostas) {
+            Sintoma s = new Sintoma(sintomaString, possiveisValores, r);
+            DemoApplication.ksn.insert(s);
+            if(r.compareTo(valor) == 0) {
+                How.adicionarSintomaHistorico(s);
+                respostaValida = true;
+            }
         }
+        return respostaValida;
     }
 
     public static void darDiagnostico() {
