@@ -5,25 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import utils.StringUtils;
 import model.Diagnostico;
 import model.Sintoma;
 
 public class DiagnosticoDTO {
     public Map<String, List<AbstractMap.SimpleEntry<String, String>>> diagnostico;
 
-    public DiagnosticoDTO(Map<Diagnostico, List<Sintoma>> map) {
+    public DiagnosticoDTO(List<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>> historicoSintomas) {
         Map<String, List<AbstractMap.SimpleEntry<String, String>>> diagnosticos = new HashMap<>();
-        // obter todas as keys de todo o mapa
-        for (Diagnostico key : map.keySet()) {
-            // obter todos os valores de cada key
-            List<Sintoma> value = map.get(key);
-            // criar um novo DiagnosticoDTO
-            List<AbstractMap.SimpleEntry<String, String>> entry = new ArrayList<>();
-            for (Sintoma sintoma : value) {
-                entry.add(new AbstractMap.SimpleEntry<String, String>(sintoma.getEvidencia(), sintoma.getValor()));
+
+        for (AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>> entry : historicoSintomas) {
+            List<AbstractMap.SimpleEntry<String, String>> sintomas = new ArrayList<>();
+            for (Sintoma sintoma : entry.getValue()) {
+                sintomas.add(new AbstractMap.SimpleEntry<String, String>
+                (StringUtils.removerIdentificador(sintoma.getEvidencia()) , sintoma.getValor()));
             }
-            diagnosticos.put(key.obterDescricao(), entry);
+            diagnosticos.put(entry.getKey().obterDescricao(), sintomas);
         }
+
         this.diagnostico = diagnosticos;
     }
 

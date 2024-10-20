@@ -1,53 +1,61 @@
 package Engine;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import model.Diagnostico;
 import model.Sintoma;
 
 public class How {
 
-    private static List<Sintoma> historicoSintomas = new ArrayList<Sintoma>();
-    private static Map<Diagnostico, List<Sintoma>> mapaJustificacoes = new HashMap<>();
+    private static List<Sintoma> historicoSintomasAtual = new ArrayList<Sintoma>();
+    private static List<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>> historicoSintomasGeral 
+    = new ArrayList<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>>();
 
-    // Method to add an explanation for a conclusion
     public static void adicionarExplicacao(Diagnostico diagnostico) {
-        mapaJustificacoes.put(diagnostico, historicoSintomas);
-        eliminarHistoricoSintomas();
+        historicoSintomasGeral.add(new AbstractMap.SimpleEntry<Diagnostico,
+         List<Sintoma>>(diagnostico, historicoSintomasAtual));
+        eliminarHistoricoSintomasAtual();
     }
 
-    // Method to retrieve explanations
-    public static Map<Diagnostico, List<Sintoma>> getMapaJustificacoes() {
-        return mapaJustificacoes;
-    }
-
-    // Method to print explanations for debugging or display purposes
-    public void printExplanations() {
-        for (Map.Entry<Diagnostico, List<Sintoma>> entry : mapaJustificacoes.entrySet()) {
-            Diagnostico diagnostico = entry.getKey();
-            List<Sintoma> sintomas = entry.getValue();
-
-            System.out.println("Conclusion ID: " + diagnostico.obterId());
-            System.out.println("Facts that led to this conclusion:");
-            for (Object fact : sintomas) {
-                System.out.println("- " + fact.toString());
-            }
-            System.out.println();
-        }
+    public static  List<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>> obterHistoricoSintomasGeral() {
+        return historicoSintomasGeral;
     }
 
     public static void adicionarSintomaHistorico(Sintoma sintoma) {
-        historicoSintomas.add(sintoma);
+        if(historicoSintomasGeral.isEmpty()) {
+            historicoSintomasAtual.add(sintoma);
+            return;
+        }
+
+        List<Sintoma> temporario = new ArrayList<Sintoma>();
+
+        if(historicoSintomasAtual == null) {
+            List<Sintoma> listaSintomasAnterior = 
+            historicoSintomasGeral.get(historicoSintomasGeral.size()-1).getValue();
+
+            for(Sintoma s : listaSintomasAnterior) {
+                if(s.getEvidencia().equals(sintoma.getEvidencia())) {
+                    temporario.add(sintoma);
+                    historicoSintomasAtual = new ArrayList<Sintoma>(temporario);
+                    return;
+                } else {
+                    temporario.add(s);
+                }
+            }
+            historicoSintomasAtual = new ArrayList<Sintoma>(temporario);
+            return;
+        }
+
+        historicoSintomasAtual.add(sintoma);
     }
 
-    public static void eliminarHistoricoSintomas() {
-        historicoSintomas = new ArrayList<Sintoma>();
+    public static void eliminarHistoricoSintomasAtual() {
+        historicoSintomasAtual = null;
     }
 
-    public static List<Sintoma> obterHistoricoSintomas() {
-        return historicoSintomas;
+    public static List<Sintoma> obterHistoricoSintomasAtual() {
+        return historicoSintomasAtual;
     }
 }
