@@ -26,131 +26,103 @@
 
 :-include('Inicio.txt').
 
-sintoma(evidencia [valor])
-sintoma(evidencia, [possiveis], valor)
-
-regra 1
-	se sintoma('Dor?',['sim','nao'], )
-%server start
-
+% 
+%   SERVER STAR
+%
 iniciar_servidor(PORT) :-
     http_server(http_dispatch, [port(PORT)]).
 
 :- http_handler('/start', start_engine_handler, []).
 
-ultimo_facto(1).
-
+%
+%    API
+%
 start_engine_handler(Request) :-
     http_read_json_dict(Request, Dict, []),
-    EvidenciaString = Dict.evidencia,
-    ValorString = Dict.valor,
-    atom_string(EvidenciaAtom, EvidenciaString),
-    atom_string(ValorAtom, ValorString),
-    A1 =.. [EvidenciaAtom, ValorAtom, _],
-	cria_facto(A1),
-	ultimo_facto(N),
-	facto(N, Facto),
-	facto_dispara_regras1(Facto, LRegras),
-         dispara_regras(N, Facto, LRegras),
-         ultimo_facto(N),!.
+    apaga_factos,
+    EvidenciaStringList = Dict.evidencia,
+    ValorStringList = Dict.valor,
+    get_list_atom(EvidenciaStringList, EvidenciaAtomList),
+    get_list_atom(ValorStringList, ValorAtomList),
+    criar_todos_os_sintomas(EvidenciaAtomList, ValorAtomList),
+    processa_regras.
 
-facto_dispara_regras1(Facto, LRegras):-
-	facto_dispara_regras(Facto, LRegras),
-	!.
-facto_dispara_regras1(_, []).
-% Caso em que o facto n�o origina o disparo de qualquer regra.
+:-op(220,xfx,entao).
+:-op(35,xfy,se).
+:-op(240,fx,regra).
+:-op(500,fy,nao).
+:-op(600,xfy,e).
 
-dispara_regras(N, Facto, [ID|LRegras]):-
-	regra ID se LHS entao RHS,
-	facto_esta_numa_condicao(Facto,LHS),
-	verifica_condicoes(LHS, LFactos),
-	member(N,LFactos),
-	concluir(RHS,LFactos),
-	!,
-	dispara_regras(N, Facto, LRegras).
+:-dynamic ultimo_facto/1, sintoma/3, diagnostico/3.
 
-%avan�a para a proxima regra sen�o encontra o primeiro facto
-dispara_regras(N, Facto, [_|LRegras]):-
-	dispara_regras(N, Facto, LRegras).
+get_list_atom([], []).
+get_list_atom([String|StringList], [Atom|AtomList]) :-
+    atom_string(Atom, String),
+    get_list_atom(StringList, AtomList).
 
-dispara_regras(_, _, []).
+criar_todos_os_sintomas([], [], []).
+criar_todos_os_sintomas([Evidencia|EvidenciaList], [Valor|ValorList]) :-
+    A1 =.. [Evidencia, Valor],
+    cria_sintoma(A1),
+    criar_todos_os_sintomas(EvidenciaList, ValorList).
+    
 
+% Create Sintoma as a fact with 3 elements: evidence, options, chosen option
+cria_sintoma(Evidencia, Opcao) :-
+    retract(ultimo_facto(N1)),
+    N is N1 + 1,
+    asserta(ultimo_facto(N)),
+    assertz(sintoma(N, Evidencia, Opcao)),
 
-facto_esta_numa_condicao(F,[F  e _]).
+% Process all rules based on the current symptoms
+processa_regras :-
+    findall((ID, LHS, RHS), (regra ID se LHS entao RHS), Regras),
+    aplica_regras(Regras).
 
-facto_esta_numa_condicao(F,[avalia(F1)  e _]):- F=..[H,H1|_],F1=..[H,H1|_].
+% Apply rules to generate diagnostics, dynamically asking for missing Sintomas
+aplica_regras([(ID, LHS, RHS) | Regras]) :-
+    condicao_compatível(LHS),   % Check if conditions match current Sintomas
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Save the path of the rules that were applied for each diagnostic
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    concluir_diagnostico(ID, RHS),
+    aplica_regras(Regras).
 
-facto_esta_numa_condicao(F,[_ e Fs]):- facto_esta_numa_condicao(F,[Fs]).
+aplica_regras([]).
 
-facto_esta_numa_condicao(F,[F]).
+% Check if the conditions match with the existing Sintomas
+condicao_compatível([A e B]) :-
+    verifica_sintoma(A),
+    condicao_compatível([B]).
 
-facto_esta_numa_condicao(F,[avalia(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
+condicao_compatível([A]) :-
+    verifica_sintoma(A).
 
+% Check if a Sintoma is available, if not, ask the user for it
+verifica_sintoma(Sintoma) :-
+    Sintoma =.. [Nome, _, _],
+    sintoma(_, Nome, _), !.   % If Sintoma is found, succeed
 
-% Verifica se os factos ja estao criados senao pergunta ao utilizador a% op��o para pode criar o facto de seguida
-verifica_condicoes([A e B],[N|ListaFactos]):- !,
-	A=..[NomeFacto,_,_],
-	(   (facto(N,A), verifica_condicoes([B],ListaFactos));
-	(\+ facto(N,A), facto_perguntavel(A), Facto=..[NomeFacto,_,_],
-	  Facto_perguntavel_apagar=..[facto_perguntavel,Facto],
-	  retractall(Facto_perguntavel_apagar),!, pergunta(A),facto(N,A),verifica_condicoes([B],ListaFactos))).
+verifica_sintoma(Sintoma) :-
+    Sintoma =.. [Nome, Opcoes, _],
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Ask the user for the missing Sintoma
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    cria_sintoma(Nome, Opcoes, Opcao).
 
-verifica_condicoes([A],[N]):- !,
-	A=..[NomeFacto,_,_],
-	(   (facto(N,A));
-	(\+ facto(N,A), facto_perguntavel(A), Facto=..[NomeFacto,_,_],
-	  Facto_perguntavel_apagar=..[facto_perguntavel,Facto],
-	  retractall(Facto_perguntavel_apagar),!, pergunta(A),facto(N,A))).
+% Conclude and assert diagnostics based on rule conditions
+concluir_diagnostico(ID, [])-.
+concluir_diagnostico(ID, [diagnostico(Diagnostico)]) :-
+    assertz(diagnostico(ID, Diagnostico)),
 
-% Conclus�o do necess�rio a fazer
-concluir([cria_facto(A)|Y],LFactos):-
-	!,
-	A=..[_,Numero,_],
-	write('e necessario: '), tipo(Numero,Conclusao), write(Conclusao),
-	concluir(Y,LFactos).
+% Clear all previous facts
+apaga_factos :-
+    retractall(sintoma(_, _, _)),
+    retractall(diagnostico(_, _)),
+    retractall(ultimo_facto(_)),
+    asserta(ultimo_facto(0)).
 
-concluir([],_):-!.
-
-
-%Faz a cria��o dos factos
-cria_facto(F):-
-	facto(_,F),!.
-
-cria_facto(F):-
-	retract(ultimo_facto(N1)),
-	N is N1+1,
-	asserta(ultimo_facto(N)),
-	assertz(facto(N,F)),
-	write('Foi concluido o facto n '),write(N),write(' -> '),write(F),
-	get0(_),nl,nl,!.
-
-apaga_factos:-
-	retractall(facto(,)),
-	retractall(ultimo_facto(_)),
-	retractall(facto_perguntavel(_)).
-
-%Pergunta ao utilizador,
-pergunta(A):- A=..[NomeFacto,Resposta_Esperada_Utilizador,_],
-	facto_pergunta(NomeFacto, Pergunta, Respostas),
-	reply_json(json(_{pergunta: Pergunta, resposta: RespostaEsperadaUtilizador})),
-	A1 =..[NomeFacto,Resposta_Utilizador,_], cria_facto(A1), Resposta_Esperada_Utilizador == Resposta_Utilizador.
-
-escreve_opcoes([], _).
-escreve_opcoes([Resposta1|Respostas], C):- write(C), write(' -> '), write(Resposta1),nl, C1 is C+1,  escreve_opcoes(Respostas, C1).
-
-buscar_opcao(_,C,C,_).
-buscar_opcao([Resposta1|Respostas], C, C1, Resposta_Utilizador):- C2 is C1+1,((C == C2, Resposta_Utilizador=Resposta1), buscar_opcao(Respostas,C,C2,Resposta_Utilizador);
-									     buscar_opcao(Respostas,C,C2,Resposta_Utilizador) ).
-
-% Motrar todos os factos
-mostra_factos:-
-	findall(N, facto(N, _), LFactos),
-	escreve_factos(LFactos).
-
-escreve_factos([I|R]):-facto(I,F), !,
-	write('O facto n '),write(I),write(' -> '),write(F),write(' verdadeiro'),nl,
-	escreve_factos(R).
-escreve_factos([I|R]):-
-	write('A condicao '),write(I),write(' e verdadeira'),nl,
-	escreve_factos(R).
-escreve_factos([]).
+% Example Rule Structure
+% Define rules with conditions (LHS) and conclusions (RHS)
+regra 1 se [sintoma1(_, _, yes) e sintoma2(_, _, no)] entao [diagnostico('Diagnostico1')].
+regra 2 se [sintoma3(_, _, yes)] entao [diagnostico('Diagnostico2')].
