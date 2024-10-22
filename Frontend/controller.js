@@ -1,56 +1,76 @@
-let currentQuestionIndex = 0;
-let diagnosisResults = [];
-let currentDiagnosisIndex = 0;
 
-const questions = [
-    {
-        type: 'multiple',
-        question: 'Quais os principais sintomas apresentados pelo seu carro?',
-        options: [
-            { label: 'Ruído estranho no motor', value: 'motor_ruido' },
-            { label: 'Freios desgastados', value: 'freios_desgastados' },
-            { label: 'Consumo elevado de combustível', value: 'consumo_alto' },
-            { label: 'Bateria descarregando rapidamente', value: 'bateria_fraca' }
-        ],
-        selectedOptions: []
-    },
-    {
-        type: 'yesno',
-        question: 'O carro apresenta falhas ao dar partida?',
-        answer: null
-    },
-    {
-        type: 'yesno',
-        question: 'Observou vazamento de óleo no motor?',
-        answer: null
-    }
-];
+
+var optionsToSend = [];
+var chosenAnswers = [];
+var currentDiagnosisIndex
+var question;
 
 function startDiagnosis() {
+    startEngine();
     document.getElementById('welcome-screen').style.opacity = 0;
     setTimeout(() => {
         document.getElementById('welcome-screen').style.display = 'none';
         document.getElementById('diagnostic-container').style.display = 'flex';
-        loadQuestion();
     }, 500);
 }
 
-function loadQuestion() {
-    const currentQuestion = questions[currentQuestionIndex];
-    const questionTitle = document.getElementById('question-title');
-    const optionsContainer = document.getElementById('options-container');
-    questionTitle.textContent = currentQuestion.question;
+function startEngine(){
+    const jsonData = {
+        raw: `[
+          {
+            "evidencia" : "hello?",
+            "possiveisValores" : ["yes","no"],
+            "valor" : "yes"
+          },
+          {
+            "evidencia" : "how are you?",
+            "possiveisValores" : ["yes","no"],
+            "valor" : "yes"
+          }
+        ]`
+      };
+      
+      axios.post('http://localhost:8080/execute', jsonData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+      let firstQuestion = {};
+
+      firstQuestion.pergunta = "Quais são os sintomas?";
+      firstQuestion.possiveisValores = ["Problemas no motor", "Fumo", "O carro não dá a terceira ignição", "Luzes no painel"];
+      loadQuestion(firstQuestion);
+}
+
+function loadQuestion(currentQuestion) {
+
+    let questionTitle = document.getElementById('question-title');
+    let optionsContainer = document.getElementById('options-container'); 
+
+    optionsToSend = [];
+    chosenAnswers = [];
+
+    questionTitle.textContent = currentQuestion.pergunta;
     optionsContainer.innerHTML = '';
 
-    if (currentQuestion.type === 'multiple') {
-        currentQuestion.options.forEach(option => {
+    if (currentQuestion.possiveisValores.length > 2) {
+
+        currentQuestion.possiveisValores.forEach(option => {
             const optionDiv = document.createElement('div');
             optionDiv.classList.add('option');
-            optionDiv.onclick = () => toggleSelection(optionDiv, option.value);
-            optionDiv.innerHTML = `<label>${option.label}</label>`;
+            optionDiv.onclick = () => toggleSelection(optionDiv, option, questionTitle);
+            optionDiv.innerHTML = `<label>${option}</label>`;
             optionsContainer.appendChild(optionDiv);
+            optionsToSend.add(option);
         });
-    } else if (currentQuestion.type === 'yesno') {
+    } else if (currentQuestion.possiveisValores.length === 2) {
         const yesDiv = createYesNoOption('Sim', () => selectYesNo('yes'), 'yes-option');
         const noDiv = createYesNoOption('Não', () => selectYesNo('no'), 'no-option');
         optionsContainer.appendChild(yesDiv);
@@ -60,19 +80,14 @@ function loadQuestion() {
     toggleNavigationButtons();
 }
 
-function toggleSelection(optionDiv, value) {
+function toggleSelection(optionDiv, value, currentQuestion) {
     const selected = optionDiv.classList.toggle('selected');
-    const currentQuestion = questions[currentQuestionIndex];
     
     if (selected) {
-        currentQuestion.selectedOptions.push(value);
+        chosenAnswers.push(value);
     } else {
-        const index = currentQuestion.selectedOptions.indexOf(value);
-        if (index > -1) {
-            currentQuestion.selectedOptions.splice(index, 1);
-        }
+        chosenAnswers = chosenAnswers.filter(item => item !== value);
     }
-
     toggleNavigationButtons();
 }
 
@@ -92,11 +107,10 @@ function selectYesNo(answer) {
         yesDiv.classList.add('selected');
         noDiv.classList.remove('selected');
     } else {
- noDiv.classList.add('selected');
+        noDiv.classList.add('selected');
         yesDiv.classList.remove('selected');
     }
 
-    questions[currentQuestionIndex].answer = answer;
     toggleNavigationButtons();
 }
 
@@ -112,20 +126,43 @@ function toggleNavigationButtons() {
 }
 
 function isNextButtonEnabled() {
-    const currentQuestion = questions[currentQuestionIndex];
-    if (currentQuestion.type === 'multiple') {
-        return currentQuestion.selectedOptions.length > 0;
-    } else if (currentQuestion.type === 'yesno') {
-        return currentQuestion.answer !== null;
-    }
-    return false;
+    return chosenAnswers > 0;
 }
 
 function nextQuestion() {
+
+    const questionTitle = document.getElementById('question-title');
+
+    const jsonData = {
+    raw: `[
+        {
+        "evidencia" : `+questionTitle.textContent+`,
+        "possiveisValores" : `+optionsToSend+`,
+        "valor" : `+chosenAnswers+`
+        },
+        {
+        "evidencia" : `+questionTitle.textContent+`,
+        "possiveisValores" : `+optionsToSend+`,
+        "valor" : `+chosenAnswers+`
+        }
+    ]`
+    };
+
+    axios.post('http://localhost:8080/next_Step', jsonData, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(response => {
+            question=response;
+        })
+        .catch(error => {
+        console.error(error);
+    });
+
     if (isNextButtonEnabled()) {
-        if (currentQuestionIndex < questions.length - 1) {
-            currentQuestionIndex++;
-            loadQuestion();
+        if (!question.diagonostico) {
+            loadQuestion(question);
         } else {
             generateDiagnosis();
         }
@@ -174,7 +211,6 @@ function displayDiagnosis() {
 }
 
 function retryDiagnosis() {
-    currentQuestionIndex = 0;
     diagnosisResults = [];
     currentDiagnosisIndex = 0;
     

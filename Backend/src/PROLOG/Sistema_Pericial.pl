@@ -26,6 +26,11 @@
 
 :-include('Inicio.txt').
 
+sintoma(evidencia [valor])
+sintoma(evidencia, [possiveis], valor)
+
+regra 1
+	se sintoma('Dor?',['sim','nao'], )
 %server start
 
 iniciar_servidor(PORT) :-
