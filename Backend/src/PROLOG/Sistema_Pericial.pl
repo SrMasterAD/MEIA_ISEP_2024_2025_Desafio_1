@@ -24,7 +24,7 @@
 
 :-dynamic facto/2, ultimo_facto/1, facto_perguntavel/1.
 
-:-include('Inicio.txt').
+%:-include('inicio.txt').
 
 % 
 %   SERVER STAR
@@ -72,7 +72,7 @@ cria_sintoma(Evidencia, Opcao) :-
     retract(ultimo_facto(N1)),
     N is N1 + 1,
     asserta(ultimo_facto(N)),
-    assertz(sintoma(N, Evidencia, Opcao)),
+    assertz(sintoma(N, Evidencia, Opcao)).
 
 % Process all rules based on the current symptoms
 processa_regras :-
@@ -81,7 +81,7 @@ processa_regras :-
 
 % Apply rules to generate diagnostics, dynamically asking for missing Sintomas
 aplica_regras([(ID, LHS, RHS) | Regras]) :-
-    condicao_compatível(LHS),   % Check if conditions match current Sintomas
+    condicao_compativel(LHS),   % Check if conditions match current Sintomas
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Save the path of the rules that were applied for each diagnostic
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,11 +91,11 @@ aplica_regras([(ID, LHS, RHS) | Regras]) :-
 aplica_regras([]).
 
 % Check if the conditions match with the existing Sintomas
-condicao_compatível([A e B]) :-
+condicao_compativel([A e B]) :-
     verifica_sintoma(A),
-    condicao_compatível([B]).
+    condicao_compativel([B]).
 
-condicao_compatível([A]) :-
+condicao_compativel([A]) :-
     verifica_sintoma(A).
 
 % Check if a Sintoma is available, if not, ask the user for it
@@ -111,9 +111,10 @@ verifica_sintoma(Sintoma) :-
     cria_sintoma(Nome, Opcoes, Opcao).
 
 % Conclude and assert diagnostics based on rule conditions
-concluir_diagnostico(ID, [])-.
+concluir_diagnostico(ID, []).
+
 concluir_diagnostico(ID, [diagnostico(Diagnostico)]) :-
-    assertz(diagnostico(ID, Diagnostico)),
+    assertz(diagnostico(ID, Diagnostico)).
 
 % Clear all previous facts
 apaga_factos :-
