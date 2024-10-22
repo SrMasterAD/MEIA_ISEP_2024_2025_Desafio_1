@@ -2,7 +2,7 @@
 
 var optionsToSend = [];
 var chosenAnswers = [];
-var currentDiagnosisIndex
+var currentDiagnosisIndex;
 var question;
 
 function startDiagnosis() {
@@ -15,38 +15,12 @@ function startDiagnosis() {
 }
 
 function startEngine(){
-    const jsonData = {
-        raw: `[
-          {
-            "evidencia" : "hello?",
-            "possiveisValores" : ["yes","no"],
-            "valor" : "yes"
-          },
-          {
-            "evidencia" : "how are you?",
-            "possiveisValores" : ["yes","no"],
-            "valor" : "yes"
-          }
-        ]`
-      };
-      
-      axios.post('http://localhost:8080/execute', jsonData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
 
-      let firstQuestion = {};
+    let firstQuestion = {};
 
-      firstQuestion.pergunta = "Quais são os sintomas?";
-      firstQuestion.possiveisValores = ["Problemas no motor", "Fumo", "O carro não dá a terceira ignição", "Luzes no painel"];
-      loadQuestion(firstQuestion);
+    firstQuestion.pergunta = "Quais são os sintomas que o seu automóvel apresenta?";
+    firstQuestion.possiveisValores = ["Problemas no motor", "Fumo anormal", "O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel"];
+    loadQuestion(firstQuestion);
 }
 
 function loadQuestion(currentQuestion) {
@@ -68,7 +42,7 @@ function loadQuestion(currentQuestion) {
             optionDiv.onclick = () => toggleSelection(optionDiv, option, questionTitle);
             optionDiv.innerHTML = `<label>${option}</label>`;
             optionsContainer.appendChild(optionDiv);
-            optionsToSend.add(option);
+            optionsToSend.push(option);
         });
     } else if (currentQuestion.possiveisValores.length === 2) {
         const yesDiv = createYesNoOption('Sim', () => selectYesNo('yes'), 'yes-option');
@@ -126,29 +100,22 @@ function toggleNavigationButtons() {
 }
 
 function isNextButtonEnabled() {
-    return chosenAnswers > 0;
+    return chosenAnswers.length > 0;
 }
 
 function nextQuestion() {
 
     const questionTitle = document.getElementById('question-title');
 
-    const jsonData = {
-    raw: `[
+    const jsonData =[
         {
-        "evidencia" : `+questionTitle.textContent+`,
-        "possiveisValores" : `+optionsToSend+`,
-        "valor" : `+chosenAnswers+`
-        },
-        {
-        "evidencia" : `+questionTitle.textContent+`,
-        "possiveisValores" : `+optionsToSend+`,
-        "valor" : `+chosenAnswers+`
+            "evidencia" : "Qa",
+            "possiveisValores" : ["Fumo anormal","O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel", "???"],
+            "valor" : "Fumo anormal"
         }
-    ]`
-    };
+    ]
 
-    axios.post('http://localhost:8080/next_Step', jsonData, {
+    axios.post('http://localhost:8080/api/drools/execute', jsonData, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -161,7 +128,7 @@ function nextQuestion() {
     });
 
     if (isNextButtonEnabled()) {
-        if (!question.diagonostico) {
+        if (!("diagonostico" in question)) {
             loadQuestion(question);
         } else {
             generateDiagnosis();
@@ -213,14 +180,6 @@ function displayDiagnosis() {
 function retryDiagnosis() {
     diagnosisResults = [];
     currentDiagnosisIndex = 0;
-    
-    questions.forEach(question => {
-      if (question.type === 'multiple') {
-        question.selectedOptions = [];
-      } else if (question.type === 'yesno') {
-        question.answer = null;
-      }
-    });
   
     document.getElementById('diagnosis-container').style.display = 'none';
     document.getElementById('welcome-screen').style.display = 'flex';

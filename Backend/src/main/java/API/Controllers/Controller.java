@@ -19,6 +19,7 @@ public class Controller {
     @Autowired
     Controller() {
     }
+    @CrossOrigin(origins = "http://localhost:3000") 
     @PostMapping("/execute")
     public ResponseEntity<Object> executeDrools(@RequestBody List<Sintoma> resposta) throws InterruptedException {
         DemoApplication.executarMotor(resposta);
