@@ -26,7 +26,7 @@ end
 
 rule "#1 - Irregularidades no motor"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O carro não consegue dar o terceiro contacto", "Fumo anormal"), "Irregularidades no motor", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Irregularidades no motor", true));
 then
 
 end
@@ -299,7 +299,7 @@ end
 rule "#80 - Luz de óleo"
 when
 	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Luzes no painel");
-	eval(answer("Qual é a luz que observa?", List.of("Luz de óleo","Luz do motor"), "Luz de óleo", false));
+	eval(answer("Qual é a luz que observa?", List.of("Luz de óleo","Luz do motor"), "Luz de óleo", true));
 then
 	
 end
@@ -545,16 +545,16 @@ then
 	insert(diag);
 end
 
-rule "#110 - Qual destes sintomas o automóvel apresenta?(O carro não consegue dar o terceiro contacto)"
+rule "#110 - Qual destes sintomas o automóvel apresenta?(O veículo não consegue dar o terceiro contacto de ignição)"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O carro não consegue dar o terceiro contacto", "Fumo anormal"), " O carro não consegue dar o terceiro contacto", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "O veículo não consegue dar o terceiro contacto de ignição", true));
 then
 
 end
 
 rule "#111 - Verificar se o automóvel tem combustível"
 when
-	Sintoma(evidencia == "Qual destes sintomas o automóvel apresenta?",valor == " O carro não consegue dar o terceiro contacto");
+	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "O veículo não consegue dar o terceiro contacto de ignição");
 	eval(answer("Verificar se o automóvel tem combustível", List.of("Sim","Não"), "Sim", false));
 then
 
