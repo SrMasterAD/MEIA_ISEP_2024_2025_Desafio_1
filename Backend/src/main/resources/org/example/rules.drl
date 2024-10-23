@@ -24,6 +24,278 @@ query "obterDiagnosticos"
 	$diagnostico : Diagnostico()
 end
 
+rule "#1 - Irregularidades no motor"
+when
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O carro não consegue dar o terceiro contacto", "Fumo anormal"), "Irregularidades no motor"));
+then
+
+end
+
+rule "#2 - Qual destes sintomas o automóvel apresenta?(Ruído Sopro/Assobio e cheiro dentro do veículo)"
+when
+	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Ruído de Sopro ou Assobio e cheiro dentro do veículo"));
+then
+
+end
+
+rule "#3 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Sopro ou Assobio e cheiro dentro do veículo");
+	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#4 - O automóvel tem uma perda de potência acentuada? (Sim)"
+when
+	Sintoma(evidencia == "4|O automóvel tem consumido mais combustível do que o habitual?",valor == "Sim");
+	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (100%)");
+	insert(diag);
+end 
+
+rule "#5 - O automóvel tem uma perda de potência acentuada? (Não)"
+when
+	Sintoma(evidencia == "4|O automóvel tem consumido mais combustível do que o habitual?",valor == "Sim");
+	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (93%)");
+	insert(diag);
+end
+
+rule "#6 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Sopro ou Assobio e cheiro dentro do veículo");
+	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "#7 - O automóvel tem uma perda de potência acentuada? (Sim)"
+when
+	Sintoma(evidencia == "4|O automóvel tem consumido mais combustível do que o habitual?",valor == "Não");
+	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim"));
+then
+ 	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (93%)");
+	insert(diag);
+end
+
+rule "#8 - O automóvel tem uma perda de potência acentuada? (Não)"
+when
+	Sintoma(evidencia == "4|O automóvel tem consumido mais combustível do que o habitual?",valor == "Não");
+	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (85%)");
+	insert(diag);
+end
+
+rule "#9 - Qual destes sintomas o automóvel apresenta?(Ruído Sopro ou Assobio)"
+when
+	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Ruído de Sopro ou Assobio"));
+then
+
+end
+
+rule "#10 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Sopro ou Assobio");
+	eval(answer("5|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#11 - O automóvel tem uma perda de potência acentuada? (Sim)"
+when
+	Sintoma(evidencia == "5|O automóvel tem consumido mais combustível do que o habitual?",valor == "Sim");
+	eval(answer("6|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (65%)");
+	insert(diag);
+end
+
+rule "#12 - O automóvel tem uma perda de potência acentuada? (Não)"
+when
+	Sintoma(evidencia == "5|O automóvel tem consumido mais combustível do que o habitual?",valor == "Sim");
+	eval(answer("6|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (58%)");
+	insert(diag);
+end
+
+rule "#13 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Sopro ou Assobio");
+	eval(answer("5|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "#14 - O automóvel tem uma perda de potência acentuada? (Sim)"
+when
+	Sintoma(evidencia == "5|O automóvel tem consumido mais combustível do que o habitual?",valor == "Não");
+	eval(answer("6|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (58%)");
+	insert(diag);
+end
+
+rule "#15 - o automóvel tem uma perda de potência acentuada? (Não)"
+when
+	Sintoma(evidencia == "5|O automóvel tem consumido mais combustível do que o habitual?",valor == "Não");
+	eval(answer("6|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (50%)");
+	insert(diag);
+end
+
+rule "#16 - Qual destes sintomas o automóvel apresenta?(Cheiro dentro do veículo)"
+when
+	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Cheiro dentro do veículo"));
+then
+
+end
+
+rule "#17 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Cheiro dentro do veículo");
+	eval(answer("6|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#18 - O automóvel tem uma perda de potência acentuada? (Sim)"
+when
+	Sintoma(evidencia == "6|O automóvel tem consumido mais combustível do que o habitual?",valor == "Sim");
+	eval(answer("7|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (65%)");
+	insert(diag);
+end
+
+rule "#19 - O automóvel tem uma perda de potência acentuada? (Não)"
+when
+	Sintoma(evidencia == "6|O automóvel tem consumido mais combustível do que o habitual?",valor == "Sim");
+	eval(answer("7|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (58%)");
+	insert(diag);
+end
+
+rule "#20 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Cheiro dentro do veículo");
+	eval(answer("6|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "#21 - O automóvel tem uma perda de potência acentuada? (Sim)"
+when
+	Sintoma(evidencia == "6|O automóvel tem consumido mais combustível do que o habitual?",valor == "Não");
+	eval(answer("7|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (58%)");
+	insert(diag);
+end
+
+rule "#22 - O automóvel tem uma perda de potência acentuada? (Não)"
+when
+	Sintoma(evidencia == "6|O automóvel tem consumido mais combustível do que o habitual?",valor == "Não");
+	eval(answer("7|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (50%)");
+	insert(diag);
+end
+
+rule "#23 - Qual destes sintomas o automóvel apresenta?(Ruído de Batida e gases de escape dentro ou ao redor do veículo)"
+when
+	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Ruído de Batida e gases de escape dentro ou ao redor do veículo"));
+then
+
+end
+
+rule "24 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Sim)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Batida e gases de escape dentro ou ao redor do veículo");
+	eval(answer("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim"));
+then
+	
+end
+
+rule "25 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
+when
+	Sintoma(evidencia == "1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?",valor == "Sim");
+	eval(answer("1|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("tubo de escape danificado.(100%)");
+	insert(diag);
+end
+
+rule "26 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Não)"
+when
+	Sintoma(evidencia == "1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?",valor == "Sim");
+	eval(answer("1|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("tubo de escape danificado.(93%)");
+	insert(diag);
+end
+
+rule "27 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Não)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Batida e gases de escape dentro ou ao redor do veículo");
+	eval(answer("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "28 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
+when
+	Sintoma(evidencia == "1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?",valor == "Não");
+	eval(answer("2|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("tubo de escape danificado.(93%)");
+	insert(diag);
+end
+
+rule "29 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Não)"
+when
+	Sintoma(evidencia == "1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?",valor == "Não");
+	eval(answer("2|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("tubo de escape danificado.(85%)");
+	insert(diag);
+end
+
+rule "30 - Qual destes sintomas o automóvel apresenta?(Ruído de Batida)"
+when
+	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Ruído de Batida"));
+then
+
+end
+
+rule "31 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Sim)"
+when
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Batida");
+	eval(answer("2|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "32 - Apos uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
+when
+	Sintoma(evidencia == "2|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?",valor == "Sim");
+	eval(answer("3|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("tubo de escape danificado.(65%)");
+	insert(diag);
+end
+
 rule "#80 - Luz de óleo"
 when
 	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Luzes no painel");
@@ -270,6 +542,64 @@ when
 	eval(answer("3|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não"));
 then
 	Diagnostico diag = new Diagnostico("Válvula EGR ou sonda lambda danificada.(50%)");
+	insert(diag);
+end
+
+rule "#110 - Qual destes sintomas o automóvel apresenta?(O carro não consegue dar o terceiro contacto)"
+when
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O carro não consegue dar o terceiro contacto", "Fumo anormal"), " O carro não consegue dar o terceiro contacto"));
+then
+
+end
+
+rule "#111 - Verificar se o automóvel tem combustível"
+when
+	Sintoma(evidencia == "Qual destes sintomas o automóvel apresenta?",valor == " O carro não consegue dar o terceiro contacto");
+	eval(answer("Verificar se o automóvel tem combustível", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#112 - Verificar se o combustível chega à régua de injecção"
+when
+	Sintoma(evidencia == "Verificar se o automóvel tem combustível",valor == "Sim");
+	eval(answer("Verificar se o combustível chega à régua de injecção", List.of("Sim","Não"), "Sim"));
+then
+
+end
+
+rule "#113 - Verificar se o automóvel tem óleo"
+when
+	Sintoma(evidencia == "Verificar se o combustível chega à régua de injecção",valor == "Sim");
+	eval(answer("Verificar se o automóvel tem óleo", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Escovas do motor de arranque danificadas.");
+	insert(diag);
+end
+
+rule "#114 - Verificar se o automóvel tem óleo"
+when
+	Sintoma(evidencia == "Verificar se o combustível chega à régua de injecção",valor == "Sim");
+	eval(answer("Verificar se o automóvel tem óleo", List.of("Sim","Não"), "Não"));
+then
+
+end
+
+rule "#115 - Verificar se existe fuga de óleo"
+when
+	Sintoma(evidencia == "Verificar se o automóvel tem óleo",valor == "Não");
+	eval(answer("Verificar se existe fuga de óleo", List.of("Sim","Não"), "Sim"));
+then
+	Diagnostico diag = new Diagnostico("Fuga de óleo.");
+	insert(diag);
+end
+
+rule "#116 - Verificar se existe fuga de óleo"
+when
+	Sintoma(evidencia == "Verificar se o automóvel tem óleo",valor == "Não");
+	eval(answer("Verificar se existe fuga de óleo", List.of("Sim","Não"), "Não"));
+then
+	Diagnostico diag = new Diagnostico("Falta de óleo.");
 	insert(diag);
 end
 
