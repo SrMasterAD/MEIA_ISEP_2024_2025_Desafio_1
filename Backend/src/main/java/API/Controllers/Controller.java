@@ -31,7 +31,7 @@ public class Controller {
         }
         if(FabricaQuestoes.novaQuestao) {
             FabricaQuestoes.novaQuestao = false;
-            return ResponseEntity.ok(new PerguntaDTO(FabricaQuestoes.questao.questao, FabricaQuestoes.questao.valores));
+            return ResponseEntity.ok(FabricaQuestoes.questao);
         } else {
             return ResponseEntity.ok(FabricaQuestoes.diagnostico);
         }
@@ -55,7 +55,7 @@ public class Controller {
         }
         if(FabricaQuestoes.novaQuestao) {
             FabricaQuestoes.novaQuestao = false;
-            return ResponseEntity.ok(new PerguntaDTO(FabricaQuestoes.questao.questao, FabricaQuestoes.questao.valores));
+            return ResponseEntity.ok(FabricaQuestoes.questao);
         } else {
             return ResponseEntity.ok(FabricaQuestoes.diagnostico);
         }
