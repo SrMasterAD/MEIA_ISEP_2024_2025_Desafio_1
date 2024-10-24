@@ -4,6 +4,7 @@ var optionsToSend = [];
 var chosenAnswers = [];
 var currentDiagnosisIndex;
 var question;
+var isFirstQuestion = true;
 
 function startDiagnosis() {
     startEngine();
@@ -18,25 +19,23 @@ function startEngine(){
 
     let firstQuestion = {};
 
-    firstQuestion.pergunta = "Quais são os sintomas que o seu automóvel apresenta?";
-    firstQuestion.possiveisValores = ["Problemas no motor", "Fumo anormal", "O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel"];
+    firstQuestion.questao = "Quais são os sintomas que o seu automóvel apresenta?";
+    firstQuestion.valores = ["Problemas no motor", "Fumo anormal", "O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel"];
+    firstQuestion.multiselect = true;
     loadQuestion(firstQuestion);
 }
 
 function loadQuestion(currentQuestion) {
-
     let questionTitle = document.getElementById('question-title');
     let optionsContainer = document.getElementById('options-container'); 
 
     optionsToSend = [];
     chosenAnswers = [];
 
-    questionTitle.textContent = currentQuestion.pergunta;
+    questionTitle.textContent = currentQuestion.questao;
     optionsContainer.innerHTML = '';
-
-    if (currentQuestion.possiveisValores.length > 2) {
-
-        currentQuestion.possiveisValores.forEach(option => {
+    if (currentQuestion.multiselect) {
+        currentQuestion.valores.forEach(option => {
             const optionDiv = document.createElement('div');
             optionDiv.classList.add('option');
             optionDiv.onclick = () => toggleSelection(optionDiv, option, questionTitle);
@@ -44,14 +43,46 @@ function loadQuestion(currentQuestion) {
             optionsContainer.appendChild(optionDiv);
             optionsToSend.push(option);
         });
-    } else if (currentQuestion.possiveisValores.length === 2) {
-        const yesDiv = createYesNoOption('Sim', () => selectYesNo('yes'), 'yes-option');
-        const noDiv = createYesNoOption('Não', () => selectYesNo('no'), 'no-option');
-        optionsContainer.appendChild(yesDiv);
-        optionsContainer.appendChild(noDiv);
+    } else if(currentQuestion.multiselect == false) {
+        currentQuestion.valores.forEach(option => {
+            const optionDiv = createOption(option, () => selectOption(optionDiv, currentQuestion.valores, option), `${option.toLowerCase()}-option`);
+            optionsContainer.appendChild(optionDiv);
+            optionsToSend.push(option);
+        });
+    } else {
+        console.log("Consulte um especialista.");
     }
 
     toggleNavigationButtons();
+}
+
+function createOption(label, onClick, className) {
+    const div = document.createElement('div');
+    div.classList.add('option', className);
+    div.onclick = onClick;
+    div.innerHTML = `<label>${label}</label>`;
+    return div;
+}
+
+function selectOption(selectedOptionDiv, options, value) {
+    const currentlySelected = selectedOptionDiv.classList.contains('selected');
+
+    // Remove 'selected' class from all options
+    options.forEach(option => {
+        const optionDiv = document.querySelector(`.${option.toLowerCase()}-option`);
+        if (optionDiv) {
+            optionDiv.classList.remove('selected');
+            chosenAnswers = [];
+        }
+    });
+
+    // If the clicked option wasn't already selected, select it
+    if (!currentlySelected) {
+        selectedOptionDiv.classList.add('selected');
+    }
+    chosenAnswers.push(value);
+
+    toggleNavigationButtons(); // Assuming you have a navigation button toggle
 }
 
 function toggleSelection(optionDiv, value, currentQuestion) {
@@ -62,29 +93,6 @@ function toggleSelection(optionDiv, value, currentQuestion) {
     } else {
         chosenAnswers = chosenAnswers.filter(item => item !== value);
     }
-    toggleNavigationButtons();
-}
-
-function createYesNoOption(label, onClick, className) {
-    const div = document.createElement('div');
-    div.classList.add('option', className);
-    div.onclick = onClick;
-    div.innerHTML = `<label>${label}</label>`;
-    return div;
-}
-
-function selectYesNo(answer) {
-    const yesDiv = document.querySelector('.yes-option');
-    const noDiv = document.querySelector('.no-option');
-
-    if (answer === 'yes') {
-        yesDiv.classList.add('selected');
-        noDiv.classList.remove('selected');
-    } else {
-        noDiv.classList.add('selected');
-        yesDiv.classList.remove('selected');
-    }
-
     toggleNavigationButtons();
 }
 
@@ -103,60 +111,100 @@ function isNextButtonEnabled() {
     return chosenAnswers.length > 0;
 }
 
-function nextQuestion() {
+async function executeQuestion() {
+    const questionTitle = document.getElementById('question-title').textContent;
 
-    const questionTitle = document.getElementById('question-title');
+    const jsonData =[];
 
-    const jsonData =[
-        {
-            "evidencia" : "Qa",
-            "possiveisValores" : ["Fumo anormal","O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel", "???"],
-            "valor" : "Fumo anormal"
-        }
-    ]
+    for (let i = 0; i < chosenAnswers.length; i++) {
+        jsonData.push({
+            "evidencia": questionTitle, 
+            "possiveisValores": optionsToSend, 
+            "valor": chosenAnswers[i] 
+        });
+    }
 
-    axios.post('http://localhost:8080/api/drools/execute', jsonData, {
+    await axios.post('http://localhost:8080/api/drools/execute', jsonData, {
         headers: {
             'Content-Type': 'application/json'
         }
         })
         .then(response => {
-            question=response;
+            question=response.data;
         })
         .catch(error => {
         console.error(error);
     });
 
+    afterQuestion(question);
+}
+
+async function nextQuestion() {
+
+    let resposta = "";
+    for (let i = 0; i < chosenAnswers.length; i++) {
+        resposta += chosenAnswers[i];
+        if(i != chosenAnswers.length - 1) {
+            resposta += ",";
+        }
+    }
+
+    await axios.post(`http://localhost:8080/api/drools/nextStep?resposta=${encodeURIComponent(resposta)}`, null, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+    .then(response => {
+        question=response.data;
+    })
+    .catch(error => {
+    console.error(error);
+    });
+
+    afterQuestion(question);
+}
+
+function questionHandler() {
+    if(isFirstQuestion){
+        executeQuestion(question);
+        isFirstQuestion = false;
+    } else {
+        nextQuestion(question);
+    }
+}
+
+function afterQuestion(question) {
     if (isNextButtonEnabled()) {
-        if (!("diagonostico" in question)) {
+        console.log(question);
+        if (!question.hasOwnProperty('diagnostico') || !question.diagnostico) {
             loadQuestion(question);
         } else {
-            generateDiagnosis();
+            generateDiagnosis(question.diagnostico);
         }
     } else {
         alert("Por favor, selecione pelo menos uma opção antes de continuar.");
     }
 }
 
-function generateDiagnosis() {
-    diagnosisResults = [
-        "Problema no sistema de ignição.",
-        "Falha no alternador e carga da bateria.",
-        "Verificar nível de óleo e pressão dos pneus."
-    ];
+function generateDiagnosis(rawDiagnosis) {
+    console.log(typeof(rawDiagnosis))
+    console.log(rawDiagnosis[0])
+    //rawdiagnosis is a map with diagnosis as a key and a list of symptoms as the value
+    //get all the keys as a list
+    let diagnosticos = Object.keys(rawDiagnosis);
 
-    document.getElementById('diagnosis-text').textContent = diagnosisResults[currentDiagnosisIndex];
-    showDiagnosis();
+    document.getElementById('diagnosis-text').textContent = diagnosticos;
+    showDiagnosis(diagnosticos);
 }
 
-function showDiagnosis() {
+function showDiagnosis(rawDiagnosis) {
     document.getElementById('diagnostic-container').style.display = 'none';
     document.getElementById('diagnosis-container').style.display = 'block';
-    displayDiagnosis();
+    displayDiagnosis(rawDiagnosis);
 }
 
-function displayDiagnosis() {
-    const diagnosisText = diagnosisResults[currentDiagnosisIndex];
+function displayDiagnosis(rawDiagnosis) {
+    const diagnosisText = rawDiagnosis[currentDiagnosisIndex];
     document.getElementById('diagnosis-text').textContent = diagnosisText;
 
     const responsesTable = document.getElementById('answered-questions');
@@ -180,7 +228,7 @@ function displayDiagnosis() {
 function retryDiagnosis() {
     diagnosisResults = [];
     currentDiagnosisIndex = 0;
-  
+    isFirstQuestion = true;
     document.getElementById('diagnosis-container').style.display = 'none';
     document.getElementById('welcome-screen').style.display = 'flex';
     document.getElementById('welcome-screen').style.opacity = 1;

@@ -19,7 +19,7 @@ public class FabricaQuestoes {
     public static boolean answered=false;
     public static DiagnosticoDTO diagnostico;
 
-    public static boolean answer(String sintomaString, List<String> possiveisValores, String valor) throws InterruptedException {
+    public static boolean answer(String sintomaString, List<String> possiveisValores, String valor, boolean multiselect) throws InterruptedException {
         boolean evidenciaVerificada = false;
         Collection<Sintoma> sintomas = (Collection<Sintoma>) DemoApplication.ksn.getObjects(new ClassObjectFilter(Sintoma.class));
         for (Sintoma s : sintomas) {
@@ -34,7 +34,7 @@ public class FabricaQuestoes {
         if(evidenciaVerificada){
             return false;
         }
-        questao = new PerguntaDTO(sintomaString, possiveisValores);
+        questao = new PerguntaDTO(sintomaString, possiveisValores, multiselect);
         novaQuestao = true;
 
         DemoApplication.lockPergunta.lock();
