@@ -1,8 +1,7 @@
-
-
 var optionsToSend = [];
 var chosenAnswers = [];
-var currentDiagnosisIndex;
+var diagnosticsMap = new Map();
+var currentDiagnosisIndex = 0; 
 var question;
 var isFirstQuestion = true;
 
@@ -179,7 +178,7 @@ function afterQuestion(question) {
         if (!question.hasOwnProperty('diagnostico') || !question.diagnostico) {
             loadQuestion(question);
         } else {
-            generateDiagnosis(question.diagnostico);
+            generateDiagnosis(question);
         }
     } else {
         alert("Por favor, selecione pelo menos uma opção antes de continuar.");
@@ -187,46 +186,55 @@ function afterQuestion(question) {
 }
 
 function generateDiagnosis(rawDiagnosis) {
-    console.log(typeof(rawDiagnosis))
-    console.log(rawDiagnosis[0])
-    //rawdiagnosis is a map with diagnosis as a key and a list of symptoms as the value
-    //get all the keys as a list
-    let diagnosticos = Object.keys(rawDiagnosis);
+    let diagnosticos = Object.keys(rawDiagnosis.diagnostico);
 
-    document.getElementById('diagnosis-text').textContent = diagnosticos;
-    showDiagnosis(diagnosticos);
+    diagnosticos.forEach((diagnostico, index) => {
+        let questionAnswers = rawDiagnosis.diagnostico[diagnostico];
+        let diagnosticData = {
+            diagnosticText: diagnostico,
+            questionAnswers: questionAnswers
+        };
+        
+        diagnosticsMap.set(index, diagnosticData);
+    });
+
+    let diagnosticTexts = diagnosticos.join(', ');
+    document.getElementById('diagnosis-text').textContent = diagnosticTexts;
+
+    showDiagnosis(Array.from(diagnosticsMap.keys()));
 }
 
-function showDiagnosis(rawDiagnosis) {
+function showDiagnosis(diagnosticKeys) {
     document.getElementById('diagnostic-container').style.display = 'none';
     document.getElementById('diagnosis-container').style.display = 'block';
-    displayDiagnosis(rawDiagnosis);
+    displayDiagnosis(diagnosticKeys);
 }
 
-function displayDiagnosis(rawDiagnosis) {
-    const diagnosisText = rawDiagnosis[currentDiagnosisIndex];
-    document.getElementById('diagnosis-text').textContent = diagnosisText;
-
+function displayDiagnosis(diagnosticKeys) {
     const responsesTable = document.getElementById('answered-questions');
-    responsesTable.innerHTML = '';
+    responsesTable.innerHTML = ''; 
 
-    questions.forEach((question) => {
-        let responseRow = document.createElement('tr');
-        let answerText = question.type === 'multiple'
-            ? question.selectedOptions.join(', ')
-            : question.answer;
+    diagnosticKeys.forEach(key => {
+        let diagnosticData = diagnosticsMap.get(key);
+        let { diagnosticText, questionAnswers } = diagnosticData;
 
-        responseRow.innerHTML = `
-            <td>${question.question}</td>
-            <td>${answerText}</td>`;
-        responsesTable.appendChild(responseRow);
+        questionAnswers.forEach((qa) => {
+            let question = Object.keys(qa)[0];
+            let answer = qa[question];
+
+            let responseRow = document.createElement('tr');
+            responseRow.innerHTML = `
+                <td>${question}</td>
+                <td>${answer}</td>`;
+            responsesTable.appendChild(responseRow);
+        });
     });
 
     toggleResultNavigationButtons();
 }
 
+
 function retryDiagnosis() {
-    diagnosisResults = [];
     currentDiagnosisIndex = 0;
     isFirstQuestion = true;
     document.getElementById('diagnosis-container').style.display = 'none';
@@ -235,37 +243,30 @@ function retryDiagnosis() {
 }
 
 function nextResult() {
-    if (currentDiagnosisIndex < diagnosisResults.length - 1) {
+    const totalDiagnostics = diagnosticsMap.size;
+    if (currentDiagnosisIndex < totalDiagnostics - 1) {
         currentDiagnosisIndex++;
-        displayDiagnosis();
+        displayDiagnosis([currentDiagnosisIndex]);
     }
 }
 
 function previousResult() {
     if (currentDiagnosisIndex > 0) {
         currentDiagnosisIndex--;
-        displayDiagnosis();
+        displayDiagnosis([currentDiagnosisIndex]);
     }
 }
 
 function toggleResultNavigationButtons() {
     const previousButton = document.getElementById('previous-result-btn');
     const nextButton = document.getElementById('next-result-btn');
+    const totalDiagnostics = diagnosticsMap.size;
 
     previousButton.disabled = currentDiagnosisIndex === 0;
-    nextButton.disabled = currentDiagnosisIndex === diagnosisResults.length - 1;
+    nextButton.disabled = currentDiagnosisIndex === totalDiagnostics - 1;
 
-    if (previousButton.disabled) {
-        previousButton.style.color = '#555';
-    } else {
-        previousButton.style.color = '#f39c12';
-    }
-
-    if (nextButton.disabled) {
-        nextButton.style.color = '#555';
-    } else {
-        nextButton.style.color = '#f39c12';
-    }
+    previousButton.style.color = previousButton.disabled ? '#555' : '#f39c12';
+    nextButton.style.color = nextButton.disabled ? '#555' : '#f39c12';
 }
 
 window.onload = () => {
