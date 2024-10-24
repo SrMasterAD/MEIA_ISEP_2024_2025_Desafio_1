@@ -22,21 +22,26 @@
 :-op(600,xfy,e).
 
 
-:-dynamic facto/2, ultimo_facto/1, facto_perguntavel/1.
+:-dynamic justifica/1, facto/2, ultimo_facto/1, facto_perguntavel/1.
 
 %:-include('inicio.txt').
 
 % 
-%   SERVER STAR
+%   SERVER START
 %
 iniciar_servidor(PORT) :-
     http_server(http_dispatch, [port(PORT)]).
 
 :- http_handler('/start', start_engine_handler, []).
 
+:- http_handler('/how', justifica_handler, []).
+
 %
 %    API
 %
+
+%   MAIN CONTROLLER
+
 start_engine_handler(Request) :-
     http_read_json_dict(Request, Dict, []),
     apaga_factos,
@@ -46,6 +51,12 @@ start_engine_handler(Request) :-
     get_list_atom(ValorStringList, ValorAtomList),
     criar_todos_os_sintomas(EvidenciaAtomList, ValorAtomList),
     processa_regras.
+
+% HOW CONTROLLER
+
+justifica_handler(_) :-
+    findall(sintoma(ID, Evidencia, Opcao), historico(sintoma(ID, Evidencia, Opcao)), ListaSintomas),
+    reply_json(ListaSintomas).
 
 :-op(220,xfx,entao).
 :-op(35,xfy,se).
@@ -72,7 +83,8 @@ cria_sintoma(Evidencia, Opcao) :-
     retract(ultimo_facto(N1)),
     N is N1 + 1,
     asserta(ultimo_facto(N)),
-    assertz(sintoma(N, Evidencia, Opcao)).
+    assertz(sintoma(N, Evidencia, Opcao)),
+    assertz(justifica(sintoma(N, Evidencia, Opcao))).
 
 % Process all rules based on the current symptoms
 processa_regras :-
@@ -121,6 +133,7 @@ apaga_factos :-
     retractall(sintoma(_, _, _)),
     retractall(diagnostico(_, _)),
     retractall(ultimo_facto(_)),
+    retractall(justifica(_)),
     asserta(ultimo_facto(0)).
 
 % Example Rule Structure
