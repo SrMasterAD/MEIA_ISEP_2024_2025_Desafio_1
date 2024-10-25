@@ -17,6 +17,7 @@ package org.example;
 
 import model.Sintoma;
 import model.Diagnostico;
+import model.Ignorar;
 import function fabrica.FabricaQuestoes.answer;
 import java.util.List;
 
@@ -34,14 +35,17 @@ end
 rule "#2 - Qual destes sintomas o automóvel apresenta?(Ruído Sopro/Assobio e cheiro dentro do veículo)"
 when
 	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Ruído de Sopro ou Assobio e cheiro dentro do veículo", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Ruído de Sopro ou Assobio", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Cheiro dentro do veículo", true));
 then
-
+	Ignorar ign = new Ignorar(1);
+	insert(ign);
 end
 
 rule "#3 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
 when
-	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Sopro ou Assobio e cheiro dentro do veículo");
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Sopro ou Assobio");
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Cheiro dentro do veículo");
 	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim",false));
 then
 
@@ -93,14 +97,16 @@ end
 
 rule "#9 - Qual destes sintomas o automóvel apresenta?(Ruído Sopro ou Assobio)"
 when
+	not Ignorar(ID == 1);
 	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Ruído de Sopro ou Assobio", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Ruído de Sopro ou Assobio", true));
 then
 
 end
 
 rule "#10 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
 when
+	not Ignorar(ID == 1);
 	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Sopro ou Assobio");
 	eval(answer("5|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
 then
@@ -127,6 +133,7 @@ end
 
 rule "#13 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
 when
+	not Ignorar(ID == 1);
 	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Sopro ou Assobio");
 	eval(answer("5|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
 then
@@ -153,14 +160,16 @@ end
 
 rule "#16 - Qual destes sintomas o automóvel apresenta?(Cheiro dentro do veículo)"
 when
+	not Ignorar(ID == 1);
 	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Cheiro dentro do veículo", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Cheiro dentro do veículo", true));
 then
 
 end
 
 rule "#17 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
 when
+	not Ignorar(ID == 1);
 	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Cheiro dentro do veículo");
 	eval(answer("6|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
 then
@@ -187,6 +196,7 @@ end
 
 rule "#20 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
 when
+	not Ignorar(ID == 1);
 	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Cheiro dentro do veículo");
 	eval(answer("6|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
 then
@@ -214,17 +224,21 @@ end
 rule "#23 - Qual destes sintomas o automóvel apresenta?(Ruído de Batida e gases de escape dentro ou ao redor do veículo)"
 when
 	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Ruído de Batida e gases de escape dentro ou ao redor do veículo", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Ruído de Batida", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Cheiro de gases de escape dentro ou ao redor do veículo", true));
 then
-
+	Ignorar ign = new Ignorar(2);
+	insert(ign);
 end
 
 rule "24 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Sim)"
+
 when
-	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Batida e gases de escape dentro ou ao redor do veículo");
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Batida");
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Cheiro de gases de escape dentro ou ao redor do veículo");
 	eval(answer("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim", false));
 then
-	
+
 end
 
 rule "25 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
@@ -247,7 +261,8 @@ end
 
 rule "27 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Não)"
 when
-	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Batida e gases de escape dentro ou ao redor do veículo");
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Batida");
+	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Cheiro de gases de escape dentro ou ao redor do veículo");
 	eval(answer("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -273,14 +288,16 @@ end
 
 rule "30 - Qual destes sintomas o automóvel apresenta?(Ruído de Batida)"
 when
+	not Ignorar(ID == 2);
 	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Irregularidades no motor");
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio e cheiro dentro do veículo", "Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida e gases de escape dentro ou ao redor do veículo", "Ruído de Batida"), "Ruído de Batida", false));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Ruído de Batida", false));
 then
 
 end
 
 rule "31 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Sim)"
 when
+	not Ignorar(ID == 2);
 	Sintoma(evidencia == "1|Qual destes sintomas o automóvel apresenta?",valor == "Ruído de Batida");
 	eval(answer("2|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim", false));
 then
@@ -605,7 +622,7 @@ end
 
 rule "#123 - Quais são os sintomas que o seu automóvel apresenta?(Fumo anormal)"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Fumo anormal","O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel", "?????"), "Fumo anormal", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Fumo anormal", true));
 then
 
 end
