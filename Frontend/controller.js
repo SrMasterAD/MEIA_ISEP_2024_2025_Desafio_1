@@ -1,6 +1,6 @@
 var optionsToSend = [];
-var chosenAnswers = [];
 var diagnosticsMap = new Map();
+var questionsAsked = [];
 var currentDiagnosisIndex = 0; 
 var question;
 var isFirstQuestion = true;
@@ -19,7 +19,7 @@ function startEngine(){
     let firstQuestion = {};
 
     firstQuestion.questao = "Quais são os sintomas que o seu automóvel apresenta?";
-    firstQuestion.valores = ["Problemas no motor", "Fumo anormal", "O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel"];
+    firstQuestion.valores = ["Irregularidades no motor", "Fumo anormal", "O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel"];
     firstQuestion.multiselect = true;
     loadQuestion(firstQuestion);
 }
@@ -27,9 +27,11 @@ function startEngine(){
 function loadQuestion(currentQuestion) {
     let questionTitle = document.getElementById('question-title');
     let optionsContainer = document.getElementById('options-container'); 
-
+    questionsAsked.push(currentQuestion);
     optionsToSend = [];
-    chosenAnswers = [];
+    questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
+
+    //get last question of question questionsAsked
 
     questionTitle.textContent = currentQuestion.questao;
     optionsContainer.innerHTML = '';
@@ -71,7 +73,7 @@ function selectOption(selectedOptionDiv, options, value) {
         const optionDiv = document.querySelector(`.${option.toLowerCase()}-option`);
         if (optionDiv) {
             optionDiv.classList.remove('selected');
-            chosenAnswers = [];
+            questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
         }
     });
 
@@ -79,7 +81,7 @@ function selectOption(selectedOptionDiv, options, value) {
     if (!currentlySelected) {
         selectedOptionDiv.classList.add('selected');
     }
-    chosenAnswers.push(value);
+    questionsAsked[questionsAsked.length - 1].chosenAnswers.push(value);
 
     toggleNavigationButtons(); // Assuming you have a navigation button toggle
 }
@@ -88,9 +90,9 @@ function toggleSelection(optionDiv, value, currentQuestion) {
     const selected = optionDiv.classList.toggle('selected');
     
     if (selected) {
-        chosenAnswers.push(value);
+        questionsAsked[questionsAsked.length - 1].chosenAnswers.push(value);
     } else {
-        chosenAnswers = chosenAnswers.filter(item => item !== value);
+        questionsAsked[questionsAsked.length - 1].chosenAnswers = questionsAsked[questionsAsked.length - 1].chosenAnswers.filter(item => item !== value);
     }
     toggleNavigationButtons();
 }
@@ -107,20 +109,20 @@ function toggleNavigationButtons() {
 }
 
 function isNextButtonEnabled() {
-    return chosenAnswers.length > 0;
+    return questionsAsked[questionsAsked.length - 1].chosenAnswers.length > 0;
 }
 
 async function executeQuestion() {
-    const questionTitle = document.getElementById('question-title').textContent;
-
     const jsonData =[];
-
-    for (let i = 0; i < chosenAnswers.length; i++) {
-        jsonData.push({
-            "evidencia": questionTitle, 
-            "possiveisValores": optionsToSend, 
-            "valor": chosenAnswers[i] 
-        });
+    
+    for (let i = 0; i < questionsAsked.length; i++) {
+        for (let j = 0; j < questionsAsked[i].chosenAnswers.length; j++) {
+            jsonData.push({
+                "evidencia": questionsAsked[i].questao, 
+                "possiveisValores": questionsAsked[i].valores, 
+                "valor": questionsAsked[i].chosenAnswers[j] 
+            });
+        }
     }
 
     await axios.post('http://localhost:8080/api/drools/execute', jsonData, {
@@ -141,9 +143,9 @@ async function executeQuestion() {
 async function nextQuestion() {
 
     let resposta = "";
-    for (let i = 0; i < chosenAnswers.length; i++) {
-        resposta += chosenAnswers[i];
-        if(i != chosenAnswers.length - 1) {
+    for (let i = 0; i < questionsAsked[questionsAsked.length - 1].chosenAnswers.length; i++) {
+        resposta += questionsAsked[questionsAsked.length - 1].chosenAnswers[i];
+        if(i != questionsAsked[questionsAsked.length - 1].chosenAnswers.length - 1) {
             resposta += ",";
         }
     }
@@ -165,11 +167,26 @@ async function nextQuestion() {
 
 function questionHandler() {
     if(isFirstQuestion){
-        executeQuestion(question);
+        for (let i = 0; i < questionsAsked[questionsAsked.length - 1].chosenAnswers.length; i++) {
+            if(questionsAsked[questionsAsked.length - 1].chosenAnswers[i] == "Luzes no painel") {
+                perguntarLuzesDoPainel();
+                return;
+            }
+        }
+        executeQuestion();
         isFirstQuestion = false;
     } else {
         nextQuestion(question);
     }
+}
+
+function perguntarLuzesDoPainel() {
+    let pergunta = {};
+
+    pergunta.questao = "Qual é a luz que observa?";
+    pergunta.valores = ["Luz de óleo","Luz do motor"];
+    pergunta.multiselect = true;
+    loadQuestion(pergunta);
 }
 
 function afterQuestion(question) {

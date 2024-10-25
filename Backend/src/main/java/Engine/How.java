@@ -44,7 +44,8 @@ public class How {
                     temporario.add(s);
                 }
             }
-            historicoSintomasAtual = new ArrayList<Sintoma>(temporario);
+            historicoSintomasAtual = new ArrayList<Sintoma>();
+            historicoSintomasAtual.add(sintoma);
             return;
         }
 
