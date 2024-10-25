@@ -1,0 +1,176 @@
+regra 1 
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Problemas no motor')]
+    entao diagonositco('Qual destes sintomas o automóvel apresenta?', [2, 9, 16, 23, 30]).
+
+regra 2
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')]
+    entao diagonositco('O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não']).
+
+regra 3
+    [se sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')]
+    entao diagonositco('O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não']).
+
+regra 4 
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Sim')]
+    entao diagonositco('Fuga no coletor de escape: (100%)', '')
+
+regra 5
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Não')]
+    entao diagonositco('Fuga no coletor de escape: (93%)', '')
+
+regra 6
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')]
+    entao diagonositco('O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não']).
+
+regra 7
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Sim')]
+    entao diagonositco('Fuga no coletor de escape: (93%)', '')
+
+regra 8
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Não')]
+    entao diagonositco('Fuga no coletor de escape: (85%)', '')
+    
+regra 9
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro ou Assobio')]
+    entao diagonositco('O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'])
+
+regra 10
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Sopro ou Assobio')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')]
+    entao diagonositco('O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não']).
+
+regra 11
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Sopro ou Assobio')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Sim')]
+    entao diagonositco('Fuga no coletor de escape: (65%)', '')
+
+regra 12
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Sopro ou Assobio')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Não')]
+    entao diagonositco('Fuga no coletor de escape: (58%)', '')
+
+regra 13
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Sopro ou Assobio')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')]
+    entao diagonositco('O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não']).
+
+regra 14
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Sopro ou Assobio')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Sim')]
+    entao diagonositco('Fuga no coletor de escape: (58%)', '')
+
+regra 15
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Sopro ou Assobio')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Não')]
+    entao diagonositco('Fuga no coletor de escape: (50%)', '')
+
+regra 16
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Cheiro dentro do veículo')]
+    entao diagonositco('O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'])
+
+regra 17
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')]
+    entao diagonositco('O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não']).
+
+regra 18
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Sim')]
+    entao diagonositco('Fuga no coletor de escape: (65%)', '')
+
+regra 19
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Não')]
+    entao diagonositco('Fuga no coletor de escape: (58%)', '')
+
+regra 20
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')]
+    entao diagonositco('O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não']).
+
+regra 21
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Sim')]
+    entao diagonositco('Fuga no coletor de escape: (58%)', '')
+
+regra 22
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Cheiro dentro do veículo')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Não')
+    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Não')]
+    entao diagonositco('Fuga no coletor de escape: (50%)', '')
+
+regra 23
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida e gases de escape dentro ou ao redor do veículo')]
+    entao diagonositco('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', ['Sim', 'Não'])
+
+regra 24
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida e gases de escape dentro ou ao redor do veículo')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Sim)]
+    entao diagonositco('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'])
+
+regra 25    
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida e gases de escape dentro ou ao redor do veículo')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Sim)
+    e sintoma('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', 'Sim')]
+    entao diagonositco('tubo de escape danificado.(100%)', '')
+
+regra 26 
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida e gases de escape dentro ou ao redor do veículo')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Sim)
+    e sintoma('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', 'Não')]
+    entao diagonositco('tubo de escape danificado.(93%)', '')
+
+regra 27
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida e gases de escape dentro ou ao redor do veículo')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Não)]
+    entao diagonositco('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'])
+
+regra 28
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida e gases de escape dentro ou ao redor do veículo')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Não)
+    e sintoma('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', 'Sim')]
+    entao diagonositco('tubo de escape danificado.(93%)', '')
+
+regra 29
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida e gases de escape dentro ou ao redor do veículo')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Não)
+    e sintoma('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', 'Não')]
+    entao diagonositco('tubo de escape danificado.(85%)', '')
+
+regra 30
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida')]
+    entao diagonositco('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', ['Sim', 'Não'])
+
+regra 31
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Sim)]
+    entao diagonositco('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'])
+
+regra 32
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Sim)
+    e sintoma('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', 'Sim')]
+    entao diagonositco('tubo de escape danificado.(65%)', '')
+
+regra 33
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida')
+    e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Sim)
+    e sintoma('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', 'Não')]
+    entao diagonositco('tubo de escape danificado.(58%)', '')

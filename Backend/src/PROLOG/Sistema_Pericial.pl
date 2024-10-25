@@ -55,7 +55,7 @@ start_engine_handler(Request) :-
 % HOW CONTROLLER
 
 justifica_handler(_) :-
-    findall(sintoma(ID, Evidencia, Opcao), historico(sintoma(ID, Evidencia, Opcao)), ListaSintomas),
+    findall(sintoma(ID, Evidencia, Opcao), justifica(sintoma(ID, Evidencia, Opcao)), ListaSintomas),
     reply_json(ListaSintomas).
 
 :-op(220,xfx,entao).
