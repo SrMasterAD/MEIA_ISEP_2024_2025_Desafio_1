@@ -27,7 +27,7 @@ end
 
 rule "#1 - Irregularidades no motor"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Irregularidades no motor", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes no painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Irregularidades no motor", true));
 then
 
 end
@@ -564,7 +564,7 @@ end
 
 rule "#110 - Qual destes sintomas o automóvel apresenta?(O veículo não consegue dar o terceiro contacto de ignição)"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "O veículo não consegue dar o terceiro contacto de ignição", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes no painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "O veículo não consegue dar o terceiro contacto de ignição", true));
 then
 
 end
@@ -622,7 +622,7 @@ end
 
 rule "#123 - Quais são os sintomas que o seu automóvel apresenta?(Fumo anormal)"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Fumo anormal", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes no painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Fumo anormal", true));
 then
 
 end
