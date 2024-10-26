@@ -231,19 +231,19 @@ then
 	insert(ign);
 end
 
-rule "24 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Sim)"
+rule "24 - Houve fuga de fuligem no para-choque traseiro ou na carroceria?(Sim)"
 
 when
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Batida".getBytes(), "UTF-8"));
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Cheiro de gases de escape dentro ou ao redor do veículo".getBytes(), "UTF-8"));
-	eval(answer("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim", false));
+	eval(answer("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim", false));
 then
 
 end
 
 rule "25 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
 when
-	Sintoma(evidencia == new String("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("1|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("tubo de escape danificado.(100%)");
@@ -252,25 +252,25 @@ end
 
 rule "26 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Não)"
 when
-	Sintoma(evidencia == new String("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("1|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("tubo de escape danificado.(93%)");
 	insert(diag);
 end
 
-rule "27 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Não)"
+rule "27 - Houve fuga de fuligem no para-choque traseiro ou na carroceria?(Não)"
 when
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Batida".getBytes(), "UTF-8"));
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Cheiro de gases de escape dentro ou ao redor do veículo".getBytes(), "UTF-8"));
-	eval(answer("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Não", false));
+	eval(answer("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Não", false));
 then
 
 end
 
 rule "28 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
 when
-	Sintoma(evidencia == new String("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("2|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("tubo de escape danificado.(93%)");
@@ -279,7 +279,7 @@ end
 
 rule "29 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Não)"
 when
-	Sintoma(evidencia == new String("1|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("2|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("tubo de escape danificado.(85%)");
@@ -295,18 +295,18 @@ then
 
 end
 
-rule "31 - Houve vazamento de fuligem no para-choque traseiro ou na carroceria?(Sim)"
+rule "31 - Houve fuga de fuligem no para-choque traseiro ou na carroceria?(Sim)"
 when
 	not Ignorar(ID == 2);
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Batida".getBytes(), "UTF-8"));
-	eval(answer("2|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim", false));
+	eval(answer("2|Houve fuga de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim", false));
 then
 
 end
 
 rule "32 - Apos uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
 when
-	Sintoma(evidencia == new String("2|Houve vazamento de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("2|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("3|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("tubo de escape danificado.(65%)");
