@@ -252,6 +252,8 @@ function displayDiagnosis(diagnosticKeys) {
 
 
 function retryDiagnosis() {
+    questionsAsked = [];
+    diagnosticsMap = new Map();
     currentDiagnosisIndex = 0;
     isFirstQuestion = true;
     document.getElementById('diagnosis-container').style.display = 'none';
