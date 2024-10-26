@@ -571,7 +571,7 @@ end
 
 rule "#111 - Verificar se o automóvel tem combustível"
 when
-	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "O veículo não consegue dar o terceiro contacto de ignição");
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("O veículo não consegue dar o terceiro contacto de ignição".getBytes(), "UTF-8"));
 	eval(answer("Verificar se o automóvel tem combustível", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -579,7 +579,7 @@ end
 
 rule "#112 - Verificar se o combustível chega à régua de injecção"
 when
-	Sintoma(evidencia == "Verificar se o automóvel tem combustível",valor == "Sim");
+	Sintoma(evidencia == new String("Verificar se o automóvel tem combustível".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("Verificar se o combustível chega à régua de injecção", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -587,7 +587,7 @@ end
 
 rule "#113 - Verificar se o automóvel tem óleo"
 when
-	Sintoma(evidencia == "Verificar se o combustível chega à régua de injecção",valor == "Sim");
+	Sintoma(evidencia == new String("Verificar se o combustível chega à régua de injecção".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("Verificar se o automóvel tem óleo", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Escovas do motor de arranque danificadas.");
@@ -596,7 +596,7 @@ end
 
 rule "#114 - Verificar se o automóvel tem óleo"
 when
-	Sintoma(evidencia == "Verificar se o combustível chega à régua de injecção",valor == "Sim");
+	Sintoma(evidencia == new String("Verificar se o combustível chega à régua de injecção".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("Verificar se o automóvel tem óleo", List.of("Sim","Não"), "Não", false));
 then
 
@@ -604,7 +604,7 @@ end
 
 rule "#115 - Verificar se existe fuga de óleo"
 when
-	Sintoma(evidencia == "Verificar se o automóvel tem óleo",valor == "Não");
+	Sintoma(evidencia == new String("Verificar se o automóvel tem óleo".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("Verificar se existe fuga de óleo", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Fuga de óleo.");
@@ -613,7 +613,7 @@ end
 
 rule "#116 - Verificar se existe fuga de óleo"
 when
-	Sintoma(evidencia == "Verificar se o automóvel tem óleo",valor == "Não");
+	Sintoma(evidencia == new String("Verificar se o automóvel tem óleo".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("Verificar se existe fuga de óleo", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Falta de óleo.");
