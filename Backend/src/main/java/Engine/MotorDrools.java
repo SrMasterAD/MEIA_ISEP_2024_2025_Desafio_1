@@ -51,6 +51,7 @@ public class MotorDrools extends Thread{
         ksn.dispose();
         DiagnosticoDTO diagnosticoDTO = new DiagnosticoDTO(How.obterHistoricoSintomasGeral());
         FabricaQuestoes.diagnostico = diagnosticoDTO;
+        How.eliminarHistoricoSintomasGeral();
         FabricaQuestoes.darDiagnostico();
     }
 }

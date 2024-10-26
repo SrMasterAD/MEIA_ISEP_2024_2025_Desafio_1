@@ -23,6 +23,10 @@ public class How {
         return historicoSintomasGeral;
     }
 
+    public static void eliminarHistoricoSintomasGeral() {
+        historicoSintomasGeral = new ArrayList<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>>();
+    }
+
     public static void adicionarSintomaHistorico(Sintoma sintoma) {
         if(historicoSintomasGeral.isEmpty()) {
             historicoSintomasAtual.add(sintoma);

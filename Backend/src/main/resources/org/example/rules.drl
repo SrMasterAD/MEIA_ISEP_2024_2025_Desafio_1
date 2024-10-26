@@ -313,6 +313,13 @@ then
 	insert(diag);
 end
 
+rule "#79 - Luzes no painel"
+when
+    eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes no painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Luzes no painel", true));
+then
+
+end
+
 rule "#80 - Luz de óleo"
 when
 	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Luzes no painel".getBytes(), "UTF-8"));
