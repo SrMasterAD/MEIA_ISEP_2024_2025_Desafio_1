@@ -35,7 +35,7 @@ public class How {
 
         List<Sintoma> temporario = new ArrayList<Sintoma>();
 
-        if(historicoSintomasAtual == null) {
+        if(historicoSintomasAtual.isEmpty()) {
             List<Sintoma> listaSintomasAnterior = 
             historicoSintomasGeral.get(historicoSintomasGeral.size()-1).getValue();
 
@@ -57,7 +57,7 @@ public class How {
     }
 
     public static void eliminarHistoricoSintomasAtual() {
-        historicoSintomasAtual = null;
+        historicoSintomasAtual = new ArrayList<Sintoma>();
     }
 
     public static List<Sintoma> obterHistoricoSintomasAtual() {
