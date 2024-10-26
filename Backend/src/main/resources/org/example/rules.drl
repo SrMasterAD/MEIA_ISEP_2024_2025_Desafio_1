@@ -629,7 +629,7 @@ end
 
 rule "#124 - Qual é a coloração do fumo?(Esbranquiçado)"
 when
-	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Fumo anormal");
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Fumo anormal".getBytes(), "UTF-8"));
 	eval(answer("Qual é a coloração do fumo?", List.of("Esbranquiçado","Azulado", "Escura"), "Esbranquiçado", false));
 then
 	
@@ -637,7 +637,7 @@ end
 
 rule "#125 - O automóvel tem uma perda de potência acentuada?(Sim)"
 when
-	Sintoma(evidencia == "Qual é a coloração do fumo?",valor == "Esbranquiçado");
+	Sintoma(evidencia == new String("Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Esbranquiçado".getBytes(), "UTF-8"));
 	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -645,7 +645,7 @@ end
 
 rule "#126 - O automóvel tem pouca água no reservatório?(Sim)"
 when
-	Sintoma(evidencia == "3|O automóvel tem uma perda de potência acentuada?",valor == "Sim");
+	Sintoma(evidencia == new String("3|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("1|O automóvel tem pouca água no reservatório?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Junta da cabeça queimada.(100%)");
@@ -654,7 +654,7 @@ end
 
 rule "#127 - O automóvel tem pouca água no reservatório?(Não)"
 when
-	Sintoma(evidencia == "3|O automóvel tem uma perda de potência acentuada?",valor == "Sim");
+	Sintoma(evidencia == new String("3|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("1|O automóvel tem pouca água no reservatório?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Junta da cabeça queimada.(75%)");
@@ -663,7 +663,7 @@ end
 
 rule "#128 - O automóvel tem uma perda de potência acentuada?(Não)"
 when
-	Sintoma(evidencia == "Qual é a coloração do fumo?",valor == "Esbranquiçado");
+	Sintoma(evidencia == new String("Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Esbranquiçado".getBytes(), "UTF-8"));
 	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -671,7 +671,7 @@ end
 
 rule "#129 - O automóvel tem pouca água no reservatório?(Sim)"
 when
-	Sintoma(evidencia == "3|O automóvel tem uma perda de potência acentuada?",valor == "Não");
+	Sintoma(evidencia == new String("3|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("2|O automóvel tem pouca água no reservatório?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Junta da cabeça queimada.(75%)");
@@ -680,7 +680,7 @@ end
 
 rule "#130 - O automóvel tem pouca água no reservatório?(Não)"
 when
-	Sintoma(evidencia == "3|O automóvel tem uma perda de potência acentuada?",valor == "Não");
+	Sintoma(evidencia == new String("3|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("2|O automóvel tem pouca água no reservatório?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Junta da cabeça queimada.(50%)");
@@ -689,7 +689,7 @@ end
 
 rule "#131 - Qual é a coloração do fumo?(Azulado)"
 when
-	Sintoma(evidencia == "Quais são os sintomas que o seu automóvel apresenta?",valor == "Fumo anormal");
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Fumo anormal".getBytes(), "UTF-8"));
 	eval(answer("Qual é a coloração do fumo?", List.of("Esbranquiçado","Azulado", "Escura"), "Azulado", false));
 then
 	
@@ -697,7 +697,7 @@ end
 
 rule "#132 - O automóvel tem uma perda de potência acentuada?(Sim)"
 when
-	Sintoma(evidencia == "Qual é a coloração do fumo?",valor == "Azulado");
+	Sintoma(evidencia == new String("Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Azulado".getBytes(), "UTF-8"));
 	eval(answer("4|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -705,7 +705,7 @@ end
 
 rule "#133 - O automóvel está com o nível de óleo normal?(Não)"
 when
-	Sintoma(evidencia == "4|O automóvel tem uma perda de potência acentuada?",valor == "Sim");
+	Sintoma(evidencia == new String("4|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("2|O automóvel está com o nível de óleo normal?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Desgaste dos segmentos (100%)");
@@ -714,7 +714,7 @@ end
 
 rule "#134 - O automóvel está com o nível de óleo normal?(Sim)"
 when
-	Sintoma(evidencia == "4|O automóvel tem uma perda de potência acentuada?",valor == "Sim");
+	Sintoma(evidencia == new String("4|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("2|O automóvel está com o nível de óleo normal?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Desgaste dos segmentos (75%)");
@@ -723,7 +723,7 @@ end
 
 rule "#135 - O automóvel tem uma perda de potência acentuada?(Não)"
 when
-	Sintoma(evidencia == "Qual é a coloração do fumo?",valor == "Azulado");
+	Sintoma(evidencia == new String("Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Azulado".getBytes(), "UTF-8"));
 	eval(answer("4|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -731,7 +731,7 @@ end
 
 rule "#136 - O automóvel está com o nível de óleo normal?(Não)"
 when
-	Sintoma(evidencia == "4|O automóvel tem uma perda de potência acentuada?",valor == "Não");
+	Sintoma(evidencia == new String("4|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("3|O automóvel está com o nível de óleo normal?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Desgaste dos segmentos (75%)");
@@ -740,7 +740,7 @@ end
 
 rule "#137 - O automóvel está com o nível de óleo normal?(Sim)"
 when
-	Sintoma(evidencia == "4|O automóvel tem uma perda de potência acentuada?",valor == "Não");
+	Sintoma(evidencia == new String("4|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("3|O automóvel está com o nível de óleo normal?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Desgaste dos segmentos (50%)");
