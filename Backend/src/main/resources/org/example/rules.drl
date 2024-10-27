@@ -313,6 +313,129 @@ then
 	insert(diag);
 end
 
+rule "#65 - Qual destes sintomas o automóvel apresenta?(Ruído de chocalho)"
+when
+	not Ignorar(ID == 1);
+    Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));	
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de chocalho"), "Ruído de chocalho", true)); //HSA acrescentar opções que faltam
+then
+
+rule "#66 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de chocalho".getBytes(), "UTF-8"));
+	eval(answer("2|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
+then
+
+end
+
+rule "#67 - O automóvel tem uma perda de potência acentuada?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
+then
+
+end
+
+rule "#68 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
+	insert(diag);
+end
+
+rule "#69 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)"); //HSA não vejo diferenças entre o #68
+	insert(diag);
+end
+
+end
+
+rule "#70 - O automóvel tem uma perda de potência acentuada?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
+then
+
+end
+
+rule "#71 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
+	insert(diag);
+end
+
+end
+
+rule "#72 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
+	insert(diag);
+end
+
+rule "#73 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de chocalho".getBytes(), "UTF-8"));
+	eval(answer("2|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
+then
+
+end
+
+rule "#74 - O automóvel tem uma perda de potência acentuada?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
+then
+
+end
+
+rule "#75 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
+	insert(diag);
+end
+
+rule "#75.5 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
+	insert(diag);
+end
+
+rule "#77 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
+	insert(diag);
+end
+
+rule "#78 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(50%)");
+	insert(diag);
+end
+
 rule "#79 - Luzes no painel"
 when
     eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes no painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Luzes no painel", true));
