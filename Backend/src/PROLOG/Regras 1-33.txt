@@ -4,17 +4,15 @@ regra 1
 
 regra 2
     se [sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído Sopro/Assobio', 'cheiro dentro do veículo'])]
-    entao diagonositco('O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não']).
-
+    entao .
 regra 3
     se [sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído Sopro/Assobio'])
     e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')]
     entao diagonositco('O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não']).
 
 regra 4 
-    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')
-    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')
-    e sintoma('O automóvel tem uma perda de potência acentuada?', 'Sim')]
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio')
+    e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')]
     entao diagonositco('Fuga no coletor de escape: (100%)', '')
 
 regra 5

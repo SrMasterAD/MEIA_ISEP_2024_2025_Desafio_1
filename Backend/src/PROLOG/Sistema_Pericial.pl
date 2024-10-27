@@ -84,52 +84,49 @@ atualiza_justifica(NovoSintoma) :-
 % Process all rules based on the current symptoms
 processa_regras :-
     findall((ID, LHS, RHS), (regra ID se LHS entao RHS), Regras),
-    aplica_regras(Regras).
+    aplica_regras(Regras, []).
 
 % Apply rules to generate diagnostics, dynamically asking for missing Sintomas
-aplica_regras([(ID, LHS, RHS) | Regras]) :-
-    condicao_compativel(LHS),
-    concluir_diagnostico(ID, RHS),
-    aplica_regras(Regras).
+aplica_regras([(ID, LHS, RHS) | Regras], SintomasConfirmados) :-
+    condicao_compativel(LHS, SintomasConfirmados, NovosSintomas),
+    concluir_diagnostico(ID, RHS, NovosSintomas),
+    aplica_regras(Regras, NovosSintomas).
 
-aplica_regras([]).
+aplica_regras([], _).
 
-% Check if the conditions match with the existing Sintomas
-condicao_compativel([A e B | C]) :-
+condicao_compativel([A e B], SintomasConfirmados, NovosSintomas) :-
     verifica_sintoma(A),
-    condicao_compativel([B e C]).
+    condicao_compativel([B], [A | SintomasConfirmados], NovosSintomas).
 
-condicao_compativel([A e B]) :-
-    verifica_sintoma(A),
-    condicao_compativel([B]).
-
-condicao_compativel([A]) :-
+condicao_compativel([A], SintomasConfirmados, [A | SintomasConfirmados]) :-
     verifica_sintoma(A).
 
+% Verifica se o sintoma existe e é compatível
 verifica_sintoma(Sintoma) :-
-    Sintoma =.. [ID, Evidencia, _, Valor],
-    sintoma_existente(Evidencia, Valor).  % Retorna verdadeiro se houver um sintoma com a mesma evidência e valor
+    Sintoma =.. [_, Evidencia, _, Valor],
+    sintoma_existente(Evidencia, Valor).
 
+% Retorna falso se houver um valor diferente para a mesma evidência
 verifica_sintoma(Sintoma) :-
-    Sintoma =.. [ID, Evidencia, _, Valor],
-    sintoma_existente(Evidencia, ValorDiferente), 
-    Valor \= ValorDiferente, !.                    % Retorna falso se houver um valor diferente para a mesma evidencia 
+    Sintoma =.. [_, Evidencia, _, Valor],
+    sintoma_existente(Evidencia, ValorDiferente),
+    Valor \= ValorDiferente,
+    !.
 
+% Caso a evidência ainda não tenha sido perguntada, pede ao utilizador
 verifica_sintoma(Sintoma) :-
     Sintoma =.. [_, Evidencia, Opcoes, _],
-    %%%perguntar aqui%%%                           % Perguntar, caso ainda nao tenha sido perguntado
-    cria_sintoma(NovaEvidencia, NovoValor),
+    %%%perguntar aqui%%%   % Perguntar, caso ainda não tenha sido perguntado
+    cria_sintoma(Evidencia, NovoValor),
     verifica_sintoma(Sintoma).
 
-% Predicado para verificar existência de um sintoma com a mesma Evidencia e Valor
-sintoma_existente(Evidencia, Valor) :-
-    sintoma(_, Evidencia, Valor).
+% Conclude and assert diagnostics based on rule conditions, with symptoms that led to it
+concluir_diagnostico(ID, [], SintomasConfirmados).
 
-% Conclude and assert diagnostics based on rule conditions
-concluir_diagnostico(ID, []).
+concluir_diagnostico(ID, [diagnostico(Diagnostico)], SintomasConfirmados) :-
+    assertz(diagnostico(ID, Diagnostico, SintomasConfirmados)),
+    retract(SintomasConfirmados).
 
-concluir_diagnostico(ID, [diagnostico(Diagnostico)]) :-
-    assertz(diagnostico(ID, Diagnostico)).
 
 % Clear all previous facts
 apaga_factos :-
