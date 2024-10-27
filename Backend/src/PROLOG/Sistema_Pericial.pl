@@ -145,3 +145,32 @@ apaga_factos :-
     sintoma(Evidencia, Opcoes, Valor)
 regra 1 se [sintoma1(_, _, yes) e sintoma2(_, _, no)] entao [diagnostico('Diagnostico1')].
 regra 2 se [sintoma3(_, _, yes)] entao [diagnostico('Diagnostico2')].
+
+% COMUNICAÇÃO COM API
+% Predicate to send JSON data to an external API
+send_json_to_external_api(URL) :-
+    % Convert `sintoma` facts to a JSON-compatible list
+    findall(_{id:ID, evidencia:Evidencia, opcoes:Opcoes, valor:Valor}, sintoma(ID, Evidencia, Opcoes, Valor), Sintomas),
+    
+    % Send JSON data to the specified URL
+    http_post(URL, json(Sintomas), Response, []),
+    
+    % Print the response from the external API
+    writeln("Response from external API:"),
+    writeln(Response).
+
+:- http_handler('/send_data', send_data_handler, []).
+
+send_data_handler(_Request) :-
+    % Define the external URL where data will be sent
+    ExternalAPIURL = 'http://localhost:8001/receive_sintoma',
+    
+    % Send JSON data to the external API
+    send_json_to_external_api(ExternalAPIURL),
+    
+    % Respond to the client that data has been sent
+    reply_json(_{status: "data_sent"}).
+
+% COMO TESTAR
+% ?- iniciar_servidor(8000).
+% curl -X GET http://localhost:8000/send_data
