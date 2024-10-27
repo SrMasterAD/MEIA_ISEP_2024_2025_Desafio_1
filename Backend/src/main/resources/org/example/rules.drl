@@ -27,7 +27,7 @@ end
 
 rule "#1 - Irregularidades no motor"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Irregularidades no motor", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Fumo anormal"), "Irregularidades no motor", true));
 then
 
 end
@@ -231,62 +231,62 @@ then
 	insert(ign);
 end
 
-rule "24 - Houve fuga de fuligem no para-choque traseiro ou na carroceria?(Sim)"
+rule "#24 - Há fuligem na traseira do veículo?(Sim)"
 
 when
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Batida".getBytes(), "UTF-8"));
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Cheiro de gases de escape dentro ou ao redor do veículo".getBytes(), "UTF-8"));
-	eval(answer("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim", false));
+	eval(answer("1|Há fuligem na traseira do veículo?", List.of("Sim","Não"), "Sim", false));
 then
 
 end
 
-rule "25 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
+rule "#25 - Existem pontos de ferrugem ou corrosão avançada?(Sim)"
 when
-	Sintoma(evidencia == new String("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
-	eval(answer("1|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
+	Sintoma(evidencia == new String("1|Há fuligem na traseira do veículo?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("1|Existem pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("tubo de escape danificado.(100%)");
+	Diagnostico diag = new Diagnostico("Tubo de escape danificado.(100%)");
 	insert(diag);
 end
 
-rule "26 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Não)"
+rule "#26 - Existem pontos de ferrugem ou corrosão avançada?(Não)"
 when
-	Sintoma(evidencia == new String("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
-	eval(answer("1|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Não", false));
+	Sintoma(evidencia == new String("1|Há fuligem na traseira do veículo?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("1|Existem pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Não", false));
 then
-	Diagnostico diag = new Diagnostico("tubo de escape danificado.(93%)");
+	Diagnostico diag = new Diagnostico("Tubo de escape danificado.(93%)");
 	insert(diag);
 end
 
-rule "27 - Houve fuga de fuligem no para-choque traseiro ou na carroceria?(Não)"
+rule "#27 - Há fuligem na traseira do veículo?(Não)"
 when
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Batida".getBytes(), "UTF-8"));
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Cheiro de gases de escape dentro ou ao redor do veículo".getBytes(), "UTF-8"));
-	eval(answer("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Não", false));
+	eval(answer("1|Há fuligem na traseira do veículo?", List.of("Sim","Não"), "Não", false));
 then
 
 end
 
-rule "28 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
+rule "#28 - Existem pontos de ferrugem ou corrosão avançada?(Sim)"
 when
-	Sintoma(evidencia == new String("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
-	eval(answer("2|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
+	Sintoma(evidencia == new String("1|Há fuligem na traseira do veículo?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("2|Existem pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("tubo de escape danificado.(93%)");
+	Diagnostico diag = new Diagnostico("Tubo de escape danificado.(93%)");
 	insert(diag);
 end
 
-rule "29 - Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Não)"
+rule "#29 - Existem pontos de ferrugem ou corrosão avançada?(Não)"
 when
-	Sintoma(evidencia == new String("1|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
-	eval(answer("2|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Não", false));
+	Sintoma(evidencia == new String("1|Há fuligem na traseira do veículo?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("2|Existem pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Não", false));
 then
-	Diagnostico diag = new Diagnostico("tubo de escape danificado.(85%)");
+	Diagnostico diag = new Diagnostico("Tubo de escape danificado.(85%)");
 	insert(diag);
 end
 
-rule "30 - Qual destes sintomas o automóvel apresenta?(Ruído de Batida)"
+rule "#30 - Qual destes sintomas o automóvel apresenta?(Ruído de Batida)"
 when
 	not Ignorar(ID == 2);
 	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
@@ -295,27 +295,156 @@ then
 
 end
 
-rule "31 - Houve fuga de fuligem no para-choque traseiro ou na carroceria?(Sim)"
+rule "#31 - Há fuligem na traseira do veículo?(Sim)"
 when
 	not Ignorar(ID == 2);
 	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Batida".getBytes(), "UTF-8"));
-	eval(answer("2|Houve fuga de fuligem no para-choque traseiro ou na carroceria?", List.of("Sim","Não"), "Sim", false));
+	eval(answer("2|Há fuligem na traseira do veículo?", List.of("Sim","Não"), "Sim", false));
 then
 
 end
 
-rule "32 - Apos uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
+rule "#32 - Apos uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?(Sim)"
 when
-	Sintoma(evidencia == new String("2|Houve fuga de fuligem no para-choque traseiro ou na carroceria?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
-	eval(answer("3|Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
+	Sintoma(evidencia == new String("2|Há fuligem na traseira do veículo?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("3|Existem pontos de ferrugem ou corrosão avançada?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("tubo de escape danificado.(65%)");
+	Diagnostico diag = new Diagnostico("Tubo de escape danificado.(65%)");
+	insert(diag);
+end
+
+rule "#65 - Qual destes sintomas o automóvel apresenta?(Ruído de chocalho)"
+when
+	not Ignorar(ID == 1);
+    Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));	
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de chocalho"), "Ruído de chocalho", true)); //HSA acrescentar opções que faltam
+then
+
+rule "#66 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de chocalho".getBytes(), "UTF-8"));
+	eval(answer("2|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
+then
+
+end
+
+rule "#67 - O automóvel tem uma perda de potência acentuada?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
+then
+
+end
+
+rule "#68 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
+	insert(diag);
+end
+
+rule "#69 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)"); //HSA não vejo diferenças entre o #68
+	insert(diag);
+end
+
+end
+
+rule "#70 - O automóvel tem uma perda de potência acentuada?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
+then
+
+end
+
+rule "#71 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
+	insert(diag);
+end
+
+end
+
+rule "#72 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
+	insert(diag);
+end
+
+rule "#73 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de chocalho".getBytes(), "UTF-8"));
+	eval(answer("2|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
+then
+
+end
+
+rule "#74 - O automóvel tem uma perda de potência acentuada?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
+then
+
+end
+
+rule "#75 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
+	insert(diag);
+end
+
+rule "#75.5 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
+	insert(diag);
+end
+
+rule "#76 - O automóvel tem uma perda de potência acentuada?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
+then
+
+rule "#77 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
+	insert(diag);
+end
+
+rule "#78 - O motor morre ou há algumas falhas ao acelerar?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(50%)");
 	insert(diag);
 end
 
 rule "#79 - Luzes no painel"
 when
-    eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes no painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Luzes no painel", true));
+    eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes no painel", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Fumo anormal"), "Luzes no painel", true));
 then
 
 end
@@ -569,16 +698,16 @@ then
 	insert(diag);
 end
 
-rule "#110 - Qual destes sintomas o automóvel apresenta?(O veículo não consegue dar o terceiro contacto de ignição)"
+rule "#110 - Qual destes sintomas o automóvel apresenta?(O veículo tem dificuldades ao dar o terceiro contacto de ignição)"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "O veículo não consegue dar o terceiro contacto de ignição", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Fumo anormal"), "O veículo tem dificuldades ao dar o terceiro contacto de ignição", true));
 then
 
 end
 
 rule "#111 - Verificar se o automóvel tem combustível"
 when
-	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("O veículo não consegue dar o terceiro contacto de ignição".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("O veículo tem dificuldades ao dar o terceiro contacto de ignição".getBytes(), "UTF-8"));
 	eval(answer("Verificar se o automóvel tem combustível", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -629,7 +758,7 @@ end
 
 rule "#123 - Quais são os sintomas que o seu automóvel apresenta?(Fumo anormal)"
 when
-	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo não consegue dar o terceiro contacto de ignição", "Fumo anormal"), "Fumo anormal", true));
+	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Fumo anormal"), "Fumo anormal", true));
 then
 
 end
@@ -753,3 +882,109 @@ then
 	Diagnostico diag = new Diagnostico("Desgaste dos segmentos (50%)");
 	insert(diag);
 end
+
+rule "#138 - Qual é a coloração do fumo?(Escura)"
+when
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Fumo anormal".getBytes(), "UTF-8"));
+	eval(answer("2|Qual é a coloração do fumo?", List.of("Esbranquiçado","Azulado", "Escura"), "Escura", false));
+then
+
+rule "#139 - O automóvel tem uma perda de potência acentuada?(Sim)"
+when
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Fumo anormal".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
+then
+
+rule "#140 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
+then
+
+rule "#141 - O automóvel tem as velas escuras?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("5|O automóvel tem as velas escuras?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(100%)");
+	insert(diag);
+
+rule "#142 - O automóvel tem as velas escuras?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(83%)");
+	insert(diag);
+
+rule "#143 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
+then
+
+rule "#144 - O automóvel tem as velas escuras?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("5|O automóvel tem as velas escuras?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(83%)");
+	insert(diag);
+
+rule "#145 - O automóvel tem as velas escuras?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("5|O automóvel tem as velas escuras?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(67%)");
+	insert(diag);
+
+rule "#146 - O automóvel tem uma perda de potência acentuada?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
+then
+
+rule "#147 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
+then
+
+rule "#148 - O automóvel tem as velas escuras?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("5|O automóvel tem as velas escuras?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(83%)");
+	insert(diag);
+
+rule "#149 - O automóvel tem as velas escuras?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("5|O automóvel tem as velas escuras?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(67%)");
+	insert(diag);
+
+rule "#150 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
+then
+
+rule "#151 - O automóvel tem as velas escuras?(Sim)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("5|O automóvel tem as velas escuras?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(67%)");
+	insert(diag);
+
+rule "#152 - O automóvel tem as velas escuras?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("5|O automóvel tem as velas escuras?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(50%)");
+	insert(diag);
