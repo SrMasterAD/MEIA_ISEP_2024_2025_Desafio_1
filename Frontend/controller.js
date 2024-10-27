@@ -19,7 +19,7 @@ function startEngine(){
     let firstQuestion = {};
 
     firstQuestion.questao = "Quais são os sintomas que o seu automóvel apresenta?";
-    firstQuestion.valores = ["Irregularidades no motor", "Fumo anormal", "O veículo não consegue dar o terceiro contacto de ignição", "Luzes no painel"];
+    firstQuestion.valores = ["Irregularidades no motor", "Fumo anormal", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Luzes no painel"];
     firstQuestion.multiselect = true;
     loadQuestion(firstQuestion);
 }
