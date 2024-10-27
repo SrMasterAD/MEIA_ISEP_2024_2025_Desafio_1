@@ -24,8 +24,6 @@
 
 :-dynamic justifica/1, facto/2, ultimo_facto/1, facto_perguntavel/1.
 
-%:-include('inicio.txt').
-
 % 
 %   SERVER START
 %
@@ -58,20 +56,12 @@ justifica_handler(_) :-
     findall(sintoma(ID, Evidencia, Opcao), justifica(sintoma(ID, Evidencia, Opcao)), ListaSintomas),
     reply_json(ListaSintomas).
 
-:-op(220,xfx,entao).
-:-op(35,xfy,se).
-:-op(240,fx,regra).
-:-op(500,fy,nao).
-:-op(600,xfy,e).
-
-:-dynamic ultimo_facto/1, sintoma/3, diagnostico/3.
-
 get_list_atom([], []).
 get_list_atom([String|StringList], [Atom|AtomList]) :-
     atom_string(Atom, String),
     get_list_atom(StringList, AtomList).
 
-criar_todos_os_sintomas([], [], []).
+criar_todos_os_sintomas([], []).
 criar_todos_os_sintomas([Evidencia|EvidenciaList], [Valor|ValorList]) :-
     A1 =.. [Evidencia, Valor],
     cria_sintoma(A1),
@@ -83,8 +73,13 @@ cria_sintoma(Evidencia, Opcao) :-
     retract(ultimo_facto(N1)),
     N is N1 + 1,
     asserta(ultimo_facto(N)),
-    assertz(sintoma(N, Evidencia, Opcao)),
-    assertz(justifica(sintoma(N, Evidencia, Opcao))).
+    assertz(sintoma(N, Evidencia, _, Opcao)),
+    atualiza_justifica(sintoma(N, Evidencia, Opcao)).
+
+atualiza_justifica(NovoSintoma) :-
+    retract(justifica(ListaAntiga)),
+    append([NovoSintoma], ListaAntiga, NovaLista),
+    assertz(justifica(NovaLista)).
 
 % Process all rules based on the current symptoms
 processa_regras :-
@@ -93,16 +88,17 @@ processa_regras :-
 
 % Apply rules to generate diagnostics, dynamically asking for missing Sintomas
 aplica_regras([(ID, LHS, RHS) | Regras]) :-
-    condicao_compativel(LHS),   % Check if conditions match current Sintomas
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Save the path of the rules that were applied for each diagnostic
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    condicao_compativel(LHS),
     concluir_diagnostico(ID, RHS),
     aplica_regras(Regras).
 
 aplica_regras([]).
 
 % Check if the conditions match with the existing Sintomas
+condicao_compativel([A e B | C]) :-
+    verifica_sintoma(A),
+    condicao_compativel([B e C]).
+
 condicao_compativel([A e B]) :-
     verifica_sintoma(A),
     condicao_compativel([B]).
@@ -110,17 +106,24 @@ condicao_compativel([A e B]) :-
 condicao_compativel([A]) :-
     verifica_sintoma(A).
 
-% Check if a Sintoma is available, if not, ask the user for it
 verifica_sintoma(Sintoma) :-
-    Sintoma =.. [Nome, _, _],
-    sintoma(_, Nome, _), !.   % If Sintoma is found, succeed
+    Sintoma =.. [ID, Evidencia, _, Valor],
+    sintoma_existente(Evidencia, Valor).  % Retorna verdadeiro se houver um sintoma com a mesma evidência e valor
 
 verifica_sintoma(Sintoma) :-
-    Sintoma =.. [Nome, Opcoes, _],
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Ask the user for the missing Sintoma
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    cria_sintoma(Nome, Opcoes, Opcao).
+    Sintoma =.. [ID, Evidencia, _, Valor],
+    sintoma_existente(Evidencia, ValorDiferente), 
+    Valor \= ValorDiferente, !.                    % Retorna falso se houver um valor diferente para a mesma evidencia 
+
+verifica_sintoma(Sintoma) :-
+    Sintoma =.. [_, Evidencia, Opcoes, _],
+    %%%perguntar aqui%%%                           % Perguntar, caso ainda nao tenha sido perguntado
+    cria_sintoma(NovaEvidencia, NovoValor),
+    verifica_sintoma(Sintoma).
+
+% Predicado para verificar existência de um sintoma com a mesma Evidencia e Valor
+sintoma_existente(Evidencia, Valor) :-
+    sintoma(_, Evidencia, Valor).
 
 % Conclude and assert diagnostics based on rule conditions
 concluir_diagnostico(ID, []).
@@ -138,5 +141,7 @@ apaga_factos :-
 
 % Example Rule Structure
 % Define rules with conditions (LHS) and conclusions (RHS)
+    sintoma(Evidencia, Opcoes, Valor)
+    sintoma(Evidencia, Opcoes, Valor)
 regra 1 se [sintoma1(_, _, yes) e sintoma2(_, _, no)] entao [diagnostico('Diagnostico1')].
 regra 2 se [sintoma3(_, _, yes)] entao [diagnostico('Diagnostico2')].

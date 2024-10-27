@@ -3,11 +3,11 @@ regra 1
     entao diagonositco('Qual destes sintomas o automóvel apresenta?', [2, 9, 16, 23, 30]).
 
 regra 2
-    se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')]
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído Sopro/Assobio', 'cheiro dentro do veículo'])]
     entao diagonositco('O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não']).
 
 regra 3
-    [se sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído Sopro/Assobio e cheiro dentro do veículo')
+    se [sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído Sopro/Assobio'])
     e sintoma('O automóvel tem consumido mais combustível do que o habitual?', 'Sim')]
     entao diagonositco('O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não']).
 
@@ -173,4 +173,10 @@ regra 33
     se [sintoma('Qual destes sintomas o automóvel apresenta?', 'Ruído de Batida')
     e sintoma('Houve vazamento de fuligem no para-choque traseiro ou na carroceria?', Sim)
     e sintoma('Após uma inspeção visual, revelado pontos de ferrugem ou corrosão avançada?', 'Não')]
-    entao diagonositco('tubo de escape danificado.(58%)', '')
+    entao diagonositco('tubo de escape danificado.(58%)')
+
+
+    pergunta('pergunta', [])
+
+
+
