@@ -418,6 +418,12 @@ then
 	insert(diag);
 end
 
+rule "#76 - O automóvel tem uma perda de potência acentuada?(Não)"
+when
+	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
+then
+
 rule "#77 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
 when
 	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
