@@ -35,8 +35,8 @@ end
 rule "#2 - Qual destes sintomas o automóvel apresenta?(Ruído Sopro/Assobio e cheiro dentro do veículo)"
 when
     Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Ruído de Sopro ou Assobio", true));
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Cheiro dentro do veículo", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Ruído de Sopro ou Assobio", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Cheiro dentro do veículo", true));
 then
 	Ignorar ign = new Ignorar(1);
 	insert(ign);
@@ -99,7 +99,7 @@ rule "#9 - Qual destes sintomas o automóvel apresenta?(Ruído Sopro ou Assobio)
 when
 	not Ignorar(ID == 1);
     Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Ruído de Sopro ou Assobio", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Ruído de Sopro ou Assobio", true));
 then
 
 end
@@ -162,7 +162,7 @@ rule "#16 - Qual destes sintomas o automóvel apresenta?(Cheiro dentro do veícu
 when
 	not Ignorar(ID == 1);
 	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Cheiro dentro do veículo", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Cheiro dentro do veículo", true));
 then
 
 end
@@ -224,8 +224,8 @@ end
 rule "#23 - Qual destes sintomas o automóvel apresenta?(Ruído de Batida e gases de escape dentro ou ao redor do veículo)"
 when
 	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Ruído de Batida", true));
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Cheiro de gases de escape dentro ou ao redor do veículo", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Ruído de Batida", true));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Cheiro de gases de escape dentro ou ao redor do veículo", true));
 then
 	Ignorar ign = new Ignorar(2);
 	insert(ign);
@@ -290,7 +290,7 @@ rule "#30 - Qual destes sintomas o automóvel apresenta?(Ruído de Batida)"
 when
 	not Ignorar(ID == 2);
 	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo"), "Ruído de Batida", false));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Ruído de Batida", false));
 then
 
 end
@@ -315,14 +315,15 @@ end
 
 rule "#65 - Qual destes sintomas o automóvel apresenta?(Ruído de chocalho)"
 when
-	not Ignorar(ID == 1);
     Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));	
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de chocalho"), "Ruído de chocalho", true)); //HSA acrescentar opções que faltam
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Ruído de Chocalho", true));
 then
+
+end
 
 rule "#66 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
 when
-	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de chocalho".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Chocalho".getBytes(), "UTF-8"));
 	eval(answer("2|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -341,7 +342,7 @@ when
 	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(80%)");
 	insert(diag);
 end
 
@@ -350,10 +351,8 @@ when
 	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("4|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
 then
-	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)"); //HSA não vejo diferenças entre o #68
+	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
 	insert(diag);
-end
-
 end
 
 rule "#70 - O automóvel tem uma perda de potência acentuada?(Não)"
@@ -373,8 +372,6 @@ then
 	insert(diag);
 end
 
-end
-
 rule "#72 - O motor morre ou há algumas falhas ao acelerar?(Não)"
 when
 	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
@@ -386,7 +383,7 @@ end
 
 rule "#73 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
 when
-	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de chocalho".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Chocalho".getBytes(), "UTF-8"));
 	eval(answer("2|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -423,6 +420,8 @@ when
 	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
+
+end
 
 rule "#77 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
 when
@@ -512,14 +511,14 @@ end
 rule "#88 - Qual destes sintomas o automóvel apresenta?(Ruído de chocalho)"
 when
 	Sintoma(evidencia == new String("Qual é a luz que observa?".getBytes(), "UTF-8"), valor == new String("Luz do motor".getBytes(), "UTF-8"));
-	eval(answer("Qual destes sintomas o automóvel apresenta?", List.of("Ruído de chocalho","Problemas na ignição", "Nenhuma das anteriores"), "Ruído de chocalho", false));
+	eval(answer("Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Chocalho","Problemas na ignição", "Nenhuma das anteriores"), "Ruído de Chocalho", false));
 then
 
 end
 
 rule "#89 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
 when
-	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de chocalho".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Chocalho".getBytes(), "UTF-8"));
 	eval(answer("1|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -579,7 +578,7 @@ end
 
 rule "#96 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
 when
-	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de chocalho".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Chocalho".getBytes(), "UTF-8"));
 	eval(answer("1|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -640,7 +639,7 @@ end
 rule "#103 - Qual destes sintomas o automóvel apresenta?(Problemas na ignição)"
 when
 	Sintoma(evidencia == new String("Qual é a luz que observa?".getBytes(), "UTF-8"), valor == new String("Luz do motor".getBytes(), "UTF-8"));
-	eval(answer("Qual destes sintomas o automóvel apresenta?", List.of("Ruído de chocalho","Problemas na ignição", "Nenhuma das anteriores"), "Problemas na ignição", false));
+	eval(answer("Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Chocalho","Problemas na ignição", "Nenhuma das anteriores"), "Problemas na ignição", false));
 then
 
 end
@@ -889,17 +888,23 @@ when
 	eval(answer("2|Qual é a coloração do fumo?", List.of("Esbranquiçado","Azulado", "Escura"), "Escura", false));
 then
 
+end
+
 rule "#139 - O automóvel tem uma perda de potência acentuada?(Sim)"
 when
 	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Fumo anormal".getBytes(), "UTF-8"));
 	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
 
+end
+
 rule "#140 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
 when
 	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
 then
+
+end
 
 rule "#141 - O automóvel tem as velas escuras?(Sim)"
 when
@@ -908,6 +913,7 @@ when
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(100%)");
 	insert(diag);
+end
 
 rule "#142 - O automóvel tem as velas escuras?(Não)"
 when
@@ -916,12 +922,15 @@ when
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(83%)");
 	insert(diag);
+end
 
 rule "#143 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
 when
 	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
 then
+
+end
 
 rule "#144 - O automóvel tem as velas escuras?(Sim)"
 when
@@ -930,6 +939,7 @@ when
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(83%)");
 	insert(diag);
+end
 
 rule "#145 - O automóvel tem as velas escuras?(Não)"
 when
@@ -938,6 +948,7 @@ when
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(67%)");
 	insert(diag);
+end
 
 rule "#146 - O automóvel tem uma perda de potência acentuada?(Não)"
 when
@@ -945,11 +956,15 @@ when
 	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
 
+end
+
 rule "#147 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
 when
 	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
 then
+
+end
 
 rule "#148 - O automóvel tem as velas escuras?(Sim)"
 when
@@ -958,6 +973,7 @@ when
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(83%)");
 	insert(diag);
+end
 
 rule "#149 - O automóvel tem as velas escuras?(Não)"
 when
@@ -966,12 +982,14 @@ when
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(67%)");
 	insert(diag);
-
+end
 rule "#150 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
 when
 	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("4|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
 then
+
+end
 
 rule "#151 - O automóvel tem as velas escuras?(Sim)"
 when
@@ -980,6 +998,7 @@ when
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(67%)");
 	insert(diag);
+end
 
 rule "#152 - O automóvel tem as velas escuras?(Não)"
 when
@@ -988,3 +1007,4 @@ when
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(50%)");
 	insert(diag);
+end
