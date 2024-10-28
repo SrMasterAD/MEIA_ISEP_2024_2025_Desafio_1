@@ -765,14 +765,14 @@ end
 rule "#124 - Qual é a coloração do fumo?(Esbranquiçado)"
 when
 	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Fumo anormal".getBytes(), "UTF-8"));
-	eval(answer("Qual é a coloração do fumo?", List.of("Esbranquiçado","Azulado", "Escura"), "Esbranquiçado", false));
+	eval(answer("1|Qual é a coloração do fumo?", List.of("Esbranquiçado","Azulado", "Escura"), "Esbranquiçado", false));
 then
 	
 end
 
 rule "#125 - O automóvel tem uma perda de potência acentuada?(Sim)"
 when
-	Sintoma(evidencia == new String("Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Esbranquiçado".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Esbranquiçado".getBytes(), "UTF-8"));
 	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -798,7 +798,7 @@ end
 
 rule "#128 - O automóvel tem uma perda de potência acentuada?(Não)"
 when
-	Sintoma(evidencia == new String("Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Esbranquiçado".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Esbranquiçado".getBytes(), "UTF-8"));
 	eval(answer("3|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -825,14 +825,14 @@ end
 rule "#131 - Qual é a coloração do fumo?(Azulado)"
 when
 	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Fumo anormal".getBytes(), "UTF-8"));
-	eval(answer("Qual é a coloração do fumo?", List.of("Esbranquiçado","Azulado", "Escura"), "Azulado", false));
+	eval(answer("1|Qual é a coloração do fumo?", List.of("Esbranquiçado","Azulado", "Escura"), "Azulado", false));
 then
 	
 end
 
 rule "#132 - O automóvel tem uma perda de potência acentuada?(Sim)"
 when
-	Sintoma(evidencia == new String("Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Azulado".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Azulado".getBytes(), "UTF-8"));
 	eval(answer("4|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -858,7 +858,7 @@ end
 
 rule "#135 - O automóvel tem uma perda de potência acentuada?(Não)"
 when
-	Sintoma(evidencia == new String("Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Azulado".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Qual é a coloração do fumo?".getBytes(), "UTF-8"), valor == new String("Azulado".getBytes(), "UTF-8"));
 	eval(answer("4|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -918,7 +918,7 @@ end
 rule "#142 - O automóvel tem as velas escuras?(Não)"
 when
 	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
-	eval(answer("1|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
+	eval(answer("1|O automóvel tem as velas escuras?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Sensor de Fluxo de ar defeituoso.(83%)");
 	insert(diag);
