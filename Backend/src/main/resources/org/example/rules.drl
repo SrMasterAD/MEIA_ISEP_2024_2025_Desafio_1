@@ -1045,6 +1045,41 @@ then
 	insert(diag);
 end
 
+rule "#119 - Verificar se o combustível chega à régua de injecção"
+when
+	Sintoma(evidencia == new String("Verificar se o automóvel tem combustível".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	eval(answer("Verificar se o combustível chega à régua de injecção", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Bomba de combustível defeituosa");
+	insert(diag);
+end
+
+rule "#120 - Verificar se o automóvel tem combustível"
+when
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("O veículo tem dificuldades ao dar o terceiro contacto de ignição".getBytes(), "UTF-8"));
+	eval(answer("Verificar se o automóvel tem combustível", List.of("Sim","Não"), "Não", false));
+then
+
+end
+
+rule "#121 - Ao reabastecer o veículo, permanece sem combustível?"
+when
+	Sintoma(evidencia == new String("Verificar se o automóvel tem combustível".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("Ao reabastecer o veículo, permanece sem combustível?", List.of("Sim","Não"), "Sim", false));
+then
+	Diagnostico diag = new Diagnostico("Fuga de combustível");
+	insert(diag);
+end
+
+rule "#122 - Ao reabastecer o veículo, permanece sem combustível?"
+when
+	Sintoma(evidencia == new String("Verificar se o automóvel tem combustível".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	eval(answer("Ao reabastecer o veículo, permanece sem combustível?", List.of("Sim","Não"), "Não", false));
+then
+	Diagnostico diag = new Diagnostico("Falta de combustível");
+	insert(diag);
+end
+
 rule "#123 - Quais são os sintomas que o seu automóvel apresenta?(Fumo anormal)"
 when
 	eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Fumo anormal"), "Fumo anormal", true));
