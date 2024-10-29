@@ -466,3 +466,11 @@ label {
     background-color: #444;
     color: #fff;
 }
+
+.precision-div {
+    text-align: center;
+}
+
+.precision-header {
+    font-size: 14px;
+}

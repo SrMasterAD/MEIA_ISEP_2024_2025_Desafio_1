@@ -50,8 +50,11 @@
         <div class="diagnosis-box">
             <div class="diagnosis-header">
                 <button class="navigation-btn" id="previous-result-btn" onclick="previousResult()">←</button>
-                <h3>Diagnóstico: <span id="diagnosis-text">Aguardando confirmação...</span></h3>
+                <h3>Diagnóstico: <span id="diagnosis-text"></span></h3>
                 <button class="navigation-btn" id="next-result-btn" onclick="nextResult()">→</button>
+            </div>
+            <div class="precision-div">
+                <span class="precision-header">Precisão do Diagnóstico: </span><span class="precision-header" id="precision-text"></span>
             </div>
             <hr class="separator" />
             <div class="diagnosis-review">

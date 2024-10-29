@@ -56,7 +56,7 @@ when
     Sintoma(evidencia == new String("4|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (100%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (100%)");
 	insert(diag);
 end 
 
@@ -65,7 +65,7 @@ when
     Sintoma(evidencia == new String("4|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (93%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (93%)");
 	insert(diag);
 end
 
@@ -82,7 +82,7 @@ when
     Sintoma(evidencia == new String("4|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim",false));
 then
- 	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (93%)");
+ 	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (93%)");
 	insert(diag);
 end
 
@@ -91,7 +91,7 @@ when
     Sintoma(evidencia == new String("4|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("5|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não",false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (85%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (85%)");
 	insert(diag);
 end
 
@@ -118,7 +118,7 @@ when
 	Sintoma(evidencia == new String("5|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("6|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (65%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (65%)");
 	insert(diag);
 end
 
@@ -127,7 +127,7 @@ when
 	Sintoma(evidencia == new String("5|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("6|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (58%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (58%)");
 	insert(diag);
 end
 
@@ -145,7 +145,7 @@ when
 	Sintoma(evidencia == new String("5|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("6|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (58%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (58%)");
 	insert(diag);
 end
 
@@ -154,7 +154,7 @@ when
 	Sintoma(evidencia == new String("5|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("6|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (50%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (50%)");
 	insert(diag);
 end
 
@@ -181,7 +181,7 @@ when
 	Sintoma(evidencia == new String("6|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("7|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (65%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (65%)");
 	insert(diag);
 end
 
@@ -190,7 +190,7 @@ when
 	Sintoma(evidencia == new String("6|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("7|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (58%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (58%)");
 	insert(diag);
 end
 
@@ -208,7 +208,7 @@ when
 	Sintoma(evidencia == new String("6|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("7|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (58%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (58%)");
 	insert(diag);
 end
 
@@ -217,7 +217,7 @@ when
 	Sintoma(evidencia == new String("6|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("7|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
-	Diagnostico diag = new Diagnostico("Fuga no coletor de escape: (50%)");
+	Diagnostico diag = new Diagnostico("Fuga no coletor de escape. (50%)");
 	insert(diag);
 end
 

@@ -327,7 +327,10 @@ function displayDiagnosis(diagnosticKeys) {
         responsesTable.appendChild(responseRow);
     });
 
-    document.getElementById('diagnosis-text').textContent = diagnosticData.diagnosticText; // Show current diagnostic text
+    const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
+    document.getElementById('diagnosis-text').textContent = cleanedText;
+    document.getElementById('precision-text').textContent = removedParts;
+
     toggleResultNavigationButtons();
 }
 
@@ -378,10 +381,15 @@ function exportToPDF() {
     const doc = new jsPDF();
 
     diagnosticsMap.forEach((diagnosticData, index) => {
-        // Title for each diagnostic
-        const title = `Diagnóstico: ${diagnosticData.diagnosticText}`;
+        const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
+
+        const title = `Diagnóstico: ${cleanedText}`;
         doc.setFontSize(18);
         doc.text(title, 10, 10);
+
+        const precision = `\nPrecisão do Diagnóstico: ${removedParts}`;
+        doc.setFontSize(10);
+        doc.text(precision, 10, 10);
 
         // Prepare question-answer pairs for this diagnostic
         let data = [];
@@ -406,4 +414,11 @@ function exportToPDF() {
     });
 
     doc.save('Diagnóstico.pdf');
+}
+
+function removePercentagePhrases(text) {
+    // Use regex to match all text in parentheses containing a % sign
+    const removedParts = text.match(/\(.*?%\)/g) || []; // Store matched parts
+    const cleanedText = text.replace(/\s*\(.*?%\)\s*/g, ' ').trim(); // Clean the text
+    return { cleanedText, removedParts }; // Return both the cleaned text and removed parts
 }
