@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import Engine.How;
 import Engine.MotorDrools;
 
 import java.util.List;
@@ -35,6 +36,8 @@ public class DemoApplication {
     }
 
     public static void executarMotor(List<Sintoma> sintomas) {
+        How.eliminarHistoricoSintomasGeral();
+        How.eliminarHistoricoSintomasAtual();
         KieServices ks = KieServices.Factory.get();
         KieContainer kc = ks.getKieClasspathContainer();
         ksn = kc.newKieSession("ksession-rules");
