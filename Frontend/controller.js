@@ -136,7 +136,7 @@ async function executePrologQuestion() {
         }
     }
 
-    await axios.post('http://localhost:8080/api/prolog/execute', jsonData, {
+    await axios.post('http://localhost:8070/api/prolog/execute', jsonData, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -164,7 +164,7 @@ async function executeDroolsQuestion() {
         }
     }
 
-    await axios.post('http://localhost:8070/api/drools/execute', jsonData, {
+    await axios.post('http://localhost:8080/api/drools/execute', jsonData, {
         headers: {
             'Content-Type': 'application/json'
         }
