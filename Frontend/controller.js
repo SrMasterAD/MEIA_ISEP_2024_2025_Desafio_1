@@ -367,3 +367,29 @@ window.onload = () => {
     document.getElementById('diagnostic-container').style.display = 'none';
     document.getElementById('welcome-screen').style.opacity = 1;
 };
+
+function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const title = "Diagnóstico: " + document.getElementById('diagnosis-text').textContent;
+    doc.setFontSize(18);
+    doc.text(title, 10, 10);
+
+    const table = document.getElementById('responses-table');
+    let data = [];
+
+    for (let i = 1, row; row = table.rows[i]; i++) {
+        const rowData = [row.cells[0].innerText, row.cells[1].innerText];
+        data.push(rowData);
+    }
+
+    doc.autoTable({
+        head: [['Pergunta', 'Resposta']],
+        body: data,
+        startY: 20,
+        styles: { fontSize: 10, cellPadding: 3 },
+    });
+
+    doc.save(`${title}.pdf`);
+}

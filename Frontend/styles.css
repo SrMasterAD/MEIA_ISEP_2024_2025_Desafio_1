@@ -378,3 +378,57 @@ label {
         font-size: 20px;
     }
 }
+
+.diagnosis-review {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #2c2c2c;
+    color: #f0f0f0;
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+#responses-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: #f9f9f9;
+    font-weight: bold;
+    border-bottom: 2px solid #555;
+}
+
+#responses-table tbody tr:nth-child(even) {
+    background-color: #3b3b3b;
+}
+#responses-table tbody tr:nth-child(odd) {
+    background-color: #2c2c2c;
+}
+
+#diagnosis-container {
+    padding-bottom: 70px;
+    margin-bottom: 10px;
+}
+
+.diagnosis-review::-webkit-scrollbar {
+    width: 10px;
+}
+
+.diagnosis-review::-webkit-scrollbar-track {
+    background: #2c2c2c;
+    border-radius: 5px;
+}
+
+.diagnosis-review::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 5px;
+    border: 2px solid #2c2c2c;
+}
+
+.diagnosis-review::-webkit-scrollbar-thumb:hover {
+    background-color: #666;
+}
+
+.diagnosis-review {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #2c2c2c;
+}

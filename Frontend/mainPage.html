@@ -6,7 +6,8 @@
     <title>Diagnóstico PitStop Pro</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>    
 </head>
 <body>
     <script src="controller.js"></script>
@@ -41,9 +42,9 @@
     <div id="diagnosis-container" style="display: none;">
         <div class="diagnosis-box">
             <div class="diagnosis-header">
-                <button class="navigation-btn" id="previous-result-btn" onclick="previousResult()">←</button>
+                <!--<button class="navigation-btn" id="previous-result-btn" onclick="previousResult()">←</button>-->
                 <h3>Diagnóstico: <span id="diagnosis-text">Aguardando confirmação...</span></h3>
-                <button class="navigation-btn" id="next-result-btn" onclick="nextResult()">→</button>
+                <!--<button class="navigation-btn" id="next-result-btn" onclick="nextResult()">→</button>-->
             </div>
             <hr class="separator" />
             <div class="diagnosis-review">
@@ -59,6 +60,7 @@
             </div>
             <div class="navigation-buttons">
                 <button class="confirm-btn retry-btn" onclick="retryDiagnosis()">⟳</button>
+                <button class="confirm-btn export-btn" onclick="exportToPDF()">Exportar para PDF</button>
             </div>
         </div>
     </div>
