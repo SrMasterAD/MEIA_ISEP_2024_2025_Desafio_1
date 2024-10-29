@@ -4,6 +4,7 @@ var questionsAsked = [];
 var currentDiagnosisIndex = 0; 
 var question;
 var isFirstQuestion = true;
+var technology = "drools";
 
 function startDiagnosis() {
     startEngine();
@@ -113,19 +114,57 @@ function isNextButtonEnabled() {
 }
 
 async function executeQuestion() {
+    switch(technology) {
+        case "prolog":
+            await executePrologQuestion();
+            break;
+        default:
+            await executeDroolsQuestion();
+            break;
+    }
+}
+
+async function executePrologQuestion() {
     const jsonData =[];
-    
+
     for (let i = 0; i < questionsAsked.length; i++) {
         for (let j = 0; j < questionsAsked[i].chosenAnswers.length; j++) {
             jsonData.push({
                 "evidencia": questionsAsked[i].questao, 
-                "possiveisValores": questionsAsked[i].valores, 
                 "valor": questionsAsked[i].chosenAnswers[j] 
             });
         }
     }
 
-    await axios.post('http://localhost:8080/api/drools/execute', jsonData, {
+    await axios.post('http://localhost:8080/api/prolog/execute', jsonData, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(response => {
+            question.questao = response.data.questao;
+            question.valores = response.data.possiveisValores;
+        })
+        .catch(error => {
+        console.error(error);
+    });
+
+    afterQuestion(question);
+}
+
+async function executeDroolsQuestion() {
+    const jsonData =[];
+    for (let i = 0; i < questionsAsked.length; i++) {
+        for (let j = 0; j < questionsAsked[i].chosenAnswers.length; j++) {
+            jsonData.push({
+                "evidencia": questionsAsked[i].questao, 
+                "possiveisValores": questionsAsked[i].valores, 
+                "valor": questionsAsked[i].chosenAnswers[j]
+            });
+        }
+    }
+
+    await axios.post('http://localhost:8070/api/drools/execute', jsonData, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -141,6 +180,43 @@ async function executeQuestion() {
 }
 
 async function nextQuestion() {
+    switch(technology) {
+        case "prolog":
+            nextQuestionProlog();
+            break;
+        default:
+            nextQuestionDrools();
+            break;
+    }
+}
+
+async function nextQuestionProlog() {
+
+    const jsonData =[];
+    for (let i = 0; j < questionsAsked[questionsAsked.length-1].chosenAnswers.length; i++) {
+        jsonData.push({
+            "evidencia": questionsAsked[questionsAsked.length-1].questao, 
+            "valor": questionsAsked[questionsAsked.length-1].chosenAnswers[i] 
+        });
+    }
+
+    await axios.post('http://localhost:8070/nextStep', jsonData, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+    .then(response => {
+        question.questao = response.data.questao;
+        question.valores = response.data.opcoes;
+    })
+    .catch(error => {
+    console.error(error);
+    });
+
+    afterQuestion(question);
+}
+
+async function nextQuestionDrools() {
 
     let resposta = "";
     for (let i = 0; i < questionsAsked[questionsAsked.length - 1].chosenAnswers.length; i++) {
@@ -191,7 +267,6 @@ function perguntarLuzesDoPainel() {
 
 function afterQuestion(question) {
     if (isNextButtonEnabled()) {
-        console.log(question);
         if (!question.hasOwnProperty('diagnostico') || !question.diagnostico) {
             loadQuestion(question);
         } else {
