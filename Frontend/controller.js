@@ -250,6 +250,9 @@ async function nextQuestionDrools() {
 }
 
 function questionHandler() {
+    document.getElementById("next-btn").disabled = true;
+    document.getElementById("next-btn").style.backgroundColor = "rgb(85, 85, 85)";
+
     if(isFirstQuestion){
         for (let i = 0; i < questionsAsked[questionsAsked.length - 1].chosenAnswers.length; i++) {
             if(questionsAsked[questionsAsked.length - 1].chosenAnswers[i] == "Luzes no painel") {
@@ -339,6 +342,7 @@ function retryDiagnosis() {
     diagnosticsMap = new Map();
     currentDiagnosisIndex = 0;
     isFirstQuestion = true;
+    document.getElementById('diagnostic-container').style.display = 'none';
     document.getElementById('diagnosis-container').style.display = 'none';
     document.getElementById('welcome-screen').style.display = 'flex';
     document.getElementById('welcome-screen').style.opacity = 1;
