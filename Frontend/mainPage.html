@@ -21,6 +21,13 @@
             <p>Deseja iniciar o diagnóstico?</p>
             <button class="start-btn" onclick="startDiagnosis()">▶</button>
         </div>
+        <div class="combobox-container">
+            <label for="language-select" class="combobox-label">Selecione o motor de inferência:</label>
+            <select id="language-select" class="combobox">
+                <option value="drools">Drools</option>
+                <option value="prolog">Prolog</option>
+            </select>
+        </div> 
     </div>
 
     <div class="top-bar">
@@ -42,9 +49,12 @@
     <div id="diagnosis-container" style="display: none;">
         <div class="diagnosis-box">
             <div class="diagnosis-header">
-                <!--<button class="navigation-btn" id="previous-result-btn" onclick="previousResult()">←</button>-->
-                <h3>Diagnóstico: <span id="diagnosis-text">Aguardando confirmação...</span></h3>
-                <!--<button class="navigation-btn" id="next-result-btn" onclick="nextResult()">→</button>-->
+                <button class="navigation-btn" id="previous-result-btn" onclick="previousResult()">←</button>
+                <h3>Diagnóstico: <span id="diagnosis-text"></span></h3>
+                <button class="navigation-btn" id="next-result-btn" onclick="nextResult()">→</button>
+            </div>
+            <div class="precision-div">
+                <span class="precision-header">Precisão do Diagnóstico: </span><span class="precision-header" id="precision-text"></span>
             </div>
             <hr class="separator" />
             <div class="diagnosis-review">

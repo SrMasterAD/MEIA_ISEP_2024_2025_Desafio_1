@@ -4,7 +4,13 @@ var questionsAsked = [];
 var currentDiagnosisIndex = 0; 
 var question;
 var isFirstQuestion = true;
-var technology = "drools";
+
+let technology = "drools";
+window.addEventListener('DOMContentLoaded',function () {
+    document.getElementById("language-select").addEventListener("change", (event) => {
+        technology = event.target.value;
+    });
+});
 
 function startDiagnosis() {
     startEngine();
@@ -164,6 +170,8 @@ async function executeDroolsQuestion() {
         }
     }
 
+    //TODO
+
     await axios.post('http://localhost:8080/api/drools/execute', jsonData, {
         headers: {
             'Content-Type': 'application/json'
@@ -290,10 +298,9 @@ function generateDiagnosis(rawDiagnosis) {
         diagnosticsMap.set(index, diagnosticData);
     });
 
-    let diagnosticTexts = diagnosticos.join(', ');
-    document.getElementById('diagnosis-text').textContent = diagnosticTexts;
-
-    showDiagnosis(Array.from(diagnosticsMap.keys()));
+    // Show the diagnosis container with only the first diagnostic key
+    showDiagnosis([0]); // Display the diagnosis container and start with the first diagnosis
+    toggleResultNavigationButtons(); // Ensure the navigation buttons are updated
 }
 
 function showDiagnosis(diagnosticKeys) {
@@ -306,25 +313,26 @@ function displayDiagnosis(diagnosticKeys) {
     const responsesTable = document.getElementById('answered-questions');
     responsesTable.innerHTML = ''; 
 
-    diagnosticKeys.forEach(key => {
-        let diagnosticData = diagnosticsMap.get(key);
-        let { diagnosticText, questionAnswers } = diagnosticData;
+    const diagnosticData = diagnosticsMap.get(diagnosticKeys[0]);  // Only use the first (current) index
+    const { diagnosticText, questionAnswers } = diagnosticData;
 
-        questionAnswers.forEach((qa) => {
-            let question = Object.keys(qa)[0];
-            let answer = qa[question];
+    questionAnswers.forEach((qa) => {
+        let question = Object.keys(qa)[0];
+        let answer = qa[question];
 
-            let responseRow = document.createElement('tr');
-            responseRow.innerHTML = `
-                <td>${question}</td>
-                <td>${answer}</td>`;
-            responsesTable.appendChild(responseRow);
-        });
+        let responseRow = document.createElement('tr');
+        responseRow.innerHTML = `
+            <td>${question}</td>
+            <td>${answer}</td>`;
+        responsesTable.appendChild(responseRow);
     });
+
+    const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
+    document.getElementById('diagnosis-text').textContent = cleanedText;
+    document.getElementById('precision-text').textContent = removedParts;
 
     toggleResultNavigationButtons();
 }
-
 
 function retryDiagnosis() {
     questionsAsked = [];
@@ -372,24 +380,45 @@ function exportToPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    const title = "Diagnóstico: " + document.getElementById('diagnosis-text').textContent;
-    doc.setFontSize(18);
-    doc.text(title, 10, 10);
+    diagnosticsMap.forEach((diagnosticData, index) => {
+        const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
 
-    const table = document.getElementById('responses-table');
-    let data = [];
+        const title = `Diagnóstico: ${cleanedText}`;
+        doc.setFontSize(18);
+        doc.text(title, 10, 10);
 
-    for (let i = 1, row; row = table.rows[i]; i++) {
-        const rowData = [row.cells[0].innerText, row.cells[1].innerText];
-        data.push(rowData);
-    }
+        const precision = `\nPrecisão do Diagnóstico: ${removedParts}`;
+        doc.setFontSize(10);
+        doc.text(precision, 10, 10);
 
-    doc.autoTable({
-        head: [['Pergunta', 'Resposta']],
-        body: data,
-        startY: 20,
-        styles: { fontSize: 10, cellPadding: 3 },
+        // Prepare question-answer pairs for this diagnostic
+        let data = [];
+        diagnosticData.questionAnswers.forEach(qa => {
+            const question = Object.keys(qa)[0];
+            const answer = qa[question];
+            data.push([question, answer]);
+        });
+
+        // Add question-answer pairs as a table
+        doc.autoTable({
+            head: [['Pergunta', 'Resposta']],
+            body: data,
+            startY: 20,
+            styles: { fontSize: 10, cellPadding: 3 },
+        });
+
+        // Add a new page if there are more diagnostics to add
+        if (index < diagnosticsMap.size - 1) {
+            doc.addPage();
+        }
     });
 
-    doc.save(`${title}.pdf`);
+    doc.save('Diagnóstico.pdf');
+}
+
+function removePercentagePhrases(text) {
+    // Use regex to match all text in parentheses containing a % sign
+    const removedParts = text.match(/\(.*?%\)/g) || []; // Store matched parts
+    const cleanedText = text.replace(/\s*\(.*?%\)\s*/g, ' ').trim(); // Clean the text
+    return { cleanedText, removedParts }; // Return both the cleaned text and removed parts
 }

@@ -260,7 +260,14 @@ table {
     font-size: 18px;
 }
 
-table th, table td {
+table th {
+    border-left: 1px solid #444;
+    border-right: 1px solid #444;
+    padding: 10px;
+    text-align: left;
+}
+
+table td {
     border: 1px solid #444;
     padding: 10px;
     text-align: left;
@@ -431,4 +438,46 @@ label {
 .diagnosis-review {
     scrollbar-width: thin;
     scrollbar-color: #444 #2c2c2c;
+}
+
+.combobox-container {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+}
+
+.combobox-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.combobox {
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #444;
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.combobox:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.combobox option {
+    padding: 10px;
+    background-color: #444;
+    color: #fff;
+}
+
+.precision-div {
+    text-align: center;
+}
+
+.precision-header {
+    font-size: 14px;
 }
