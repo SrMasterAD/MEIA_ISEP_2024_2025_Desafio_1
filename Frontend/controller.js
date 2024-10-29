@@ -150,12 +150,12 @@ async function executePrologQuestion() {
         .then(response => {
             question.questao = response.data.questao;
             question.valores = response.data.possiveisValores;
+            afterQuestion(question);
         })
         .catch(error => {
         console.error(error);
+        retryDiagnosis();
     });
-
-    afterQuestion(question);
 }
 
 async function executeDroolsQuestion() {
@@ -170,8 +170,6 @@ async function executeDroolsQuestion() {
         }
     }
 
-    //TODO
-
     await axios.post('http://localhost:8080/api/drools/execute', jsonData, {
         headers: {
             'Content-Type': 'application/json'
@@ -179,12 +177,12 @@ async function executeDroolsQuestion() {
         })
         .then(response => {
             question=response.data;
+            afterQuestion(question);
         })
         .catch(error => {
         console.error(error);
+        retryDiagnosis();
     });
-
-    afterQuestion(question);
 }
 
 async function nextQuestion() {
@@ -216,12 +214,12 @@ async function nextQuestionProlog() {
     .then(response => {
         question.questao = response.data.questao;
         question.valores = response.data.opcoes;
+        afterQuestion(question);
     })
     .catch(error => {
     console.error(error);
+    retryDiagnosis();
     });
-
-    afterQuestion(question);
 }
 
 async function nextQuestionDrools() {
@@ -241,12 +239,12 @@ async function nextQuestionDrools() {
     })
     .then(response => {
         question=response.data;
+        afterQuestion(question);
     })
     .catch(error => {
     console.error(error);
+    retryDiagnosis();
     });
-
-    afterQuestion(question);
 }
 
 function questionHandler() {
