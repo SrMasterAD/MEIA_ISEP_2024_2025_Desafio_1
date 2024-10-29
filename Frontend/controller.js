@@ -4,7 +4,13 @@ var questionsAsked = [];
 var currentDiagnosisIndex = 0; 
 var question;
 var isFirstQuestion = true;
-var technology = "drools";
+
+let technology = "drools";
+window.addEventListener('DOMContentLoaded',function () {
+    document.getElementById("language-select").addEventListener("change", (event) => {
+        technology = event.target.value;
+    });
+});
 
 function startDiagnosis() {
     startEngine();
