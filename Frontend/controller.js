@@ -66,7 +66,7 @@ function loadQuestion(currentQuestion) {
 
 function createOption(label, onClick, className) {
     const div = document.createElement('div');
-    div.classList.add('option', className);
+    div.classList.add('option', className.replaceAll(" ", "_"));
     div.onclick = onClick;
     div.innerHTML = `<label>${label}</label>`;
     return div;
@@ -330,7 +330,8 @@ function displayDiagnosis(diagnosticKeys) {
 
     const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
     document.getElementById('diagnosis-text').textContent = cleanedText;
-    document.getElementById('precision-text').textContent = removedParts;
+    if (removedParts.length !== 0)
+        document.getElementById('precision-text').textContent = "Precisão do Diagnóstico: " + removedParts;
 
     toggleResultNavigationButtons();
 }
@@ -389,9 +390,12 @@ function exportToPDF() {
         doc.setFontSize(18);
         doc.text(title, 10, 10);
 
-        const precision = `\nPrecisão do Diagnóstico: ${removedParts}`;
-        doc.setFontSize(10);
-        doc.text(precision, 10, 10);
+        if (removedParts.length !== 0)
+        {
+            const precision = `\nPrecisão do Diagnóstico: ${removedParts}`;
+            doc.setFontSize(10);
+            doc.text(precision, 10, 10);
+        }
 
         // Prepare question-answer pairs for this diagnostic
         let data = [];
