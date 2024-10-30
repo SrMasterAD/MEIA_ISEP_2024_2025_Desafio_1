@@ -606,7 +606,7 @@ end
 
 rule "#65 - Qual destes sintomas o automóvel apresenta?(Ruído de chocalho)"
 when
-    Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));	
+    Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
 	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Ruído de Chocalho", true));
 then
 
@@ -614,7 +614,7 @@ end
 
 rule "#66 - O automóvel tem consumido mais combustível do que o habitual?(Sim)"
 when
-	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Chocalho".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Chocalho".getBytes(), "UTF-8"));
 	eval(answer("7|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -622,7 +622,7 @@ end
 
 rule "#67 - O automóvel tem uma perda de potência acentuada?(Sim)"
 when
-	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("7|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("8|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -630,7 +630,7 @@ end
 
 rule "#68 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
 when
-	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("8|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("5|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Catalisador obstruído.(80%)");
@@ -639,7 +639,7 @@ end
 
 rule "#69 - O motor morre ou há algumas falhas ao acelerar?(Não)"
 when
-	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("8|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("5|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
@@ -648,7 +648,7 @@ end
 
 rule "#70 - O automóvel tem uma perda de potência acentuada?(Não)"
 when
-	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("7|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("8|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -656,7 +656,7 @@ end
 
 rule "#71 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
 when
-	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("8|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("6|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
@@ -665,7 +665,7 @@ end
 
 rule "#72 - O motor morre ou há algumas falhas ao acelerar?(Não)"
 when
-	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("8|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("6|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
@@ -674,7 +674,7 @@ end
 
 rule "#73 - O automóvel tem consumido mais combustível do que o habitual?(Não)"
 when
-	Sintoma(evidencia == new String("Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Chocalho".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Ruído de Chocalho".getBytes(), "UTF-8"));
 	eval(answer("7|O automóvel tem consumido mais combustível do que o habitual?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -682,7 +682,7 @@ end
 
 rule "#74 - O automóvel tem uma perda de potência acentuada?(Sim)"
 when
-	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("7|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("9|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Sim", false));
 then
 
@@ -690,7 +690,7 @@ end
 
 rule "#75 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
 when
-	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("9|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("7|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Catalisador obstruído.(70%)");
@@ -699,7 +699,7 @@ end
 
 rule "#75.5 - O motor morre ou há algumas falhas ao acelerar?(Não)"
 when
-	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("9|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
 	eval(answer("7|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
@@ -708,7 +708,7 @@ end
 
 rule "#76 - O automóvel tem uma perda de potência acentuada?(Não)"
 when
-	Sintoma(evidencia == new String("O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("7|O automóvel tem consumido mais combustível do que o habitual?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("9|O automóvel tem uma perda de potência acentuada?", List.of("Sim","Não"), "Não", false));
 then
 
@@ -716,7 +716,7 @@ end
 
 rule "#77 - O motor morre ou há algumas falhas ao acelerar?(Sim)"
 when
-	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("9|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("8|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Sim", false));
 then
 	Diagnostico diag = new Diagnostico("Catalisador obstruído.(60%)");
@@ -725,7 +725,7 @@ end
 
 rule "#78 - O motor morre ou há algumas falhas ao acelerar?(Não)"
 when
-	Sintoma(evidencia == new String("O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("9|O automóvel tem uma perda de potência acentuada?".getBytes(), "UTF-8"), valor == new String("Não".getBytes(), "UTF-8"));
 	eval(answer("8|O motor morre ou há algumas falhas ao acelerar?", List.of("Sim","Não"), "Não", false));
 then
 	Diagnostico diag = new Diagnostico("Catalisador obstruído.(50%)");
@@ -752,18 +752,9 @@ when
 	Sintoma(evidencia == new String("Qual é a luz que observa?".getBytes(), "UTF-8"), valor == new String("Luz de óleo".getBytes(), "UTF-8"));
 	eval(answer("1|O automóvel está com o nível de óleo normal?", List.of("Sim","Não"), "Sim", false));
 then
-
-end
-
-rule "#82 - As escovas do motor de arranque estão danificadas?(Sim)"
-when
-	Sintoma(evidencia == new String("1|O automóvel está com o nível de óleo normal?".getBytes(), "UTF-8"), valor == new String("Sim".getBytes(), "UTF-8"));
-	eval(answer("As escovas do motor de arranque estão danificadas?", List.of("Sim","Não"), "Sim", false));
-then
 	Diagnostico diag = new Diagnostico("Escovas do motor de arranque danificadas.");
 	insert(diag);
 end
-//////CONSULTE UM ESPECIALISTA////// Rule 83
 
 rule "#84 - O automóvel está com o nível de óleo normal?(Não)"
 when
@@ -802,7 +793,7 @@ end
 rule "#88 - Qual destes sintomas o automóvel apresenta?(Ruído de chocalho)"
 when
 	Sintoma(evidencia == new String("Qual é a luz que observa?".getBytes(), "UTF-8"), valor == new String("Luz do motor".getBytes(), "UTF-8"));
-	eval(answer("Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Chocalho","Problemas na ignição", "Nenhuma das anteriores"), "Ruído de Chocalho", false));
+	eval(answer("Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Chocalho","Problemas na ignição"), "Ruído de Chocalho", true));
 then
 
 end
@@ -930,7 +921,7 @@ end
 rule "#103 - Qual destes sintomas o automóvel apresenta?(Problemas na ignição)"
 when
 	Sintoma(evidencia == new String("Qual é a luz que observa?".getBytes(), "UTF-8"), valor == new String("Luz do motor".getBytes(), "UTF-8"));
-	eval(answer("Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Chocalho","Problemas na ignição", "Nenhuma das anteriores"), "Problemas na ignição", false));
+	eval(answer("Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Chocalho","Problemas na ignição"), "Problemas na ignição", true));
 then
 
 end

@@ -4,6 +4,7 @@ var questionsAsked = [];
 var currentDiagnosisIndex = 0; 
 var question;
 var isFirstQuestion = true;
+var currentQuestionNumber = 0;
 
 let technology = "drools";
 window.addEventListener('DOMContentLoaded',function () {
@@ -32,6 +33,7 @@ function startEngine(){
 }
 
 function loadQuestion(currentQuestion) {
+    currentQuestionNumber++;
     let questionTitle = document.getElementById('question-title');
     let optionsContainer = document.getElementById('options-container'); 
     questionsAsked.push(currentQuestion);
@@ -40,7 +42,7 @@ function loadQuestion(currentQuestion) {
 
     //get last question of question questionsAsked
 
-    questionTitle.textContent = currentQuestion.questao;
+    questionTitle.textContent = currentQuestionNumber + ". " + currentQuestion.questao;
     optionsContainer.innerHTML = '';
     if (currentQuestion.multiselect) {
         currentQuestion.valores.forEach(option => {
@@ -75,22 +77,23 @@ function createOption(label, onClick, className) {
 function selectOption(selectedOptionDiv, options, value) {
     const currentlySelected = selectedOptionDiv.classList.contains('selected');
 
-    // Remove 'selected' class from all options
     options.forEach(option => {
         const optionDiv = document.querySelector(`.${option.toLowerCase()}-option`);
         if (optionDiv) {
             optionDiv.classList.remove('selected');
-            questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
         }
     });
 
-    // If the clicked option wasn't already selected, select it
+    questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
+
     if (!currentlySelected) {
         selectedOptionDiv.classList.add('selected');
+        questionsAsked[questionsAsked.length - 1].chosenAnswers.push(value);
+    } else {
+        questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
     }
-    questionsAsked[questionsAsked.length - 1].chosenAnswers.push(value);
 
-    toggleNavigationButtons(); // Assuming you have a navigation button toggle
+    toggleNavigationButtons();
 }
 
 function toggleSelection(optionDiv, value, currentQuestion) {
@@ -343,6 +346,7 @@ function retryDiagnosis() {
     diagnosticsMap = new Map();
     currentDiagnosisIndex = 0;
     isFirstQuestion = true;
+    currentQuestionNumber = 0;
     document.getElementById('diagnostic-container').style.display = 'none';
     document.getElementById('diagnosis-container').style.display = 'none';
     document.getElementById('welcome-screen').style.display = 'flex';
