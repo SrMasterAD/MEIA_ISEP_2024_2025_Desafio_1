@@ -77,22 +77,23 @@ function createOption(label, onClick, className) {
 function selectOption(selectedOptionDiv, options, value) {
     const currentlySelected = selectedOptionDiv.classList.contains('selected');
 
-    // Remove 'selected' class from all options
     options.forEach(option => {
         const optionDiv = document.querySelector(`.${option.toLowerCase()}-option`);
         if (optionDiv) {
             optionDiv.classList.remove('selected');
-            questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
         }
     });
 
-    // If the clicked option wasn't already selected, select it
+    questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
+
     if (!currentlySelected) {
         selectedOptionDiv.classList.add('selected');
+        questionsAsked[questionsAsked.length - 1].chosenAnswers.push(value);
+    } else {
+        questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
     }
-    questionsAsked[questionsAsked.length - 1].chosenAnswers.push(value);
 
-    toggleNavigationButtons(); // Assuming you have a navigation button toggle
+    toggleNavigationButtons();
 }
 
 function toggleSelection(optionDiv, value, currentQuestion) {
