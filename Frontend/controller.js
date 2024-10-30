@@ -330,8 +330,10 @@ function displayDiagnosis(diagnosticKeys) {
 
     const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
     document.getElementById('diagnosis-text').textContent = cleanedText;
-    if (removedParts.length !== 0)
+    document.getElementById('precision-text').textContent = "";
+    if (removedParts.length !== 0) {
         document.getElementById('precision-text').textContent = "Precisão do Diagnóstico: " + removedParts;
+    }
 
     toggleResultNavigationButtons();
 }
