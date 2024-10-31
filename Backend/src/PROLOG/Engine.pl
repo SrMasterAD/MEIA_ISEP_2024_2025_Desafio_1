@@ -29,11 +29,25 @@
 iniciar_servidor(PORT) :-
     http_server(http_dispatch, [port(PORT)]).
 
+cors_enable(Request) :-
+    member(method(options), Request), !,
+    cors_headers,
+    format('~n').
+
+cors_enable(_) :-
+    cors_headers.
+
+cors_headers :-
+    format('Access-Control-Allow-Origin: *~n'),
+    format('Access-Control-Allow-Methods: GET, POST, OPTIONS~n'),
+    format('Access-Control-Allow-Headers: Content-Type, Authorization~n').
+
 % Adiciona um novo endpoint /start para adicionar sintomas
 :- http_handler('/execute', start_engine_handler, []).
 
 % Processa o pedido POST /start
 start_engine_handler(Request) :-
+    cors_enable(Request), 
     http_read_json_dict(Request, DictList),
     limpar_dados,
     criar_sintomas(DictList),
@@ -213,7 +227,7 @@ obter_diagnosticos(Response) :-
         Diagnosticos
     ),   
     findall(
-        _{
+        {
             diagnostico: TextoDiagnostico,
             sintomas_historico: ListaSintomasFormatados
         },
