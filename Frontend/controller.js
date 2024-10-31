@@ -145,14 +145,14 @@ async function executePrologQuestion() {
         }
     }
 
-    await axios.post('http://localhost:8070/api/prolog/execute', jsonData, {
+    await axios.post('http://localhost:8070/execute', jsonData, {
         headers: {
             'Content-Type': 'application/json'
         }
         })
         .then(response => {
-            question.questao = response.data.questao;
-            question.valores = response.data.possiveisValores;
+            question.questao = response.data.evidencia;
+            question.valores = response.data.opcoes;
             afterQuestion(question);
         })
         .catch(error => {
@@ -215,8 +215,30 @@ async function nextQuestionProlog() {
         }
         })
     .then(response => {
-        question.questao = response.data.questao;
-        question.valores = response.data.opcoes;
+        if(response.data.evidencia) {
+            question.questao = response.data.evidencia;
+            question.valores = response.data.opcoes;
+        }else{
+            response.data.forEach(element => {
+                const transformedData = {
+                    diagnostico: {}
+                };
+                
+                // Iterate over each diagnostic entry in response.data
+                response.data.forEach(item => {
+                    const diagnosticoName = item.diagnostico;
+                    transformedData.diagnostico[diagnosticoName] = [];
+                
+                    item.sintomas_historico[0].forEach(sintoma => {
+                        // Extract the evidence question and value, similar to the initial structure
+                        transformedData.diagnostico[diagnosticoName].push({
+                            [sintoma.evidencia]: sintoma.valor
+                        });
+                    });
+                });
+                question = transformedData;
+            });
+        }
         afterQuestion(question);
     })
     .catch(error => {
@@ -282,6 +304,7 @@ function afterQuestion(question) {
         if (!question.hasOwnProperty('diagnostico') || !question.diagnostico) {
             loadQuestion(question);
         } else {
+            console.log(question);
             generateDiagnosis(question);
         }
     } else {
