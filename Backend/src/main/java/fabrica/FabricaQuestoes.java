@@ -20,7 +20,7 @@ public class FabricaQuestoes {
     public static boolean answered=false;
     public static DiagnosticoDTO diagnostico;
 
-    public static boolean answer(String sintomaString, List<String> possiveisValores, String valor, boolean multiselect) throws InterruptedException {
+    public static boolean answer(String sintomaString, List<String> possiveisValores, String valor, String Id ,boolean multiselect) throws InterruptedException {
 
         try {
             String sintomaStrUTF8 = new String(sintomaString.getBytes(), "UTF-8");
@@ -40,7 +40,7 @@ public class FabricaQuestoes {
             for (Sintoma s : sintomas) {
                 if (s.getEvidencia().compareTo(sintomaStrUTF8) == 0) {
                     if(s.getValor().compareTo(valorUTF8) == 0){
-                        How.adicionarSintomaHistorico(s);
+                        How.adicionarSintomaHistorico(s, Id);
                         return true;
                     }
                     evidenciaVerificada = true;
@@ -74,7 +74,7 @@ public class FabricaQuestoes {
                 Sintoma s = new Sintoma(sintomaStrUTF8, possiveisValoresUTF8, r);
                 DemoApplication.ksn.insert(s);
                 if(r.compareTo(valorUTF8) == 0) {
-                    How.adicionarSintomaHistorico(s);
+                    How.adicionarSintomaHistorico(s, Id);
                     respostaValida = true;
                 }
             }
