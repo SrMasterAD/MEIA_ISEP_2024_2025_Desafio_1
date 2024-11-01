@@ -418,6 +418,41 @@ regra 78
     se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
     e sintoma('8|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Catalisador obstruído.(50%)')].
+    
+regra 110
+    se  [sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'O veículo tem dificuldades ao dar o terceiro contacto de ignição',true)]
+    entao [].
+
+regra 111
+    se  [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'O veículo tem dificuldades ao dar o terceiro contacto de ignição',true))
+    e    sintoma('O automóvel tem combustível?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 112
+    se  [sintoma_existente(sintoma('O automóvel tem combustível?', ['Sim', 'Não'], 'Sim', false))
+    e    sintoma('O Combustível chega à régua de injeção?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 113
+    se  [sintoma_existente(sintoma('O Combustível chega à régua de injeção?', ['Sim', 'Não'], 'Sim', false))
+    e    sintoma('4|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Escovas do motor de arranque danificadas.')].
+
+regra 114
+    se  [sintoma_existente(sintoma('O Combustível chega à régua de injeção?', ['Sim', 'Não'], 'Sim', false))
+    e    sintoma('4|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 115
+    se  [sintoma_existente(sintoma('4|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Não', false))
+    e    sintoma('O automóvel está a pingar óleo?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Fuga de óleo.')].
+
+regra 116
+    se  [sintoma_existente(sintoma('4|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Não', false))
+    e    sintoma('O automóvel está a pingar óleo?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Falta de óleo.')].
+
 
 regra 119
     se [sintoma_existente(sintoma('O automóvel tem combustível?', ['Sim', 'Não'], 'Sim', false))
