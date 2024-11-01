@@ -171,5 +171,345 @@ regra 32
     e   sintoma('3|Existem pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Tubo de escape danificado.(65%)')].
 
+regra 33
+    se [sintoma_existente(sintoma('2|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('3|Existem pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Tubo de escape danificado.(58%)')].
 
+regra 34
+    se [ignorar(2) 
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de Batida', true))
+    e sintoma('2|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
 
+regra 35 
+    se [sintoma_existente(sintoma('2|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('4|Existem pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Tubo de escape danificado.(58%)')].
+
+regra 36 
+    se [sintoma_existente(sintoma('2|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('4|Existem pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Tubo de escape danificado.(50%)')].
+
+regra 37 
+    se [ignorar(2)
+    e sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
+    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro de gases de escape ao redor do veículo', false)]
+    entao [].
+
+regra 38 
+    se [ignorar(2)
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro de gases de escape ao redor do veículo', false))
+    e sintoma('3|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 39 
+    se [sintoma_existente(sintoma('3|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('5|Existem pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Tubo de escape danificado.(65%)')].
+
+regra 40 
+    se [sintoma_existente(sintoma('3|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('5|Existem pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Tubo de escape danificado.(58%)')].
+
+regra 41 
+    se [ignorar(2)
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro de gases de escape ao redor do veículo', false))
+    e sintoma('3|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 42 
+    se [sintoma_existente(sintoma('3|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('6|Existem pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Tubo de escape danificado.(58%)')].
+
+regra 43 
+    se [sintoma_existente(sintoma('3|Há fuligem na traseira do veículo?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('6|Existem pontos de ferrugem ou corrosão avançada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Tubo de escape danificado.(50%)')].
+
+regra 44 
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
+    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', true)
+    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', true)]
+    entao [ignorar(3)].
+
+regra 45 
+    se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    e sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 46 
+    se [sintoma_existente(sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('11|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(100%)')].
+
+regra 47 
+    se [sintoma_existente(sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('11|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(93%)')].
+
+regra 48 
+    se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    e sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 49 
+    se [sintoma_existente(sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('12|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(93%)')].
+
+regra 50 
+    se [sintoma_existente(sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('12|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(85%)')].
+
+regra 51 
+    se [ignorar(3)
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
+    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false)]
+    entao [].
+
+regra 52 
+    se [ignorar(3)
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
+    e sintoma('2|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 53 
+    se [sintoma_existente(sintoma('2|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('13|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(65%)')].
+
+regra 54 
+    se [sintoma_existente(sintoma('2|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('13|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(58%)')].
+
+regra 55 
+    se [ignorar(3)
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
+    e sintoma('2|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 56
+    se [sintoma_existente(sintoma('2|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('13|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(58%)')].
+
+regra 57 
+    se [sintoma_existente(sintoma('2|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('13|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(50%)')].
+
+regra 58 
+    se [ignorar(3)
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
+    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false)]
+    entao [].
+
+regra 59 
+    se [ignorar(3)
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    e sintoma('3|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 60 
+    se [sintoma_existente(sintoma('3|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('14|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(65%)')].
+
+regra 61 
+    se [sintoma_existente(sintoma('3|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('14|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(58%)')].
+
+regra 62 
+    se [ignorar(3)
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    e sintoma('3|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 63 
+    se [sintoma_existente(sintoma('3|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('15|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(58%)')].
+
+regra 64 
+    se [sintoma_existente(sintoma('3|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('15|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Junta do coletor de escape queimada.(50%)')].
+
+regra 65
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
+    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', true)
+    entao [].
+
+regra 66
+    se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho', 'Ruído de estalidos Rítmicos', 'Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', false))
+    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))]
+    entao [].
+
+regra 67
+    se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    entao [].
+
+regra 68
+    se [sintoma_existente(sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Catalisador obstruído.(80%)')].
+
+regra 69
+    se [sintoma_existente(sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    entao [diagnostico('Catalisador obstruído.(70%)')].
+
+regra 70
+    se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))]
+    entao [].
+
+regra 71
+    se [sintoma_existente(sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('6|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Catalisador obstruído.(70%)')].
+
+regra 72
+    se [sintoma_existente(sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('6|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    entao [diagnostico('Catalisador obstruído.(60%)')].
+
+regra 73
+    se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho', 'Ruído de estalidos Rítmicos', 'Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', false))
+    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))]
+    entao [].
+
+regra 74
+    se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    entao [].
+
+regra 75
+    se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('7|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Catalisador obstruído.(70%)')].
+
+regra 75.5
+    se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('7|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    entao [diagnostico('Catalisador obstruído.(60%)')].
+
+regra 76
+    se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))]
+    entao [].
+
+regra 77
+    se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('8|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Catalisador obstruído.(60%)')].
+
+regra 78
+    se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('8|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    entao [diagnostico('Catalisador obstruído.(50%)')].
+
+regra 119
+    se [sintoma_existente(sintoma('O automóvel tem combustível?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('O Combustível chega à régua de injeção?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Bomba de combustível defeituosa')].
+
+regra 120 
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', false))
+    e sintoma('O automóvel tem combustível?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 121 
+    se [sintoma_existente(sintoma('O automóvel tem combustível?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('Ao reabastecer o veículo, permanece sem combustível?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Fuga de combustível')].
+
+regra 122 
+    se [sintoma_existente(sintoma('O automóvel tem combustível?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('Ao reabastecer o veículo, permanece sem combustível?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Falta de combustível')].
+
+regra 138
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Fumo anormal'], 'Fumo anormal', false))
+    e sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Escura', false))]
+    entao [].
+
+regra 139
+    se [sintoma_existente(sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Escura', false))
+    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    entao [].
+
+regra 140
+    se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))]
+    entao [].
+
+regra 141
+    se [sintoma_existente(sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Sensor de Fluxo de ar defeituoso.(100%)')].
+
+regra 142
+    se [sintoma_existente(sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Não', false))]
+    entao [diagnostico('Sensor de Fluxo de ar defeituoso.(83%)')].
+
+regra 143
+    se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))]
+    entao [].
+
+regra 144
+    se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Sensor de Fluxo de ar defeituoso.(90%)')].
+
+regra 145
+    se [sintoma_existente(sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))]
+    entao [].
+
+regra 146
+    se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Sensor de Fluxo de ar defeituoso.(80%)')].
+
+regra 147
+    se [sintoma_existente(sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))]
+    entao [diagnostico('Sensor de Fluxo de ar defeituoso.(60%)')].
+
+regra 148
+    se [sintoma_existente(sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Sensor de Fluxo de ar defeituoso.(60%)')].
+
+regra 149
+    se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    entao [diagnostico('Sensor de Fluxo de ar defeituoso.(50%)')].
+
+regra 150
+    se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    entao [].
+
+regra 151
+    se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))]
+    entao [].
+
+regra 152
+    se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    entao [].

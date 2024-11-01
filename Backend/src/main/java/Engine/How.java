@@ -1,6 +1,7 @@
 package Engine;
 
 import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,58 +10,58 @@ import model.Sintoma;
 
 public class How {
 
-    private static List<Sintoma> historicoSintomasAtual = new ArrayList<Sintoma>();
-    private static List<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>> historicoSintomasGeral 
-    = new ArrayList<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>>();
+    private static  List<AbstractMap.SimpleEntry<String,Sintoma>> historicoSintomasAtual = new ArrayList<>();
+    private static  List<AbstractMap.SimpleEntry<Diagnostico, List<AbstractMap.SimpleEntry<String,Sintoma>>>> historicoSintomasGeral 
+    = new ArrayList<>();
 
     public static void adicionarExplicacao(Diagnostico diagnostico) {
-        historicoSintomasGeral.add(new AbstractMap.SimpleEntry<Diagnostico,
-         List<Sintoma>>(diagnostico, historicoSintomasAtual));
+        historicoSintomasGeral.add(new AbstractMap.SimpleEntry<Diagnostico, List<AbstractMap.SimpleEntry<String,Sintoma>>>(diagnostico, historicoSintomasAtual));
         eliminarHistoricoSintomasAtual();
     }
 
-    public static  List<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>> obterHistoricoSintomasGeral() {
+    public static  List<SimpleEntry<Diagnostico, List<SimpleEntry<String, Sintoma>>>> obterHistoricoSintomasGeral() {
         return historicoSintomasGeral;
     }
 
     public static void eliminarHistoricoSintomasGeral() {
-        historicoSintomasGeral = new ArrayList<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>>();
+        historicoSintomasGeral = new ArrayList<>();
     }
 
-    public static void adicionarSintomaHistorico(Sintoma sintoma) {
+    public static void adicionarSintomaHistorico(Sintoma sintoma, String regraString) {
         if(historicoSintomasGeral.isEmpty()) {
-            historicoSintomasAtual.add(sintoma);
+            AbstractMap.SimpleEntry<String,Sintoma> regraSintoma = new AbstractMap.SimpleEntry<String,Sintoma>(regraString, sintoma);
+            historicoSintomasAtual.add(regraSintoma);
             return;
         }
 
-        List<Sintoma> temporario = new ArrayList<Sintoma>();
+        List<SimpleEntry<String, Sintoma>> temporario = new ArrayList<>();
 
         if(historicoSintomasAtual.isEmpty()) {
-            List<Sintoma> listaSintomasAnterior = 
+            List<SimpleEntry<String, Sintoma>> listaSintomasAnterior = 
             historicoSintomasGeral.get(historicoSintomasGeral.size()-1).getValue();
 
-            for(Sintoma s : listaSintomasAnterior) {
-                if(s.getEvidencia().equals(sintoma.getEvidencia())) {
-                    temporario.add(sintoma);
-                    historicoSintomasAtual = new ArrayList<Sintoma>(temporario);
+            for(SimpleEntry<String, Sintoma> s : listaSintomasAnterior) {
+                if(s.getValue().getEvidencia().equals(sintoma.getEvidencia())) {
+                    temporario.add(s);
+                    historicoSintomasAtual = new ArrayList<>(temporario);
                     return;
                 } else {
                     temporario.add(s);
                 }
             }
-            historicoSintomasAtual = new ArrayList<Sintoma>();
-            historicoSintomasAtual.add(sintoma);
+            historicoSintomasAtual = new ArrayList<>();
+            historicoSintomasAtual.add(new AbstractMap.SimpleEntry<String,Sintoma>(regraString, sintoma));
             return;
         }
 
-        historicoSintomasAtual.add(sintoma);
+        historicoSintomasAtual.add(new AbstractMap.SimpleEntry<String,Sintoma>(regraString, sintoma));
     }
 
     public static void eliminarHistoricoSintomasAtual() {
-        historicoSintomasAtual = new ArrayList<Sintoma>();
+        historicoSintomasAtual = new ArrayList<>();
     }
 
-    public static List<Sintoma> obterHistoricoSintomasAtual() {
+    public static List<SimpleEntry<String,Sintoma>> obterHistoricoSintomasAtual() {
         return historicoSintomasAtual;
     }
 }

@@ -1,36 +1,25 @@
 package API.DTOs;
-import java.io.UnsupportedEncodingException;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.LinkedHashSet;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import utils.StringUtils;
 import model.Diagnostico;
 import model.Sintoma;
 
 public class DiagnosticoDTO {
-    public Map<String, LinkedHashSet<AbstractMap.SimpleEntry<String, String>>> diagnostico;
+    public LinkedHashSet<SimpleEntry<String, LinkedHashSet<SimpleEntry<String,SimpleEntry<String,String>>>>> historicoSintomas = new LinkedHashSet<>();
 
-    public DiagnosticoDTO(List<AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>>> historicoSintomas) {
-        Map<String, LinkedHashSet<AbstractMap.SimpleEntry<String, String>>> diagnosticos = new HashMap<>();
-
-        for (AbstractMap.SimpleEntry<Diagnostico, List<Sintoma>> entry : historicoSintomas) {
-            LinkedHashSet<AbstractMap.SimpleEntry<String, String>> sintomas = new LinkedHashSet<>();
-            for (Sintoma sintoma : entry.getValue()) {
-                sintomas.add(new AbstractMap.SimpleEntry<String, String>
-                (StringUtils.removerIdentificador(sintoma.getEvidencia()) , sintoma.getValor()));
+    public DiagnosticoDTO(List<SimpleEntry<Diagnostico, List<SimpleEntry<String, Sintoma>>>> historicoSintomas) {
+        for(SimpleEntry<Diagnostico, List<SimpleEntry<String, Sintoma>>> diagnostico : historicoSintomas) {
+            LinkedHashSet<SimpleEntry<String,SimpleEntry<String,String>>> sintomas = new LinkedHashSet<>();
+            for(SimpleEntry<String,Sintoma> sintoma : diagnostico.getValue()) {
+                SimpleEntry<String,String> parEvidenciaValor = new SimpleEntry<String,String>(StringUtils.removerIdentificador(sintoma.getValue().getEvidencia()), sintoma.getValue().getValor());
+                SimpleEntry<String,SimpleEntry<String,String>> parRegraSintoma = new SimpleEntry<String,SimpleEntry<String,String>>("Regra: "+sintoma.getKey(), parEvidenciaValor);
+                sintomas.add(parRegraSintoma);
             }
-            try {
-                diagnosticos.put(new String(entry.getKey().obterDescricao().getBytes(),"UTF-8"),sintomas);
-            } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            this.historicoSintomas.add(new SimpleEntry<String, LinkedHashSet<SimpleEntry<String,SimpleEntry<String,String>>>>(diagnostico.getKey().toString(), sintomas));
         }
-
-        this.diagnostico = diagnosticos;
     }
 }
