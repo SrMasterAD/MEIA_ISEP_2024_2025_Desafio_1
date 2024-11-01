@@ -21,33 +21,18 @@
 :-op(240,fx,regra).
 :-op(600,xfy,e).
 
-:- consult('Regras 1-33.txt').
+:- consult('Regras PROLOG.txt').
 
-:- dynamic sintoma_confirmado/5, sintoma/4, diagnostico/2, diagnostico/1, liga_facto/2, backup_regras/1, sintoma_existente/1, ultimo_facto/1, ignorar/1, regra_atual/1, ignorar_regra/0, justifica_criado/0.
+:- dynamic sintoma_confirmado/5, sintoma/4, diagnostico/2, diagnostico/1, liga_facto/2, backup_regras/1, sintoma_existente/1, ultimo_facto/1, ignorar/1, regra_atual/1, back_up_ultimo/1, ignorar_regra/0, justifica_criado/0.
 
 % SERVER START
 iniciar_servidor(PORT) :-
     http_server(http_dispatch, [port(PORT)]).
-
-cors_enable(Request) :-
-    member(method(options), Request), !,
-    cors_headers,
-    format('~n').
-
-cors_enable(_) :-
-    cors_headers.
-
-cors_headers :-
-    format('Access-Control-Allow-Origin: *~n'),
-    format('Access-Control-Allow-Methods: GET, POST, OPTIONS~n'),
-    format('Access-Control-Allow-Headers: Content-Type, Authorization~n').
-
 % Adiciona um novo endpoint /start para adicionar sintomas
 :- http_handler('/execute', start_engine_handler, []).
 
 % Processa o pedido POST /start
 start_engine_handler(Request) :-
-    cors_enable(Request), 
     http_read_json_dict(Request, DictList),
     limpar_dados,
     criar_sintomas(DictList),
@@ -153,9 +138,12 @@ verifica_sintoma(Sintoma) :-
     (   ultimo_facto(Ultimo) ->
         (Ultimo \= SintomaConfirmado ->
             assertz(liga_facto(SintomaConfirmado, Ultimo)),
+            assertz(back_up_ultimo(Ultimo)),
             retract(ultimo_facto(Ultimo))
-        ;   retract(ultimo_facto(Ultimo)), true)
-    ;   true
+        ;   
+            retract(ultimo_facto(Ultimo)), true)
+    ;   
+        true
     ),
     assertz(justifica_criado),
     assertz(ultimo_facto(SintomaConfirmado)).
@@ -169,8 +157,13 @@ verifica_sintoma(Sintoma) :-
         (   ultimo_facto(SintomaConfirmado) ->
             (   liga_facto(ultimo_facto(SintomaConfirmado), _) ->
                 retract(liga_facto(ultimo_facto(SintomaConfirmado), _)),
-                retract(ultimo_facto(SintomaConfirmado))
-            ;   retract(ultimo_facto(SintomaConfirmado))
+                retract(ultimo_facto(SintomaConfirmado)),
+                back_up_ultimo(Ultimo),
+                assertz(ultimo_facto(Ultimo))
+            ;   
+                retract(ultimo_facto(SintomaConfirmado)),
+                back_up_ultimo(Ultimo),
+                assertz(ultimo_facto(Ultimo))
             )
         ;   true
         ),
@@ -206,9 +199,8 @@ concluir_diagnostico([Diagnostico]) :-
 
 
 justifica_sintoma(Diagnostico, Justifica) :-
-    justifica_sintoma_aux(Diagnostico, [], JustificaReverse),
-    reverse(JustificaReverse, Justifica).
-
+    justifica_sintoma_aux(Diagnostico, [], Justifica).
+    
 justifica_sintoma_aux(Sintoma, JustificaAtual, [Sintoma|JustificaAtual]) :-
     \+ liga_facto(Sintoma, _).
 
@@ -220,17 +212,9 @@ justifica_sintoma_aux(Elemento, JustificaAtual, JustificaCompleta) :-
         justifica_sintoma_aux(SintomaAnterior, [Elemento|JustificaAtual], JustificaCompleta)
     ).
 
-obter_diagnosticos(Response) :-  
+obter_diagnosticos(Response) :-
     findall(
-        _{diagnostico: TextoDiagnostico, sintomas: ListaSintomas},
-        diagnostico(TextoDiagnostico, ListaSintomas),
-        Diagnosticos
-    ),   
-    findall(
-        {
-            diagnostico: TextoDiagnostico,
-            sintomas_historico: ListaSintomasFormatados
-        },
+        _{diagnostico: TextoDiagnostico, sintomas_historico: ListaSintomasFormatados},
         (   diagnostico(TextoDiagnostico, ListaSintomas),
             formatar_sintomas(ListaSintomas, ListaSintomasFormatados)
         ),
@@ -240,11 +224,13 @@ obter_diagnosticos(Response) :-
 
 formatar_sintomas([], []).
 
-formatar_sintomas([diagnostico(TextoDiagnostico) | Resto], [SintomasFormatados]) :-
+formatar_sintomas([diagnostico(TextoDiagnostico) | Resto], SintomasFormatados) :-
     formatar_sintomas(Resto, SintomasFormatados).
 
-formatar_sintomas([sintoma_confirmado(ID, Evidencia, Opcoes, Valor, Multi) | Resto], [_{regra:ID, evidencia: Evidencia, opcoes: Opcoes, valor: Valor, multi: Multi} | SintomasFormatados]) :-
+formatar_sintomas([sintoma_confirmado(ID, Evidencia, Opcoes, Valor, Multi) | Resto], 
+    [_{regra: ID, evidencia: Evidencia, opcoes: Opcoes, valor: Valor, multi: Multi} | SintomasFormatados]) :-
     formatar_sintomas(Resto, SintomasFormatados).
+
 
 set_header(Response) :-
     reply_header([

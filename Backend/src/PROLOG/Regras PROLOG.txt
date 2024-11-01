@@ -1,3 +1,7 @@
+regra 1
+    se  [sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor',true)]
+    entao [].
+
 regra 2
     se  [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor',true))
     e   sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de Sopro ou Assobio', true)
