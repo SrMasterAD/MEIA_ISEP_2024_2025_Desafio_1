@@ -346,77 +346,77 @@ regra 64
 
 regra 65
     se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
-    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', true)
+    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', true)]
     entao [].
 
 regra 66
     se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho', 'Ruído de estalidos Rítmicos', 'Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', false))
-    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
 regra 67
     se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
 regra 68
     se [sintoma_existente(sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Catalisador obstruído.(80%)')].
 
 regra 69
     se [sintoma_existente(sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Catalisador obstruído.(70%)')].
 
 regra 70
     se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
 regra 71
     se [sintoma_existente(sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('6|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('6|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Catalisador obstruído.(70%)')].
 
 regra 72
     se [sintoma_existente(sintoma('8|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('6|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('6|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Catalisador obstruído.(60%)')].
 
 regra 73
     se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho', 'Ruído de estalidos Rítmicos', 'Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', false))
-    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
 regra 74
     se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
 regra 75
     se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('7|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('7|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Catalisador obstruído.(70%)')].
 
 regra 75.5
     se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('7|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('7|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Catalisador obstruído.(60%)')].
 
 regra 76
     se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
 regra 77
     se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('8|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('8|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Catalisador obstruído.(60%)')].
 
 regra 78
     se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('8|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('8|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Catalisador obstruído.(50%)')].
 
 regra 119
@@ -441,75 +441,75 @@ regra 122
 
 regra 138
     se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Fumo anormal'], 'Fumo anormal', false))
-    e sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Escura', false))]
+    e sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Escura', false)]
     entao [].
 
 regra 139
     se [sintoma_existente(sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Escura', false))
-    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
 regra 140
     se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
 regra 141
     se [sintoma_existente(sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(100%)')].
 
 regra 142
     se [sintoma_existente(sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(83%)')].
 
 regra 143
     se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
 regra 144
     se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(90%)')].
 
 regra 145
     se [sintoma_existente(sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
 regra 146
     se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(80%)')].
 
 regra 147
     se [sintoma_existente(sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(60%)')].
 
 regra 148
     se [sintoma_existente(sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(60%)')].
 
 regra 149
     se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(50%)')].
 
 regra 150
     se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false))]
+    e sintoma('5|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
 regra 151
     se [sintoma_existente(sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
 regra 152
     se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))]
+    e sintoma('9|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
     entao [].

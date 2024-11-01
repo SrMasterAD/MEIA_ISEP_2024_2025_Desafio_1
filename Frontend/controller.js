@@ -301,7 +301,7 @@ function perguntarLuzesDoPainel() {
 
 function afterQuestion(question) {
     if (isNextButtonEnabled()) {
-        if (!question.hasOwnProperty('diagnostico') || !question.diagnostico) {
+        if (!question.hasOwnProperty('historicoSintomas') || !question.historicoSintomas) {
             loadQuestion(question);
         } else {
             console.log(question);
@@ -313,21 +313,39 @@ function afterQuestion(question) {
 }
 
 function generateDiagnosis(rawDiagnosis) {
-    let diagnosticos = Object.keys(rawDiagnosis.diagnostico);
+    diagnosticsMap.clear(); // Limpa o mapa antes de preencher
 
-    diagnosticos.forEach((diagnostico, index) => {
-        let questionAnswers = rawDiagnosis.diagnostico[diagnostico];
-        let diagnosticData = {
-            diagnosticText: diagnostico,
-            questionAnswers: questionAnswers
-        };
-        
-        diagnosticsMap.set(index, diagnosticData);
+    rawDiagnosis.historicoSintomas.forEach((item, index) => {
+        for (const [diagnostico, regras] of Object.entries(item)) {
+            let questionAnswers = [];
+
+            // Percorre cada regra dentro do diagnóstico
+            regras.forEach((regraObj) => {
+                for (const [regra, evidenciaValor] of Object.entries(regraObj)) {
+                    for (const [evidencia, valor] of Object.entries(evidenciaValor)) {
+                        // Adiciona um objeto que inclui regra, evidência e valor
+                        questionAnswers.push({
+                            regra: regra,
+                            evidencia: evidencia,
+                            valor: valor
+                        });
+                    }
+                }
+            });
+
+            // Salva no mapa usando a estrutura nova
+            let diagnosticData = {
+                diagnosticText: diagnostico,
+                questionAnswers: questionAnswers
+            };
+
+            diagnosticsMap.set(index, diagnosticData);
+        }
     });
 
-    // Show the diagnosis container with only the first diagnostic key
-    showDiagnosis([0]); // Display the diagnosis container and start with the first diagnosis
-    toggleResultNavigationButtons(); // Ensure the navigation buttons are updated
+    // Exibe o primeiro diagnóstico
+    showDiagnosis([0]);
+    toggleResultNavigationButtons();
 }
 
 function showDiagnosis(diagnosticKeys) {
@@ -338,19 +356,17 @@ function showDiagnosis(diagnosticKeys) {
 
 function displayDiagnosis(diagnosticKeys) {
     const responsesTable = document.getElementById('answered-questions');
-    responsesTable.innerHTML = ''; 
+    responsesTable.innerHTML = '';
 
-    const diagnosticData = diagnosticsMap.get(diagnosticKeys[0]);  // Only use the first (current) index
+    const diagnosticData = diagnosticsMap.get(diagnosticKeys[0]);
     const { diagnosticText, questionAnswers } = diagnosticData;
 
     questionAnswers.forEach((qa) => {
-        let question = Object.keys(qa)[0];
-        let answer = qa[question];
-
         let responseRow = document.createElement('tr');
         responseRow.innerHTML = `
-            <td>${question}</td>
-            <td>${answer}</td>`;
+            <td>${qa.regra}</td>
+            <td>${qa.evidencia}</td>
+            <td>${qa.valor}</td>`;
         responsesTable.appendChild(responseRow);
     });
 
@@ -363,6 +379,7 @@ function displayDiagnosis(diagnosticKeys) {
 
     toggleResultNavigationButtons();
 }
+
 
 function retryDiagnosis() {
     questionsAsked = [];

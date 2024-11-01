@@ -16,7 +16,7 @@ public class DiagnosticoDTO {
             LinkedHashSet<SimpleEntry<String,SimpleEntry<String,String>>> sintomas = new LinkedHashSet<>();
             for(SimpleEntry<String,Sintoma> sintoma : diagnostico.getValue()) {
                 SimpleEntry<String,String> parEvidenciaValor = new SimpleEntry<String,String>(StringUtils.removerIdentificador(sintoma.getValue().getEvidencia()), sintoma.getValue().getValor());
-                SimpleEntry<String,SimpleEntry<String,String>> parRegraSintoma = new SimpleEntry<String,SimpleEntry<String,String>>("Regra: "+sintoma.getKey(), parEvidenciaValor);
+                SimpleEntry<String,SimpleEntry<String,String>> parRegraSintoma = new SimpleEntry<String,SimpleEntry<String,String>>(sintoma.getKey(), parEvidenciaValor);
                 sintomas.add(parRegraSintoma);
             }
             this.historicoSintomas.add(new SimpleEntry<String, LinkedHashSet<SimpleEntry<String,SimpleEntry<String,String>>>>(diagnostico.getKey().toString(), sintomas));
