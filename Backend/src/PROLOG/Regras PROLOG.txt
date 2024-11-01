@@ -454,6 +454,150 @@ regra 116
     entao [diagnostico('Falta de óleo.')].
 
 
+regra 79
+    se [sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Luzes do painel', true)]
+    entao [].
+
+regra 80
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Luzes do painel',true))
+    e sintoma('Qual é a luz que observa?', ['Luz de óleo','Luz do motor'], 'Luz de óleo', true)]
+    entao [].
+
+regra 81
+    se [sintoma_existente(sintoma('Qual é a luz que observa?', ['Luz de óleo','Luz do motor'], 'Luz de óleo', true))
+    e sintoma('1|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Escovas do motor de arranque danificadas.')].
+
+regra 84
+    se [sintoma_existente(sintoma('Qual é a luz que observa?', ['Luz de óleo','Luz do motor'], 'Luz de óleo', false))
+    e sintoma('1|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 85
+    se [sintoma_existente(sintoma('1|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('O automóvel está a pingar óleo?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Fuga de óleo')].
+
+regra 86
+    se [sintoma_existente(sintoma('1|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('O automóvel está a pingar óleo?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Falta de óleo')].
+
+regra 87
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Luzes do painel',true))
+    e sintoma('Qual é a luz que observa?', ['Luz de óleo','Luz do motor'], 'Luz do motor', true)]
+    entao [].
+
+regra 88
+    se [sintoma_existente(sintoma('Qual é a luz que observa?', ['Luz de óleo','Luz do motor'], 'Luz do motor', true))
+    e sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído de Chocalho','Problemas na ignição'], 'Ruído de Chocalho', true)]
+    entao [].
+
+regra 89
+    se [sintoma_existente(sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído de Chocalho','Problemas na ignição'], 'Ruído de Chocalho', true))
+    e sintoma('1|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 90
+    se [sintoma_existente(sintoma('1|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('1|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 91
+    se [sintoma_existente(sintoma('1|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('1|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Catalisador obstruído.(100%)')].
+
+regra 92
+    se [sintoma_existente(sintoma('1|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('1|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Catalisador obstruído.(90%)')].
+
+regra 93
+    se [sintoma_existente(sintoma('1|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('1|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 94
+    se [sintoma_existente(sintoma('1|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('2|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Catalisador obstruído.(90%)')].
+
+regra 95
+    se [sintoma_existente(sintoma('1|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('2|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Catalisador obstruído.(80%)')].
+
+regra 96
+    se [sintoma_existente(sintoma(''Qual destes sintomas o automóvel apresenta?', ['Ruído de Chocalho','Problemas na ignição'], 'Ruído de Chocalho', true))
+    e sintoma('1|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 97
+    se [sintoma_existente(sintoma('1|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('2|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 98
+    se [sintoma_existente(sintoma('2|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('3|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Catalisador obstruído.(90%)')].
+
+regra 99
+    se [sintoma_existente(sintoma('2|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('3|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Catalisador obstruído.(80%)')].
+
+regra 100
+    se [sintoma_existente(sintoma('1|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('2|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 101
+    se [sintoma_existente(sintoma('2|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('4|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Catalisador obstruído.(80%)')].
+
+regra 102
+    se [sintoma_existente(sintoma('2|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('4|O motor morre ou há algumas falhas ao acelerar?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Catalisador obstruído.(70%)')].
+
+regra 103
+    se [sintoma_existente(sintoma('Qual é a luz que observa?', ['Luz de óleo','Luz do motor'], 'Luz do motor', true))
+    e sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído de Chocalho','Problemas na ignição'], 'Problemas na ignição', true)]
+    entao [].
+
+regra 104
+    se [sintoma_existente(sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído de Chocalho','Problemas na ignição'], 'Problemas na ignição', true))
+    e sintoma('Sente ou ouve irregularidades durante o funcionamento do motor?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 105
+    se [sintoma_existente(sintoma('Sente ou ouve irregularidades durante o funcionamento do motor?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('2|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Válvula EGR ou sonda lambda danificada.(100%)')].
+
+regra 106
+    se [sintoma_existente(sintoma('Sente ou ouve irregularidades durante o funcionamento do motor?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('2|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Válvula EGR ou sonda lambda danificada.(75%)')].
+
+regra 107
+    se [sintoma_existente(sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído de Chocalho','Problemas na ignição'], 'Problemas na ignição', true))
+    e sintoma('Sente ou ouve irregularidades durante o funcionamento do motor?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 108
+    se [sintoma_existente(sintoma('Sente ou ouve irregularidades durante o funcionamento do motor?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('3|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Válvula EGR ou sonda lambda danificada.(75%)')].
+
+regra 109
+    se [sintoma_existente(sintoma('Sente ou ouve irregularidades durante o funcionamento do motor?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('3|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Válvula EGR ou sonda lambda danificada.(50%)')].
+
 regra 119
     se [sintoma_existente(sintoma('O automóvel tem combustível?', ['Sim', 'Não'], 'Sim', false))
     e sintoma('O Combustível chega à régua de injeção?', ['Sim', 'Não'], 'Não', false)]
@@ -474,8 +618,83 @@ regra 122
     e sintoma('Ao reabastecer o veículo, permanece sem combustível?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Falta de combustível')].
 
+regra 123
+    se  [sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Fumo anormal',true)]
+    entao [].
+
+regra 124
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Fumo anormal', true))
+    e sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Esbranquiçado', false)]
+    entao [].
+
+regra 125
+    se [sintoma_existente(sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Esbranquiçado', false))
+    e sintoma('3|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 126
+    se [sintoma_existente(sintoma('3|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('1|O automóvel tem pouca água no reservatório', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Junta da cabeça queimada.(100%)')].
+
+regra 127
+    se [sintoma_existente(sintoma('3|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('1|O automóvel tem pouca água no reservatório', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Junta da cabeça queimada.(75%)')].
+
+regra 128
+    se [sintoma_existente(sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Esbranquiçado', false))
+    e sintoma('3|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 129
+    se [sintoma_existente(sintoma('3|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('2|O automóvel tem pouca água no reservatório', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Junta da cabeça queimada.(75%)')].
+
+regra 130
+    se [sintoma_existente(sintoma('3|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('2|O automóvel tem pouca água no reservatório', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Junta da cabeça queimada.(50%)')].
+
+
+regra 131
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Fumo anormal', true))
+    e sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Azulado', false)]
+    entao [].
+
+regra 132
+    se [sintoma_existente(sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Azulado', false))
+    e sintoma('4|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false)]
+    entao [].
+
+regra 133
+    se [sintoma_existente(sintoma('4|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('2|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Desgaste dos segmentos (100%)')].
+
+regra 134
+    se [sintoma_existente(sintoma('4|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
+    e sintoma('2|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Desgaste dos segmentos (75%)')].
+
+regra 135
+    se [sintoma_existente(sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Azulado', false))
+    e sintoma('4|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false)]
+    entao [].
+
+regra 136
+    se [sintoma_existente(sintoma('4|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('3|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Não', false)]
+    entao [diagnostico('Desgaste dos segmentos (75%)')].
+
+regra 137
+    se [sintoma_existente(sintoma('4|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Não', false))
+    e sintoma('3|O automóvel está com o nível de óleo normal?', ['Sim', 'Não'], 'Sim', false)]
+    entao [diagnostico('Desgaste dos segmentos (50%)')].
+
 regra 138
-    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Fumo anormal'], 'Fumo anormal', false))
+    se [sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Fumo anormal', true))
     e sintoma('1|Qual é a coloração do fumo?', ['Esbranquiçado', 'Azulado', 'Escura'], 'Escura', false)]
     entao [].
 
