@@ -234,7 +234,7 @@ regra 44
 
 regra 45 
     se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
-    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
     e sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
@@ -249,8 +249,8 @@ regra 47
     entao [diagnostico('Junta do coletor de escape queimada.(93%)')].
 
 regra 48 
-    se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de estalidos Rítmicos'], 'Ruído de estalidos Rítmicos', false))
-    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    se [sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
+    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
     e sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
