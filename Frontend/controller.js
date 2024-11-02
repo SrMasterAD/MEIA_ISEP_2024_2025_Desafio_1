@@ -134,6 +134,7 @@ async function executeQuestion() {
 }
 
 async function executePrologQuestion() {
+    showLoadingModal();
     const jsonData =[];
 
     for (let i = 0; i < questionsAsked.length; i++) {
@@ -149,18 +150,22 @@ async function executePrologQuestion() {
         headers: {
             'Content-Type': 'application/json'
         }
-        })
-        .then(response => {
-            question = response.data;
-            afterQuestion(question);
-        })
-        .catch(error => {
+    })
+    .then(response => {
+        question = response.data;
+        afterQuestion(question);
+    })
+    .catch(error => {
         console.error(error);
         retryDiagnosis();
+    })
+    .finally(() => {
+        hideLoadingModal();
     });
 }
 
 async function executeDroolsQuestion() {
+    showLoadingModal();
     const jsonData =[];
     for (let i = 0; i < questionsAsked.length; i++) {
         for (let j = 0; j < questionsAsked[i].chosenAnswers.length; j++) {
@@ -176,14 +181,17 @@ async function executeDroolsQuestion() {
         headers: {
             'Content-Type': 'application/json'
         }
-        })
-        .then(response => {
+    })
+    .then(response => {
             question=response.data;
-            afterQuestion(question);
-        })
-        .catch(error => {
+        afterQuestion(question);
+    })
+    .catch(error => {
         console.error(error);
         retryDiagnosis();
+    })
+    .finally(() => {
+        hideLoadingModal();
     });
 }
 
@@ -306,6 +314,7 @@ function afterQuestion(question) {
             loadQuestion(question);
         } else {
             generateDiagnosis(question);
+            document.getElementById('retry-btn').style.display = 'inline-block';
         }
     } else {
         alert("Por favor, selecione pelo menos uma opção antes de continuar.");
@@ -402,6 +411,7 @@ function generateDiagnosis(rawDiagnosis) {
 function showDiagnosis(diagnosticKeys) {
     document.getElementById('diagnostic-container').style.display = 'none';
     document.getElementById('diagnosis-container').style.display = 'block';
+    document.getElementById('retry-btn').style.display = 'inline-block';
     displayDiagnosis(diagnosticKeys);
 }
 
@@ -442,6 +452,7 @@ function retryDiagnosis() {
     document.getElementById('diagnosis-container').style.display = 'none';
     document.getElementById('welcome-screen').style.display = 'flex';
     document.getElementById('welcome-screen').style.opacity = 1;
+    document.getElementById('retry-btn').style.display = 'none';
 }
 
 function nextResult() {
@@ -531,4 +542,12 @@ function removePercentagePhrases(text) {
     const removedParts = text.match(/\(.*?%\)/g) || []; // Store matched parts
     const cleanedText = text.replace(/\s*\(.*?%\)\s*/g, ' ').trim(); // Clean the text
     return { cleanedText, removedParts }; // Return both the cleaned text and removed parts
+}
+
+function showLoadingModal() {
+    document.getElementById('loading-modal').style.display = 'flex';
+}
+
+function hideLoadingModal() {
+    document.getElementById('loading-modal').style.display = 'none';
 }
