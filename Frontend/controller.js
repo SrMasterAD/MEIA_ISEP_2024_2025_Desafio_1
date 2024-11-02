@@ -479,43 +479,50 @@ window.onload = () => {
 function exportToPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    const titleFontSize = 16;
+    const precisionFontSize = 10;
+    const tableStartY = 30; // Fixed start position for the table on each page
 
     diagnosticsMap.forEach((diagnosticData, index) => {
+        // Get cleaned diagnostic text and precision parts
         const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
+        
+        // Title and diagnostic text
+        doc.setFontSize(titleFontSize);
+        doc.text(`Diagnóstico: ${cleanedText}`, 10, 20);
 
-        const title = `Diagnóstico: ${cleanedText}`;
-        doc.setFontSize(18);
-        doc.text(title, 10, 10);
-
-        if (removedParts.length !== 0)
-        {
-            const precision = `\nPrecisão do Diagnóstico: ${removedParts}`;
-            doc.setFontSize(10);
-            doc.text(precision, 10, 10);
+        // Precision text, if any
+        if (removedParts.length > 0) {
+            const precisionText = `Precisão do Diagnóstico: ${removedParts.join(", ")}`;
+            doc.setFontSize(precisionFontSize);
+            doc.text(precisionText, 10, 27); // Slightly below title
         }
 
-        // Prepare question-answer pairs for this diagnostic
-        let data = [];
-        diagnosticData.questionAnswers.forEach(qa => {
-            const question = Object.keys(qa)[0];
-            const answer = qa[question];
-            data.push([question, answer]);
-        });
+        // Prepare data for the table
+        const tableData = diagnosticData.questionAnswers.map((qa) => [
+            qa.regra,
+            qa.evidencia,
+            qa.valor
+        ]);
 
-        // Add question-answer pairs as a table
+        // Add the table
         doc.autoTable({
-            head: [['Pergunta', 'Resposta']],
-            body: data,
-            startY: 20,
+            head: [['Regra', 'Evidência', 'Valor']],
+            body: tableData,
+            startY: tableStartY, // Fixed starting Y position for tables
             styles: { fontSize: 10, cellPadding: 3 },
+            theme: 'grid',
+            headStyles: { fillColor: [243, 156, 18] }, // Header color for visibility
+            alternateRowStyles: { fillColor: [245, 245, 245] } // Light gray for alternating rows
         });
 
-        // Add a new page if there are more diagnostics to add
+        // Add a new page if more diagnostics are to follow
         if (index < diagnosticsMap.size - 1) {
             doc.addPage();
         }
     });
 
+    // Save the PDF file
     doc.save('Diagnóstico.pdf');
 }
 

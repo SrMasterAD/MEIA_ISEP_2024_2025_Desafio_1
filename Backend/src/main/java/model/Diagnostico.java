@@ -1,5 +1,7 @@
 package model;
 
+import java.io.UnsupportedEncodingException;
+
 public class Diagnostico extends Facto{
 
     private String descricao;
@@ -10,6 +12,14 @@ public class Diagnostico extends Facto{
 
     public String obterDescricao() {
         return descricao;
+    }
+
+    public void formatarEncodingUTF8() {
+        try {
+            descricao = new String(descricao.getBytes(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
     
     @Override

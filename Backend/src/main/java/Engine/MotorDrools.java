@@ -35,6 +35,7 @@ public class MotorDrools extends Thread{
                 @Override
                 public void rowInserted(Row row) {
                     Diagnostico diagnostico = (Diagnostico) row.get("$diagnostico");
+                    diagnostico.formatarEncodingUTF8();
                     How.adicionarExplicacao(diagnostico);
                 }
 
