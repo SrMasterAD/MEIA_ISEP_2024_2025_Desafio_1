@@ -270,8 +270,8 @@ regra 50
 
 regra 51 
     se [ignorar(3)
-    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
-    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false)]
+    e   sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', true))
+    e   sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', true)]
     entao [].
 
 regra 52 
@@ -308,8 +308,8 @@ regra 57
 
 regra 58 
     se [ignorar(3)
-    e sintoma_existente(sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
-    e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false)]
+    e   sintoma_existente(sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', true))
+    e   sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', true)]
     entao [].
 
 regra 59 
@@ -720,17 +720,17 @@ regra 142
 
 regra 143
     se [sintoma_existente(sintoma('10|O automóvel tem uma perda de potência acentuada?', ['Sim', 'Não'], 'Sim', false))
-    e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
+    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
 regra 144
-    se [sintoma_existente(sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
+    se [sintoma_existente(sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
     e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Sim', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(90%)')].
 
 regra 145
-    se [sintoma_existente(sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Não', false))
-    e sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
+    se [sintoma_existente(sintoma('8|O automóvel tem consumido mais combustível do que o habitual?'', ['Sim', 'Não'], 'Não', false))
+    e sintoma('1|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
 regra 146
