@@ -428,32 +428,41 @@ window.onload = () => {
 function exportToPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    const titleFontSize = 16;
+    const precisionFontSize = 10;
+    const tableStartY = 30; // Fixed start position for the table on each page
 
     diagnosticsMap.forEach((diagnosticData, index) => {
+        // Get cleaned diagnostic text and precision parts
         const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
+        
+        // Title and diagnostic text
+        doc.setFontSize(titleFontSize);
+        doc.text(`Diagnóstico: ${cleanedText}`, 10, 20);
 
-        // Add diagnostic title
-        doc.setFontSize(18);
-        doc.text(`Diagnóstico: ${cleanedText}`, 10, 10);
-
-        // Add diagnostic precision if available
-        if (removedParts.length !== 0) {
-            const precision = `Precisão do Diagnóstico: ${removedParts.join(", ")}`;
-            doc.setFontSize(10);
-            doc.text(precision, 10, 20);
+        // Precision text, if any
+        if (removedParts.length > 0) {
+            const precisionText = `Precisão do Diagnóstico: ${removedParts.join(", ")}`;
+            doc.setFontSize(precisionFontSize);
+            doc.text(precisionText, 10, 27); // Slightly below title
         }
 
-        // Prepare table content
-        const tableData = diagnosticData.questionAnswers.map((qa) => {
-            return [qa.regra, qa.evidencia, qa.valor];
-        });
+        // Prepare data for the table
+        const tableData = diagnosticData.questionAnswers.map((qa) => [
+            qa.regra,
+            qa.evidencia,
+            qa.valor
+        ]);
 
-        // Add the table to PDF
+        // Add the table
         doc.autoTable({
             head: [['Regra', 'Evidência', 'Valor']],
             body: tableData,
-            startY: doc.previousAutoTable ? doc.previousAutoTable.finalY + 10 : 30,
+            startY: tableStartY, // Fixed starting Y position for tables
             styles: { fontSize: 10, cellPadding: 3 },
+            theme: 'grid',
+            headStyles: { fillColor: [243, 156, 18] }, // Header color for visibility
+            alternateRowStyles: { fillColor: [245, 245, 245] } // Light gray for alternating rows
         });
 
         // Add a new page if more diagnostics are to follow
