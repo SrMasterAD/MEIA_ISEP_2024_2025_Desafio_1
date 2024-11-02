@@ -55,6 +55,7 @@ start_engine_handler(Request) :-
 
 limpar_dados:-
     retractall(sintoma(_, _, _, _)),
+    retractall(sintoma_confirmado(_, _, _, _, _)),
     retractall(diagnostico(_,_)),
     retractall(diagnostico(_)),
     retractall(liga_facto(_,_)),
@@ -62,7 +63,9 @@ limpar_dados:-
     retractall(sintoma_existente(_)),
     retractall(ultimo_facto(_)),
     retractall(ignorar(_)),
-    retractall(ignorar_regra(_)).
+    retractall(ignorar_regra(_)),
+    retractall(justifica_criado(_)),
+    retractall(back_up_ultimo(_)).
 
 % Processa a lista de objetos JSON.
 criar_sintomas(DictList) :-

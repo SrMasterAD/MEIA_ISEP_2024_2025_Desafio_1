@@ -27,7 +27,7 @@ function startEngine(){
     let firstQuestion = {};
 
     firstQuestion.questao = "Quais são os sintomas que o seu automóvel apresenta?";
-    firstQuestion.valores = ["Irregularidades no motor", "Fumo anormal", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Luzes no painel"];
+    firstQuestion.valores = ["Irregularidades no motor", "Fumo anormal", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Luzes do painel"];
     firstQuestion.multiselect = true;
     loadQuestion(firstQuestion);
 }
@@ -279,7 +279,7 @@ function questionHandler() {
 
     if(isFirstQuestion){
         for (let i = 0; i < questionsAsked[questionsAsked.length - 1].chosenAnswers.length; i++) {
-            if(questionsAsked[questionsAsked.length - 1].chosenAnswers[i] == "Luzes no painel") {
+            if(questionsAsked[questionsAsked.length - 1].chosenAnswers[i] == "Luzes do painel") {
                 perguntarLuzesDoPainel();
                 return;
             }
