@@ -432,39 +432,37 @@ function exportToPDF() {
     diagnosticsMap.forEach((diagnosticData, index) => {
         const { cleanedText, removedParts } = removePercentagePhrases(diagnosticData.diagnosticText);
 
-        const title = `Diagnóstico: ${cleanedText}`;
+        // Add diagnostic title
         doc.setFontSize(18);
-        doc.text(title, 10, 10);
+        doc.text(`Diagnóstico: ${cleanedText}`, 10, 10);
 
-        if (removedParts.length !== 0)
-        {
-            const precision = `\nPrecisão do Diagnóstico: ${removedParts}`;
+        // Add diagnostic precision if available
+        if (removedParts.length !== 0) {
+            const precision = `Precisão do Diagnóstico: ${removedParts.join(", ")}`;
             doc.setFontSize(10);
-            doc.text(precision, 10, 10);
+            doc.text(precision, 10, 20);
         }
 
-        // Prepare question-answer pairs for this diagnostic
-        let data = [];
-        diagnosticData.questionAnswers.forEach(qa => {
-            const question = Object.keys(qa)[0];
-            const answer = qa[question];
-            data.push([question, answer]);
+        // Prepare table content
+        const tableData = diagnosticData.questionAnswers.map((qa) => {
+            return [qa.regra, qa.evidencia, qa.valor];
         });
 
-        // Add question-answer pairs as a table
+        // Add the table to PDF
         doc.autoTable({
-            head: [['Pergunta', 'Resposta']],
-            body: data,
-            startY: 20,
+            head: [['Regra', 'Evidência', 'Valor']],
+            body: tableData,
+            startY: doc.previousAutoTable ? doc.previousAutoTable.finalY + 10 : 30,
             styles: { fontSize: 10, cellPadding: 3 },
         });
 
-        // Add a new page if there are more diagnostics to add
+        // Add a new page if more diagnostics are to follow
         if (index < diagnosticsMap.size - 1) {
             doc.addPage();
         }
     });
 
+    // Save the PDF file
     doc.save('Diagnóstico.pdf');
 }
 
