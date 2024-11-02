@@ -40,9 +40,9 @@ function loadQuestion(currentQuestion) {
     optionsToSend = [];
     questionsAsked[questionsAsked.length - 1].chosenAnswers = [];
 
-    //get last question of question questionsAsked
+    let questionText = currentQuestion.questao.split('|')[1]?.trim() || currentQuestion.questao;
 
-    questionTitle.textContent = currentQuestionNumber + ". " + currentQuestion.questao;
+    questionTitle.textContent = currentQuestionNumber + ". " + questionText;
     optionsContainer.innerHTML = '';
     if (currentQuestion.multiselect) {
         currentQuestion.valores.forEach(option => {
@@ -151,8 +151,7 @@ async function executePrologQuestion() {
         }
         })
         .then(response => {
-            question.questao = response.data.evidencia;
-            question.valores = response.data.opcoes;
+            question = response.data;
             afterQuestion(question);
         })
         .catch(error => {
@@ -202,7 +201,7 @@ async function nextQuestion() {
 async function nextQuestionProlog() {
 
     const jsonData =[];
-    for (let i = 0; j < questionsAsked[questionsAsked.length-1].chosenAnswers.length; i++) {
+    for (let i = 0; i < questionsAsked[questionsAsked.length-1].chosenAnswers.length; i++) {
         jsonData.push({
             "evidencia": questionsAsked[questionsAsked.length-1].questao, 
             "valor": questionsAsked[questionsAsked.length-1].chosenAnswers[i] 
@@ -215,31 +214,33 @@ async function nextQuestionProlog() {
         }
         })
     .then(response => {
-        if(response.data.evidencia) {
-            question.questao = response.data.evidencia;
-            question.valores = response.data.opcoes;
+        let diagnosis = [];
+        if(response.data.questao) {
+            diagnosis= response.data;
         }else{
             response.data.forEach(element => {
                 const transformedData = {
                     diagnostico: {}
                 };
                 
-                // Iterate over each diagnostic entry in response.data
-                response.data.forEach(item => {
-                    const diagnosticoName = item.diagnostico;
-                    transformedData.diagnostico[diagnosticoName] = [];
+                // Extract the name of the diagnostic
+                const diagnosticoName = element.diagnostico;
+                transformedData.diagnostico[diagnosticoName] = []; // Initialize the array for symptoms
                 
-                    item.sintomas_historico[0].forEach(sintoma => {
-                        // Extract the evidence question and value, similar to the initial structure
-                        transformedData.diagnostico[diagnosticoName].push({
-                            [sintoma.evidencia]: sintoma.valor
-                        });
+                // Iterate over each symptom in the historical symptoms
+                element.historicoSintomas.forEach(sintoma => {
+                    transformedData.diagnostico[diagnosticoName].push({
+                        evidencia: sintoma.evidencia,
+                        valor: sintoma.valor,
+                        regra: sintoma.regra  // Include the regra here
                     });
                 });
-                question = transformedData;
+                
+                // Push the transformed data into the question array
+                diagnosis.push(transformedData);
             });
         }
-        afterQuestion(question);
+        afterQuestion(diagnosis);
     })
     .catch(error => {
     console.error(error);
@@ -301,10 +302,9 @@ function perguntarLuzesDoPainel() {
 
 function afterQuestion(question) {
     if (isNextButtonEnabled()) {
-        if (!question.hasOwnProperty('historicoSintomas') || !question.historicoSintomas) {
+        if (!question.hasOwnProperty('historicoSintomas') && !question.hasOwnProperty('diagnostico') && !Array.isArray(question)) {
             loadQuestion(question);
         } else {
-            console.log(question);
             generateDiagnosis(question);
         }
     } else {
@@ -315,33 +315,84 @@ function afterQuestion(question) {
 function generateDiagnosis(rawDiagnosis) {
     diagnosticsMap.clear(); // Limpa o mapa antes de preencher
 
-    rawDiagnosis.historicoSintomas.forEach((item, index) => {
-        for (const [diagnostico, regras] of Object.entries(item)) {
-            let questionAnswers = [];
+    if(technology != "prolog"){
+        rawDiagnosis.historicoSintomas.forEach((item, index) => {
+            for (const [diagnostico, regras] of Object.entries(item)) {
+                let questionAnswers = [];
 
-            // Percorre cada regra dentro do diagnóstico
-            regras.forEach((regraObj) => {
-                for (const [regra, evidenciaValor] of Object.entries(regraObj)) {
-                    for (const [evidencia, valor] of Object.entries(evidenciaValor)) {
-                        // Adiciona um objeto que inclui regra, evidência e valor
-                        questionAnswers.push({
-                            regra: regra,
+                // Percorre cada regra dentro do diagnóstico
+                regras.forEach((regraObj) => {
+                    for (const [regra, evidenciaValor] of Object.entries(regraObj)) {
+                        for (const [evidencia, valor] of Object.entries(evidenciaValor)) {
+                            // Adiciona um objeto que inclui regra, evidência e valor
+                            questionAnswers.push({
+                                regra: regra,
+                                evidencia: evidencia,
+                                valor: valor
+                            });
+                        }
+                    }
+                });
+
+                // Salva no mapa usando a estrutura nova
+                let diagnosticData = {
+                    diagnosticText: diagnostico,
+                    questionAnswers: questionAnswers
+                };
+
+                diagnosticsMap.set(index, diagnosticData);
+            }
+        });
+    }else{
+        let index = 0; 
+
+        if (Array.isArray(rawDiagnosis) && rawDiagnosis.length > 0) {
+            for (const diagnosis of rawDiagnosis) {
+                if (!diagnosis.diagnostico) {
+                    throw new Error("Diagnosis object is missing 'diagnostico'");
+                }
+        
+                for (const [diagnostico, respostas] of Object.entries(diagnosis.diagnostico)) {
+                    let regrasMap = {}; 
+        
+                    respostas.forEach((respostaObj) => {
+                        const { regra, valor } = respostaObj;
+                        let evidencia = respostaObj.evidencia;
+        
+                        evidencia = evidencia.replace(/^\d+\|/, '').trim();
+        
+                        if (!regrasMap[regra]) {
+                            regrasMap[regra] = []; 
+                        }
+                        regrasMap[regra].push({
                             evidencia: evidencia,
                             valor: valor
                         });
+                    });
+        
+                    let questionAnswers = [];
+                    for (const [regra, evidencias] of Object.entries(regrasMap)) {
+                        evidencias.forEach(evidenceData => {
+                            questionAnswers.push({
+                                regra: regra,
+                                ...evidenceData 
+                            });
+                        });
                     }
+        
+                    let diagnosticData = {
+                        diagnosticText: diagnostico,
+                        questionAnswers: questionAnswers
+                    };
+        
+                    diagnosticsMap.set(index, diagnosticData);
+                    index++; 
                 }
-            });
-
-            // Salva no mapa usando a estrutura nova
-            let diagnosticData = {
-                diagnosticText: diagnostico,
-                questionAnswers: questionAnswers
-            };
-
-            diagnosticsMap.set(index, diagnosticData);
+            }
+        } else {
+            throw new Error("No diagnosis data available");
         }
-    });
+    }
 
     // Exibe o primeiro diagnóstico
     showDiagnosis([0]);

@@ -529,7 +529,7 @@ regra 95
     entao [diagnostico('Catalisador obstruído.(80%)')].
 
 regra 96
-    se [sintoma_existente(sintoma(''Qual destes sintomas o automóvel apresenta?', ['Ruído de Chocalho','Problemas na ignição'], 'Ruído de Chocalho', true))
+    se [sintoma_existente(sintoma('Qual destes sintomas o automóvel apresenta?', ['Ruído de Chocalho','Problemas na ignição'], 'Ruído de Chocalho', true))
     e sintoma('1|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 

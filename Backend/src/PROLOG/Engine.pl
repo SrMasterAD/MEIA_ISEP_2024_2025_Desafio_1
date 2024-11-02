@@ -9,7 +9,7 @@
 :- use_module(library(date)).
 :- use_module(library(random)).
 :- use_module(library(socket)).
-
+:- use_module(library(http/http_header)).
 :- use_module(library(http/json_convert)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/json)).
@@ -25,14 +25,25 @@
 
 :- dynamic sintoma_confirmado/5, sintoma/4, diagnostico/2, diagnostico/1, liga_facto/2, backup_regras/1, sintoma_existente/1, ultimo_facto/1, ignorar/1, regra_atual/1, back_up_ultimo/1, ignorar_regra/0, justifica_criado/0.
 
+cors_enable :-
+    format('Access-Control-Allow-Origin: http://localhost:3000~n'),
+    format('Access-Control-Allow-Methods: POST, OPTIONS~n'),
+    format('Access-Control-Allow-Headers: Content-Type~n').
+
 % SERVER START
 iniciar_servidor(PORT) :-
     http_server(http_dispatch, [port(PORT)]).
 % Adiciona um novo endpoint /start para adicionar sintomas
 :- http_handler('/execute', start_engine_handler, []).
 
+start_engine_handler(Request) :-
+option(method(options), Request), !,
+cors_enable,
+format('~n').  % Responde com um status 200 vazio
+
 % Processa o pedido POST /start
 start_engine_handler(Request) :-
+    cors_enable,
     http_read_json_dict(Request, DictList),
     limpar_dados,
     criar_sintomas(DictList),
@@ -62,7 +73,14 @@ criar_sintomas(DictList) :-
 
 :- http_handler('/nextStep', next_engine_handler, []).
 
+
 next_engine_handler(Request) :-
+option(method(options), Request), !,
+cors_enable,
+format('~n').  % Responde com um status 200 vazio
+
+next_engine_handler(Request) :-
+    cors_enable,
     http_read_json_dict(Request, DictList),
     criar_sintomas(DictList),
     backup_regras(Regras),
@@ -174,8 +192,8 @@ verifica_sintoma(Sintoma) :-
 
 % Caso a evidência ainda não tenha sido perguntada, pede ao utilizador
 verifica_sintoma(Sintoma) :-
-    Sintoma = sintoma(Evidencia, Opcoes, _, _),
-    Response = _{evidencia: Evidencia, opcoes: Opcoes},
+    Sintoma = sintoma(Evidencia, Opcoes, _, Multi),
+    Response = _{questao: Evidencia, valores: Opcoes, multiselect: Multi},
     reply_json_dict(Response),
     throw(reply_sent).
     
@@ -214,7 +232,7 @@ justifica_sintoma_aux(Elemento, JustificaAtual, JustificaCompleta) :-
 
 obter_diagnosticos(Response) :-
     findall(
-        _{diagnostico: TextoDiagnostico, sintomas_historico: ListaSintomasFormatados},
+        _{diagnostico: TextoDiagnostico, historicoSintomas: ListaSintomasFormatados},
         (   diagnostico(TextoDiagnostico, ListaSintomas),
             formatar_sintomas(ListaSintomas, ListaSintomasFormatados)
         ),
