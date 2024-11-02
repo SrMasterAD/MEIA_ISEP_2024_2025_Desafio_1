@@ -42,7 +42,7 @@ public class How {
 
             for(SimpleEntry<String, Sintoma> s : listaSintomasAnterior) {
                 if(s.getValue().getEvidencia().equals(sintoma.getEvidencia())) {
-                    temporario.add(s);
+                    temporario.add(new SimpleEntry<String, Sintoma>(regraString, sintoma));
                     historicoSintomasAtual = new ArrayList<>(temporario);
                     return;
                 } else {
