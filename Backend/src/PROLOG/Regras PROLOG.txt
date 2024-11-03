@@ -86,7 +86,7 @@ regra 16
    
 regra 17
     se [ignorar(1)
-    e   sintoma_existente(16, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro dentro do veículo', false))
+    e   sintoma_existente(16, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro dentro do veículo', true))
     e   sintoma('6|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
@@ -231,14 +231,14 @@ regra 43
     entao [diagnostico('Tubo de escape danificado.(50%)')].
 
 regra 44 
-    se [sintoma_existente(1, sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
+    se [sintoma_existente(1, sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', true))
     e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', true)
     e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', true)]
     entao [ignorar(3)].
 
 regra 45 
-    se [sintoma_existente(44, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
-    e sintoma_existente(44, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    se [sintoma_existente(44, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', true))
+    e sintoma_existente(44, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', true))
     e sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
@@ -253,8 +253,8 @@ regra 47
     entao [diagnostico('Junta do coletor de escape queimada.(93%)')].
 
 regra 48 
-    se [sintoma_existente(44, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
-    e sintoma_existente(44, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    se [sintoma_existente(44, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', true))
+    e sintoma_existente(44, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', true))
     e sintoma('1|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
@@ -276,7 +276,7 @@ regra 51
 
 regra 52 
     se [ignorar(3)
-    e sintoma_existente(51, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
+    e sintoma_existente(51, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', true))
     e sintoma('2|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
@@ -292,7 +292,7 @@ regra 54
 
 regra 55 
     se [ignorar(3)
-    e sintoma_existente(51, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', false))
+    e sintoma_existente(51, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de estalidos Rítmicos', true))
     e sintoma('2|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
@@ -314,7 +314,7 @@ regra 58
 
 regra 59 
     se [ignorar(3)
-    e sintoma_existente(58, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    e sintoma_existente(58, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', true))
     e sintoma('3|Existe fuligem visível?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
@@ -330,7 +330,7 @@ regra 61
 
 regra 62 
     se [ignorar(3)
-    e sintoma_existente(58, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', false))
+    e sintoma_existente(58, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Cheiro anormal no compartimento do motor', true))
     e sintoma('3|Existe fuligem visível?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
@@ -345,12 +345,12 @@ regra 64
     entao [diagnostico('Junta do coletor de escape queimada.(50%)')].
 
 regra 65
-    se [sintoma_existente(1, sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', false))
+    se [sintoma_existente(1, sintoma('Quais são os sintomas que o seu automóvel apresenta?', ['Irregularidades no motor','Luzes do painel', 'O veículo tem dificuldades ao dar o terceiro contacto de ignição', 'Fumo anormal'], 'Irregularidades no motor', true))
     e sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho','Ruído de estalidos Rítmicos','Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', true)]
     entao [].
 
 regra 66
-    se [sintoma_existente(65, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho', 'Ruído de estalidos Rítmicos', 'Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', false))
+    se [sintoma_existente(65, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho', 'Ruído de estalidos Rítmicos', 'Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', true))
     e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Sim', false)]
     entao [].
 
