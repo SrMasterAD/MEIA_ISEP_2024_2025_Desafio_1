@@ -385,7 +385,7 @@ regra 72
     entao [diagnostico('Catalisador obstruído.(60%)')].
 
 regra 73
-    se [sintoma_existente(65, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho', 'Ruído de estalidos Rítmicos', 'Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', false))
+    se [sintoma_existente(65, sintoma('1|Qual destes sintomas o automóvel apresenta?', ['Ruído de Sopro ou Assobio', 'Cheiro dentro do veículo', 'Ruído de Batida', 'Cheiro de gases de escape ao redor do veículo', 'Ruído de Chocalho', 'Ruído de estalidos Rítmicos', 'Cheiro anormal no compartimento do motor'], 'Ruído de Chocalho', true))
     e sintoma('7|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
     entao [].
 
@@ -727,7 +727,7 @@ regra 144
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(83%)')].
 
 regra 145
-    se [sintoma_existente(145, sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
+    se [sintoma_existente(143, sintoma('8|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false))
     e sintoma('2|O automóvel tem as velas escuras?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Sensor de Fluxo de ar defeituoso.(67%)')].
 
