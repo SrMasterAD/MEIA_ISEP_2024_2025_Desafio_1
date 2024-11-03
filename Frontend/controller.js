@@ -6,7 +6,7 @@ var question;
 var isFirstQuestion = true;
 var currentQuestionNumber = 0;
 
-let technology = "drools";
+let technology = "prolog";
 window.addEventListener('DOMContentLoaded',function () {
     document.getElementById("language-select").addEventListener("change", (event) => {
         technology = event.target.value;
