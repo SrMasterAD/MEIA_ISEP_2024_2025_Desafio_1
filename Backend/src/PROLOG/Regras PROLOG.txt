@@ -559,7 +559,7 @@ regra 108
     entao [diagnostico('Válvula EGR ou sonda lambda danificada.(75%)')].
 
 regra 109
-    se [sintoma_existente(109, sintoma('Sente ou ouve irregularidades durante o funcionamento do motor?', ['Sim', 'Não'], 'Não', false))
+    se [sintoma_existente(107, sintoma('Sente ou ouve irregularidades durante o funcionamento do motor?', ['Sim', 'Não'], 'Não', false))
     e sintoma('3|O automóvel tem consumido mais combustível do que o habitual?', ['Sim', 'Não'], 'Não', false)]
     entao [diagnostico('Válvula EGR ou sonda lambda danificada.(50%)')].
         
