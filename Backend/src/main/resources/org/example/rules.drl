@@ -481,7 +481,7 @@ end
 rule "#51 - Qual destes sintomas o automóvel apresenta?(Ruído de estalidos Rítmicos)"
 when
 	not Ignorar(ID == 3);
-	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
 	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Ruído de estalidos Rítmicos", "51",false));
 then
 
@@ -544,8 +544,8 @@ end
 rule "#58 - Qual destes sintomas o automóvel apresenta?(Cheiro anormal no compartimento do motor)"
 when
 	not Ignorar(ID == 3);
-	Sintoma(evidencia == new String("1|Qual destes sintomas o automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
-	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Cheiro anormal no compartimento do motor", "58",false));
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Irregularidades no motor".getBytes(), "UTF-8"));
+	eval(answer("1|Qual destes sintomas o automóvel apresenta?", List.of("Ruído de Sopro ou Assobio", "Cheiro dentro do veículo", "Ruído de Batida", "Cheiro de gases de escape ao redor do veículo", "Ruído de Chocalho","Ruído de estalidos Rítmicos","Cheiro anormal no compartimento do motor"), "Cheiro anormal no compartimento do motor", "58",true));
 then
 
 end
@@ -732,16 +732,16 @@ then
 	insert(diag);
 end
 
-rule "#79 - Luzes no painel"
+rule "#79 - Luzes do painel"
 when
-    eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes no painel", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Fumo anormal"), "Luzes no painel", "78",true));
+    eval(answer("Quais são os sintomas que o seu automóvel apresenta?", List.of("Irregularidades no motor","Luzes do painel", "O veículo tem dificuldades ao dar o terceiro contacto de ignição", "Fumo anormal"), "Luzes do painel", "78",true));
 then
 
 end
 
 rule "#80 - Luz de óleo"
 when
-	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Luzes no painel".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Luzes do painel".getBytes(), "UTF-8"));
 	eval(answer("Qual é a luz que observa?", List.of("Luz de óleo","Luz do motor"), "Luz de óleo", "80",true));
 then
 	
@@ -784,7 +784,7 @@ end
 
 rule "#87 - Luz do motor"
 when
-	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Luzes no painel".getBytes(), "UTF-8"));
+	Sintoma(evidencia == new String("Quais são os sintomas que o seu automóvel apresenta?".getBytes(), "UTF-8"), valor == new String("Luzes do painel".getBytes(), "UTF-8"));
 	eval(answer("Qual é a luz que observa?", List.of("Luz de óleo","Luz do motor"), "Luz do motor", "87",true));
 then
 

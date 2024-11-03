@@ -19,6 +19,12 @@ public class DiagnosticoDTO {
                 SimpleEntry<String,SimpleEntry<String,String>> parRegraSintoma = new SimpleEntry<String,SimpleEntry<String,String>>(sintoma.getKey(), parEvidenciaValor);
                 sintomas.add(parRegraSintoma);
             }
+
+            // use removeIf to remove in sintomas the values that are repeated
+            sintomas.removeIf(s -> {
+                return sintomas.stream().filter(s2 -> s2.getValue().getValue().equals(s.getValue().getValue())&& s2.getValue().getKey().equals(s.getValue().getKey())).count() > 1;
+            }); 
+     
             this.historicoSintomas.add(new SimpleEntry<String, LinkedHashSet<SimpleEntry<String,SimpleEntry<String,String>>>>(diagnostico.getKey().toString(), sintomas));
         }
     }
