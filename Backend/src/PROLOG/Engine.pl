@@ -21,9 +21,10 @@
 :-op(240,fx,regra).
 :-op(600,xfy,e).
 
+
 :- consult('Regras PROLOG.txt').
 
-:- dynamic sintoma_confirmado/5, sintoma/4, diagnostico/2, diagnostico/1, liga_facto/2, backup_regras/1, sintoma_existente/1, ultimo_facto/1, ignorar/1, regra_atual/1, back_up_ultimo/1, ignorar_regra/0, justifica_criado/0.
+:- dynamic sintoma_confirmado/5, sintoma/4, diagnostico/2, diagnostico/1, liga_facto/2, backup_regras/1, sintoma_existente/2, ultimo_facto/1, ignorar/1, regra_atual/1, back_up_ultimo/1, ignorar_regra/0, justifica_criado/0.
 
 cors_enable :-
     format('Access-Control-Allow-Origin: http://localhost:3000~n'),
@@ -60,12 +61,11 @@ limpar_dados:-
     retractall(diagnostico(_)),
     retractall(liga_facto(_,_)),
     retractall(backup_regras(_)),
-    retractall(sintoma_existente(_)),
+    retractall(sintoma_existente(_,_)),
     retractall(ultimo_facto(_)),
     retractall(ignorar(_)),
     retractall(ignorar_regra(_)),
-    retractall(justifica_criado(_)),
-    retractall(back_up_ultimo(_)).
+    retractall(justifica_criado(_)).
 
 % Processa a lista de objetos JSON.
 criar_sintomas(DictList) :-
@@ -140,11 +140,12 @@ verifica_sintoma(Sintoma):-
 
 %Verificacoes de sintomas existentes
 verifica_sintoma(Sintoma) :-
-    Sintoma = sintoma_existente(sintoma(Evidencia, _, Valor, _)),
+    Sintoma = sintoma_existente(ID, sintoma(Evidencia, Opcoes, Valor, Multi)),
     (   
-        sintoma(Evidencia, _, Valor, _) 
+        sintoma_confirmado(ID, Evidencia, _, Valor, _)
     ->
-        true
+        retractall(ultimo_facto(_)),
+        assertz(ultimo_facto(sintoma_confirmado(ID, Evidencia, Opcoes, Valor, Multi)))
     ;
         assertz(ignorar_regra)
     ).
@@ -159,10 +160,10 @@ verifica_sintoma(Sintoma) :-
     (   ultimo_facto(Ultimo) ->
         (Ultimo \= SintomaConfirmado ->
             assertz(liga_facto(SintomaConfirmado, Ultimo)),
-            assertz(back_up_ultimo(Ultimo)),
             retract(ultimo_facto(Ultimo))
         ;   
-            retract(ultimo_facto(Ultimo)), true)
+            true
+        )
     ;   
         true
     ),
@@ -179,11 +180,9 @@ verifica_sintoma(Sintoma) :-
             (   liga_facto(ultimo_facto(SintomaConfirmado), _) ->
                 retract(liga_facto(ultimo_facto(SintomaConfirmado), _)),
                 retract(ultimo_facto(SintomaConfirmado)),
-                back_up_ultimo(Ultimo),
                 assertz(ultimo_facto(Ultimo))
             ;   
                 retract(ultimo_facto(SintomaConfirmado)),
-                back_up_ultimo(Ultimo),
                 assertz(ultimo_facto(Ultimo))
             )
         ;   true
@@ -191,6 +190,7 @@ verifica_sintoma(Sintoma) :-
         retract(justifica_criado)
     ;   true
     ),
+    retractall(ultimo_facto(_)),
     assertz(ignorar_regra).
 
 % Caso a evidência ainda não tenha sido perguntada, pede ao utilizador
@@ -213,7 +213,7 @@ concluir_diagnostico([Diagnostico]) :-
     assertz(Diagnostico),
     ultimo_facto(Ultimo),
     assertz(liga_facto(Diagnostico, Ultimo)),
-    retract(ultimo_facto(Ultimo)),
+    retractall(ultimo_facto(Ultimo)),
     justifica_sintoma(Diagnostico, Justifica),
     Diagnostico=diagnostico(TextoDiagnostico),
     assertz(diagnostico(TextoDiagnostico, Justifica)).
